@@ -63,7 +63,7 @@ function displayEvents(events) {
         if (event.description.length > 400) { // ajustar el límite de caracteres según sea necesario
             const showMore = document.createElement('span');
             showMore.className = 'show-more';
-            showMore.textContent = 'Show more';
+            showMore.textContent = 'Mostrar más';
             showMore.onclick = () => {
                 eventDescription.classList.toggle('expanded');
                 showMore.textContent = eventDescription.classList.contains('expanded') ? 'Show less' : 'Show more';
