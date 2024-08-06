@@ -1,4 +1,4 @@
-const apiUrl = 'http://comiccalendar.duckdns.org';
+const apiUrl = 'https://album.hanspereira.com';
 
 document.addEventListener('DOMContentLoaded', () => {
     loadEvents();
