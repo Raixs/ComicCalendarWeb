@@ -37,3 +37,31 @@ h1 {
 .event-card h2 {
     margin-top: 0;
 }
+
+.event-description {
+    max-height: 100px;
+    overflow: hidden;
+    position: relative;
+}
+
+.event-description.expanded {
+    max-height: none;
+}
+
+.event-description::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 20px;
+    background: linear-gradient(to top, white, transparent);
+}
+
+.show-more {
+    display: block;
+    text-align: right;
+    color: blue;
+    cursor: pointer;
+    margin-top: 5px;
+}
