@@ -1,4 +1,4 @@
-const apiUrl = 'https://album.hanspereira.com';
+const apiUrl = 'https://eventoscomic.com';
 let offset = 0;
 const limit = 20; // Número de resultados por página
 
