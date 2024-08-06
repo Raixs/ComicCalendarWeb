@@ -42,11 +42,20 @@ h1 {
     max-height: 100px;
     overflow: hidden;
     position: relative;
-    white-space: pre-wrap; /* Para respetar los saltos de línea en las descripciones */
 }
 
 .event-description.expanded {
     max-height: none;
+}
+
+.event-description::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 20px;
+    background: linear-gradient(to top, white, transparent);
 }
 
 .show-more {
