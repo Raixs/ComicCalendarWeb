@@ -44,20 +44,20 @@ function displayEvents(events) {
         eventCard.appendChild(eventTitle);
 
         const eventDate = document.createElement('p');
-        eventDate.textContent = `Date: ${event.start_date} - ${event.end_date}`;
+        eventDate.textContent = `Fecha: ${event.start_date} - ${event.end_date}`;
         eventCard.appendChild(eventDate);
 
         const eventProvince = document.createElement('p');
-        eventProvince.textContent = `Province: ${event.province}`;
+        eventProvince.textContent = `Provincia: ${event.province}`;
         eventCard.appendChild(eventProvince);
 
         const eventAddress = document.createElement('p');
-        eventAddress.textContent = `Address: ${event.address}`;
+        eventAddress.textContent = `Dirección: ${event.address}`;
         eventCard.appendChild(eventAddress);
 
         const eventDescription = document.createElement('p');
         eventDescription.className = 'event-description';
-        eventDescription.innerHTML = `Description: ${event.description}`;
+        eventDescription.innerHTML = `Descripción: ${event.description}`;
         eventCard.appendChild(eventDescription);
 
         if (event.description.length > 200) { // ajustar el límite de caracteres según sea necesario
