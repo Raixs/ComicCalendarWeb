@@ -60,7 +60,7 @@ function displayEvents(events) {
         eventDescription.innerHTML = `Description: ${event.description}`;
         eventCard.appendChild(eventDescription);
 
-        if (event.description.length > 400) { // ajustar el límite de caracteres según sea necesario
+        if (event.description.length > 200) { // ajustar el límite de caracteres según sea necesario
             const showMore = document.createElement('span');
             showMore.className = 'show-more';
             showMore.textContent = 'Mostrar más';
