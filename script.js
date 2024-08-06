@@ -14,7 +14,9 @@ async function loadEvents() {
     }
 }
 
-async function searchEvents() {
+async function searchEvents(event) {
+    event.preventDefault(); // Prevenir el comportamiento predeterminado del formulario
+
     const date = document.getElementById('date').value;
     const province = document.getElementById('province').value;
 
