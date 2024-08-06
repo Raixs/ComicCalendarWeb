@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Comic Calendar</title>
+    <title>Eventos de Comic en España</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <h1>Comic Calendar</h1>
+    <h1>Eventos de Comic en España</h1>
     <form class="search-form" onsubmit="searchEvents(event)">
         <label for="date">Fecha:</label>
         <input type="text" id="date" placeholder="YYYY-MM-DD">
@@ -16,6 +16,9 @@
         <button type="submit">Buscar</button>
     </form>
     <div id="events"></div>
+    <div id="load-more-container" style="text-align: center; margin-top: 20px;">
+        <button id="load-more" onclick="loadMoreEvents()" style="display: none;">Mostrar más eventos</button>
+    </div>
     <script src="script.js"></script>
 </body>
 </html>

@@ -1,4 +1,6 @@
 const apiUrl = 'https://album.hanspereira.com';
+let offset = 0;
+const limit = 20; // Número de resultados por página
 
 document.addEventListener('DOMContentLoaded', () => {
     loadEvents();
@@ -6,9 +8,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
 async function loadEvents() {
     try {
-        const response = await fetch(`${apiUrl}/events/?limit=10`);
+        const response = await fetch(`${apiUrl}/events/?limit=${limit}&offset=${offset}`);
         const events = await response.json();
         displayEvents(events);
+
+        // Mostrar el botón "Mostrar más" si hay más eventos para cargar
+        if (events.length === limit) {
+            document.getElementById('load-more').style.display = 'block';
+        } else {
+            document.getElementById('load-more').style.display = 'none';
+        }
     } catch (error) {
         console.error('Error loading events:', error);
     }
@@ -17,25 +26,61 @@ async function loadEvents() {
 async function searchEvents(event) {
     event.preventDefault(); // Prevenir el comportamiento predeterminado del formulario
 
+    offset = 0; // Reiniciar el offset cuando se realiza una nueva búsqueda
+
     const date = document.getElementById('date').value;
     const province = document.getElementById('province').value;
 
-    let query = `${apiUrl}/events/search/?`;
-    if (date) query += `date=${date}&`;
-    if (province) query += `province=${province}&`;
+    let query = `${apiUrl}/events/search/?limit=${limit}&offset=${offset}`;
+    if (date) query += `&date=${date}`;
+    if (province) query += `&province=${province}`;
 
     try {
         const response = await fetch(query);
         const events = await response.json();
         displayEvents(events);
+
+        // Mostrar el botón "Mostrar más" si hay más eventos para cargar
+        if (events.length === limit) {
+            document.getElementById('load-more').style.display = 'block';
+        } else {
+            document.getElementById('load-more').style.display = 'none';
+        }
     } catch (error) {
         console.error('Error searching events:', error);
     }
 }
 
-function displayEvents(events) {
+async function loadMoreEvents() {
+    offset += limit; // Incrementar el offset para cargar la siguiente página de resultados
+
+    const date = document.getElementById('date').value;
+    const province = document.getElementById('province').value;
+
+    let query = `${apiUrl}/events/search/?limit=${limit}&offset=${offset}`;
+    if (date) query += `&date=${date}`;
+    if (province) query += `&province=${province}`;
+
+    try {
+        const response = await fetch(query);
+        const events = await response.json();
+        displayEvents(events, true);
+
+        // Ocultar el botón "Mostrar más" si no hay más eventos para cargar
+        if (events.length < limit) {
+            document.getElementById('load-more').style.display = 'none';
+        }
+    } catch (error) {
+        console.error('Error loading more events:', error);
+    }
+}
+
+function displayEvents(events, append = false) {
     const eventsContainer = document.getElementById('events');
-    eventsContainer.innerHTML = '';
+
+    if (!append) {
+        eventsContainer.innerHTML = '';
+    }
 
     events.forEach(event => {
         const eventCard = document.createElement('div');
@@ -68,7 +113,7 @@ function displayEvents(events) {
             showMore.textContent = 'Mostrar más';
             showMore.onclick = () => {
                 eventDescription.classList.toggle('expanded');
-                showMore.textContent = eventDescription.classList.contains('expanded') ? 'Show less' : 'Show more';
+                showMore.textContent = eventDescription.classList.contains('expanded') ? 'Mostrar menos' : 'Mostrar más';
             };
             eventCard.appendChild(showMore);
         }

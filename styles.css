@@ -1,3 +1,4 @@
+/* Estilos generales */
 body {
     font-family: Arial, sans-serif;
     background-color: #f0f0f0;
@@ -98,4 +99,26 @@ h1 {
 
 .show-more:hover {
     color: #0056b3;
+}
+
+/* Estilos para el botón "Mostrar más" */
+#load-more-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+#load-more {
+    padding: 10px 20px;
+    background-color: #28a745;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    font-size: 1em;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#load-more:hover {
+    background-color: #218838;
 }
