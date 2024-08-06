@@ -56,7 +56,7 @@ function displayEvents(events) {
         eventCard.appendChild(eventAddress);
 
         const eventDescription = document.createElement('p');
-        eventDescription.textContent = `Description: ${event.description}`;
+        eventDescription.innerHTML = `Description: ${event.description}`;
         eventCard.appendChild(eventDescription);
 
         eventsContainer.appendChild(eventCard);
