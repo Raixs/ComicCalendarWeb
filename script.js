@@ -105,38 +105,27 @@ function displayEvents(events, append = false) {
 
     events.forEach(event => {
         const eventCard = document.createElement('div');
-        eventCard.className = 'event-card';
+        eventCard.className = 'col-md-4 mb-4';
 
-        const eventTitle = document.createElement('h2');
-        eventTitle.textContent = event.summary;
-        eventCard.appendChild(eventTitle);
+        eventCard.innerHTML = `
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title">${event.summary}</h5>
+                    <p class="card-text"><strong>Fecha:</strong> ${event.start_date} - ${event.end_date}</p>
+                    <p class="card-text"><strong>Provincia:</strong> ${event.province}</p>
+                    <p class="card-text"><strong>Dirección:</strong> ${event.address}</p>
+                    <p class="card-text event-description"><strong>Descripción:</strong> ${event.description}</p>
+                    ${event.description.length > 200 ? `<span class="show-more">Mostrar más</span>` : ''}
+                </div>
+            </div>
+        `;
 
-        const eventDate = document.createElement('p');
-        eventDate.textContent = `Fecha: ${event.start_date} - ${event.end_date}`;
-        eventCard.appendChild(eventDate);
-
-        const eventProvince = document.createElement('p');
-        eventProvince.textContent = `Provincia: ${event.province}`;
-        eventCard.appendChild(eventProvince);
-
-        const eventAddress = document.createElement('p');
-        eventAddress.textContent = `Dirección: ${event.address}`;
-        eventCard.appendChild(eventAddress);
-
-        const eventDescription = document.createElement('p');
-        eventDescription.className = 'event-description';
-        eventDescription.innerHTML = `Descripción: ${event.description}`;
-        eventCard.appendChild(eventDescription);
-
-        if (event.description.length > 200) { // ajustar el límite de caracteres según sea necesario
-            const showMore = document.createElement('span');
-            showMore.className = 'show-more';
-            showMore.textContent = 'Mostrar más';
-            showMore.onclick = () => {
-                eventDescription.classList.toggle('expanded');
-                showMore.textContent = eventDescription.classList.contains('expanded') ? 'Mostrar menos' : 'Mostrar más';
-            };
-            eventCard.appendChild(showMore);
+        if (event.description.length > 200) {
+            eventCard.querySelector('.show-more').addEventListener('click', function() {
+                const description = eventCard.querySelector('.event-description');
+                description.classList.toggle('expanded');
+                this.textContent = description.classList.contains('expanded') ? 'Mostrar menos' : 'Mostrar más';
+            });
         }
 
         eventsContainer.appendChild(eventCard);

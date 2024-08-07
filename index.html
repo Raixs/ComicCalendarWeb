@@ -5,22 +5,32 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Eventos de Comic en España</title>
     <meta name="description" content="Encuentra y busca eventos de cómics en España. Descubre los eventos más recientes y sus detalles, incluyendo fecha, provincia, dirección y descripción.">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <h1>Eventos de Comic en España</h1>
-    <form class="search-form" onsubmit="searchEvents(event)">
-        <label for="date">Fecha:</label>
-        <input type="text" id="date" placeholder="YYYY-MM-DD">
-        <label for="province">Provincia:</label>
-        <input type="text" id="province">
-        <button type="submit">Buscar</button>
-    </form>
-    <div id="events"></div>
-    <div id="pagination-info" style="text-align: center; margin-top: 10px;"></div>
-    <div id="load-more-container" style="text-align: center; margin-top: 20px;">
-        <button id="load-more" onclick="loadMoreEvents()" style="display: none;">Mostrar más</button>
+    <div class="container">
+        <h1 class="text-center my-4">Eventos de Comic en España</h1>
+        <form class="search-form form-inline justify-content-center mb-4" onsubmit="searchEvents(event)">
+            <div class="form-group mx-sm-3 mb-2">
+                <label for="date" class="sr-only">Fecha:</label>
+                <input type="text" class="form-control" id="date" placeholder="YYYY-MM-DD">
+            </div>
+            <div class="form-group mx-sm-3 mb-2">
+                <label for="province" class="sr-only">Provincia:</label>
+                <input type="text" class="form-control" id="province" placeholder="Provincia">
+            </div>
+            <button type="submit" class="btn btn-primary mb-2">Buscar</button>
+        </form>
+        <div id="events" class="row"></div>
+        <div id="pagination-info" class="text-center mt-2"></div>
+        <div id="load-more-container" class="text-center mt-4">
+            <button id="load-more" class="btn btn-success" onclick="loadMoreEvents()" style="display: none;">Mostrar más</button>
+        </div>
     </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
