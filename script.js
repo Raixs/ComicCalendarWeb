@@ -2,6 +2,7 @@ const apiUrl = 'https://eventoscomic.com';
 let offset = 0;
 const limit = 20; // Número de resultados por página
 let totalEvents = 0; // Total de eventos retornados por la API
+let isSearching = false; // Indica si estamos en modo búsqueda o no
 
 document.addEventListener('DOMContentLoaded', () => {
     loadEvents();
@@ -15,12 +16,16 @@ async function loadEvents() {
         totalEvents = data.total;
         displayEvents(events);
 
-        // Mostrar información de paginación
-        updatePaginationInfo();
+        // Mostrar información de paginación solo si es una búsqueda
+        if (isSearching) {
+            updatePaginationInfo();
 
-        // Mostrar el botón "Mostrar más" si hay más eventos para cargar
-        if (totalEvents > offset + limit) {
-            document.getElementById('load-more').style.display = 'block';
+            // Mostrar el botón "Mostrar más" si hay más eventos para cargar
+            if (totalEvents > offset + limit) {
+                document.getElementById('load-more').style.display = 'block';
+            } else {
+                document.getElementById('load-more').style.display = 'none';
+            }
         } else {
             document.getElementById('load-more').style.display = 'none';
         }
@@ -33,6 +38,7 @@ async function searchEvents(event) {
     event.preventDefault(); // Prevenir el comportamiento predeterminado del formulario
 
     offset = 0; // Reiniciar el offset cuando se realiza una nueva búsqueda
+    isSearching = true; // Indicamos que estamos en modo búsqueda
 
     const date = document.getElementById('date').value;
     const province = document.getElementById('province').value;
