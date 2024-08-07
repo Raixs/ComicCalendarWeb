@@ -9,11 +9,12 @@ document.addEventListener('DOMContentLoaded', () => {
 async function loadEvents() {
     try {
         const response = await fetch(`${apiUrl}/events/?limit=${limit}&offset=${offset}`);
-        const events = await response.json();
+        const data = await response.json();
+        const events = data.events;
         displayEvents(events);
 
         // Mostrar el botón "Mostrar más" si hay más eventos para cargar
-        if (events.length === limit) {
+        if (data.total > offset + limit) {
             document.getElementById('load-more').style.display = 'block';
         } else {
             document.getElementById('load-more').style.display = 'none';
@@ -37,11 +38,12 @@ async function searchEvents(event) {
 
     try {
         const response = await fetch(query);
-        const events = await response.json();
+        const data = await response.json();
+        const events = data.events;
         displayEvents(events);
 
         // Mostrar el botón "Mostrar más" si hay más eventos para cargar
-        if (events.length === limit) {
+        if (data.total > offset + limit) {
             document.getElementById('load-more').style.display = 'block';
         } else {
             document.getElementById('load-more').style.display = 'none';
@@ -63,11 +65,12 @@ async function loadMoreEvents() {
 
     try {
         const response = await fetch(query);
-        const events = await response.json();
+        const data = await response.json();
+        const events = data.events;
         displayEvents(events, true);
 
         // Ocultar el botón "Mostrar más" si no hay más eventos para cargar
-        if (events.length < limit) {
+        if (data.total <= offset + limit) {
             document.getElementById('load-more').style.display = 'none';
         }
     } catch (error) {
