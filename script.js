@@ -6,6 +6,7 @@ let isSearching = false; // Indica si estamos en modo búsqueda o no
 
 document.addEventListener('DOMContentLoaded', () => {
     loadEvents();
+    document.getElementById('current-year').textContent = new Date().getFullYear();
 });
 
 async function loadEvents() {

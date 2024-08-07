@@ -7,6 +7,8 @@
     <meta name="description" content="Encuentra y busca eventos de cómics en España. Descubre los eventos más recientes y sus detalles, incluyendo fecha, provincia, dirección y descripción.">
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
 </head>
 <body>
     <div class="container">
@@ -30,6 +32,12 @@
             <button id="load-more" class="btn btn-success" onclick="loadMoreEvents()" style="display: none;">Mostrar más</button>
         </div>
     </div>
+    <footer class="bg-light text-center py-3 mt-4">
+        <div class="container">
+            <p><span id="current-year"></span> | Nos encontramos en desarrollo 😉</p>
+            <p>Colabora con nosotros en  <a href="https://github.com/Raixs/ComicCalendarWeb" target="_blank"><i class="fab fa-github"></i> GitHub</a></p>
+        </div>
+    </footer>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
