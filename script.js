@@ -1,6 +1,7 @@
 const apiUrl = 'https://eventoscomic.com';
 let offset = 0;
 const limit = 20; // Número de resultados por página
+let totalEvents = 0; // Total de eventos retornados por la API
 
 document.addEventListener('DOMContentLoaded', () => {
     loadEvents();
@@ -11,10 +12,14 @@ async function loadEvents() {
         const response = await fetch(`${apiUrl}/events/?limit=${limit}&offset=${offset}`);
         const data = await response.json();
         const events = data.events;
+        totalEvents = data.total;
         displayEvents(events);
 
+        // Mostrar información de paginación
+        updatePaginationInfo();
+
         // Mostrar el botón "Mostrar más" si hay más eventos para cargar
-        if (data.total > offset + limit) {
+        if (totalEvents > offset + limit) {
             document.getElementById('load-more').style.display = 'block';
         } else {
             document.getElementById('load-more').style.display = 'none';
@@ -40,10 +45,14 @@ async function searchEvents(event) {
         const response = await fetch(query);
         const data = await response.json();
         const events = data.events;
+        totalEvents = data.total;
         displayEvents(events);
 
+        // Mostrar información de paginación
+        updatePaginationInfo();
+
         // Mostrar el botón "Mostrar más" si hay más eventos para cargar
-        if (data.total > offset + limit) {
+        if (totalEvents > offset + limit) {
             document.getElementById('load-more').style.display = 'block';
         } else {
             document.getElementById('load-more').style.display = 'none';
@@ -69,8 +78,11 @@ async function loadMoreEvents() {
         const events = data.events;
         displayEvents(events, true);
 
+        // Mostrar información de paginación
+        updatePaginationInfo();
+
         // Ocultar el botón "Mostrar más" si no hay más eventos para cargar
-        if (data.total <= offset + limit) {
+        if (totalEvents <= offset + limit) {
             document.getElementById('load-more').style.display = 'none';
         }
     } catch (error) {
@@ -123,4 +135,9 @@ function displayEvents(events, append = false) {
 
         eventsContainer.appendChild(eventCard);
     });
+}
+
+function updatePaginationInfo() {
+    const paginationInfo = document.getElementById('pagination-info');
+    paginationInfo.textContent = `Mostrando ${Math.min(offset + limit, totalEvents)} de ${totalEvents} eventos`;
 }
