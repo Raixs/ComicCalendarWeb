@@ -11,16 +11,18 @@
 <body>
     <div class="container">
         <h1 class="text-center my-4">Eventos de Comic en España</h1>
-        <form class="search-form form-inline justify-content-center mb-4" onsubmit="searchEvents(event)">
-            <div class="form-group mx-sm-3 mb-2">
+        <form class="search-form row justify-content-center mb-4" onsubmit="searchEvents(event)">
+            <div class="form-group col-12 col-md-4">
                 <label for="date" class="sr-only">Fecha:</label>
                 <input type="text" class="form-control" id="date" placeholder="YYYY-MM-DD">
             </div>
-            <div class="form-group mx-sm-3 mb-2">
+            <div class="form-group col-12 col-md-4">
                 <label for="province" class="sr-only">Provincia:</label>
                 <input type="text" class="form-control" id="province" placeholder="Provincia">
             </div>
-            <button type="submit" class="btn btn-primary mb-2">Buscar</button>
+            <div class="col-12 text-center">
+                <button type="submit" class="btn btn-primary mb-2">Buscar</button>
+            </div>
         </form>
         <div id="events" class="row"></div>
         <div id="pagination-info" class="text-center mt-2"></div>
