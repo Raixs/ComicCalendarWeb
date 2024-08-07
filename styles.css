@@ -1,79 +1,8 @@
-/* Estilos generales */
 body {
     font-family: Arial, sans-serif;
     background-color: #f0f0f0;
     margin: 0;
     padding: 20px;
-}
-
-h1 {
-    text-align: center;
-    font-size: 2em;
-    color: #333;
-    margin-bottom: 20px;
-}
-
-.search-form {
-    text-align: center;
-    margin-bottom: 20px;
-}
-
-.search-form label {
-    margin: 0 10px;
-    font-weight: bold;
-}
-
-.search-form input[type="text"],
-.search-form input[type="date"] {
-    padding: 10px;
-    margin: 5px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 1em;
-}
-
-.search-form button {
-    padding: 10px 20px;
-    margin: 5px;
-    background-color: #007BFF;
-    border: none;
-    border-radius: 5px;
-    color: white;
-    font-size: 1em;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-.search-form button:hover {
-    background-color: #0056b3;
-}
-
-#events {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-}
-
-.event-card {
-    background-color: #fff;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    padding: 15px;
-    margin: 10px;
-    width: 300px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.event-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-}
-
-.event-card h2 {
-    margin-top: 0;
-    font-size: 1.5em;
-    color: #333;
 }
 
 .event-description {
@@ -95,13 +24,28 @@ h1 {
     cursor: pointer;
     margin-top: 5px;
     font-weight: bold;
+    transition: color 0.3s ease, transform 0.3s ease;
 }
 
 .show-more:hover {
     color: #0056b3;
+    transform: scale(1.1);
 }
 
-/* Estilos para el botón "Mostrar más" */
+/* Mejorar visibilidad de las tarjetas */
+.card {
+    border: 1px solid #ddd;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    background-color: #fff; /* Fondo blanco para mayor contraste */
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+/* Centrado del botón de paginación */
 #load-more-container {
     display: flex;
     justify-content: center;
@@ -116,9 +60,10 @@ h1 {
     color: white;
     font-size: 1em;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
 #load-more:hover {
     background-color: #218838;
+    transform: scale(1.1);
 }
