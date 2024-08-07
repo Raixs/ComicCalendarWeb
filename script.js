@@ -1,4 +1,4 @@
-const apiUrl = 'https://eventoscomic.com';
+const apiUrl = 'https://api.eventoscomic.com/v1';
 let offset = 0;
 const limit = 20; // Número de resultados por página
 let totalEvents = 0; // Total de eventos retornados por la API
