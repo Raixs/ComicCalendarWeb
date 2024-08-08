@@ -131,10 +131,10 @@ function displayEvents(events, append = false) {
             <div class="card h-100">
                 <div class="card-body">
                     <h5 class="card-title">${event.summary}</h5>
-                    <p class="card-text"><strong>Fecha:</strong> ${event.start_date} - ${event.end_date}</p>
-                    <p class="card-text"><strong>Provincia:</strong> ${event.province}</p>
-                    <p class="card-text"><strong>Dirección:</strong> ${event.address}</p>
-                    <p class="card-text event-description"><strong>Descripción:</strong> ${event.description}</p>
+                    <p class="card-text"><i class="fas fa-calendar-alt"></i> <strong>Fecha:</strong> ${event.start_date} - ${event.end_date}</p>
+                    <p class="card-text"><i class="fas fa-map-marker-alt"></i> <strong>Provincia:</strong> ${event.province}</p>
+                    <p class="card-text"><i class="fas fa-map-pin"></i> <strong>Dirección:</strong> ${event.address}</p>
+                    <p class="card-text event-description"><i class="fas fa-info-circle"></i> <strong>Descripción:</strong> ${event.description}</p>
                     ${event.description.length > 200 ? `<span class="show-more">Mostrar más</span>` : ''}
                 </div>
             </div>
@@ -191,7 +191,7 @@ function showAlert(message, type = 'info') {
 
     setTimeout(() => {
         $(alert).alert('close');
-    }, 1000); // El mensaje desaparecerá después de 3 segundos
+    }, 3000); // El mensaje desaparecerá después de 3 segundos
 }
 
 function showLoading() {
