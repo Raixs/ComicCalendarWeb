@@ -94,9 +94,15 @@
                 </datalist>
             </div>
             <div class="col-12 text-center">
-                <button type="submit" class="btn btn-primary mb-2">Buscar</button>
+                <button type="submit" class="btn btn-primary mb-2" aria-label="Buscar eventos">Buscar</button>
             </div>
         </form>
+        <div id="alert-placeholder"></div>
+        <div id="loading-indicator" style="display: none;" class="text-center">
+            <div class="spinner-border" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
         <div id="events" class="row"></div>
         <div id="pagination-info" class="text-center mt-2"></div>
         <div id="load-more-container" class="text-center mt-4">

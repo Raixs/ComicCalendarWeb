@@ -11,17 +11,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
 async function loadEvents() {
     try {
+        showLoading();
         const response = await fetch(`${apiUrl}/events/?limit=${limit}&offset=${offset}`);
         const data = await response.json();
         const events = data.events;
         totalEvents = data.total;
         displayEvents(events);
-
+        hideLoading();
         // No mostrar información de paginación y botón "Mostrar más" en la carga inicial
         document.getElementById('pagination-info').style.display = 'none';
         document.getElementById('load-more').style.display = 'none';
     } catch (error) {
-        console.error('Error loading events:', error);
+        showAlert('Error loading events: ' + error, 'danger');
     }
 }
 
@@ -36,28 +37,43 @@ async function searchEvents(event) {
     const province = document.getElementById('province').value;
 
     let query = `${apiUrl}/events/search/?limit=${limit}&offset=${offset}`;
-    if (year) query += `&date=${year}`;
-    if (month) query += `-${month}`;
+
+    // Si el mes está seleccionado pero no el año, usa el año actual
+    const currentYear = new Date().getFullYear();
+    if (month && !year) {
+        query += `&date=${currentYear}-${month}`;
+    } else if (year) {
+        query += `&date=${year}`;
+        if (month) {
+            query += `-${month}`;
+        }
+    }
+
     if (province) query += `&province=${province}`;
 
     try {
+        showLoading();
         const response = await fetch(query);
         const data = await response.json();
 
         if (data.detail) {
             displayNoResults(data.detail);
             totalEvents = 0;
+            showAlert('No se encontraron eventos para los criterios dados', 'warning');
         } else {
             const events = data.events;
             totalEvents = data.total;
             displayEvents(events);
+            showAlert('Eventos cargados correctamente', 'success');
         }
 
+        hideLoading();
         // Actualizar información de paginación y botón "Mostrar más"
         updatePaginationInfo();
         toggleLoadMoreButton();
     } catch (error) {
-        console.error('Error searching events:', error);
+        hideLoading();
+        showAlert('Error searching events: ' + error, 'danger');
     }
 }
 
@@ -69,21 +85,34 @@ async function loadMoreEvents() {
     const province = document.getElementById('province').value;
 
     let query = `${apiUrl}/events/search/?limit=${limit}&offset=${offset}`;
-    if (year) query += `&date=${year}`;
-    if (month) query += `-${month}`;
+
+    // Si el mes está seleccionado pero no el año, usa el año actual
+    const currentYear = new Date().getFullYear();
+    if (month && !year) {
+        query += `&date=${currentYear}-${month}`;
+    } else if (year) {
+        query += `&date=${year}`;
+        if (month) {
+            query += `-${month}`;
+        }
+    }
+
     if (province) query += `&province=${province}`;
 
     try {
+        showLoading();
         const response = await fetch(query);
         const data = await response.json();
         const events = data.events;
         displayEvents(events, true);
+        hideLoading();
 
         // Actualizar información de paginación y botón "Mostrar más"
         updatePaginationInfo();
         toggleLoadMoreButton();
     } catch (error) {
-        console.error('Error loading more events:', error);
+        hideLoading();
+        showAlert('Error loading more events: ' + error, 'danger');
     }
 }
 
@@ -145,4 +174,30 @@ function toggleLoadMoreButton() {
     } else {
         loadMoreButton.style.display = 'none';
     }
+}
+
+function showAlert(message, type = 'info') {
+    const alertPlaceholder = document.getElementById('alert-placeholder');
+    const alert = document.createElement('div');
+    alert.className = `alert alert-${type} alert-dismissible fade show`;
+    alert.role = 'alert';
+    alert.innerHTML = `
+        ${message}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    `;
+    alertPlaceholder.appendChild(alert);
+
+    setTimeout(() => {
+        $(alert).alert('close');
+    }, 3000); // El mensaje desaparecerá después de 3 segundos
+}
+
+function showLoading() {
+    document.getElementById('loading-indicator').style.display = 'block';
+}
+
+function hideLoading() {
+    document.getElementById('loading-indicator').style.display = 'none';
 }
