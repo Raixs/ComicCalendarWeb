@@ -191,7 +191,7 @@ function showAlert(message, type = 'info') {
 
     setTimeout(() => {
         $(alert).alert('close');
-    }, 3000); // El mensaje desaparecerá después de 3 segundos
+    }, 1000); // El mensaje desaparecerá después de 3 segundos
 }
 
 function showLoading() {
