@@ -17,19 +17,9 @@ async function loadEvents() {
         totalEvents = data.total;
         displayEvents(events);
 
-        // Mostrar información de paginación solo si es una búsqueda
-        if (isSearching) {
-            updatePaginationInfo();
-
-            // Mostrar el botón "Mostrar más" si hay más eventos para cargar
-            if (totalEvents > offset + limit) {
-                document.getElementById('load-more').style.display = 'block';
-            } else {
-                document.getElementById('load-more').style.display = 'none';
-            }
-        } else {
-            document.getElementById('load-more').style.display = 'none';
-        }
+        // No mostrar información de paginación y botón "Mostrar más" en la carga inicial
+        document.getElementById('pagination-info').style.display = 'none';
+        document.getElementById('load-more').style.display = 'none';
     } catch (error) {
         console.error('Error loading events:', error);
     }
@@ -51,19 +41,19 @@ async function searchEvents(event) {
     try {
         const response = await fetch(query);
         const data = await response.json();
-        const events = data.events;
-        totalEvents = data.total;
-        displayEvents(events);
 
-        // Mostrar información de paginación
-        updatePaginationInfo();
-
-        // Mostrar el botón "Mostrar más" si hay más eventos para cargar
-        if (totalEvents > offset + limit) {
-            document.getElementById('load-more').style.display = 'block';
+        if (data.detail) {
+            displayNoResults(data.detail);
+            totalEvents = 0;
         } else {
-            document.getElementById('load-more').style.display = 'none';
+            const events = data.events;
+            totalEvents = data.total;
+            displayEvents(events);
         }
+
+        // Actualizar información de paginación y botón "Mostrar más"
+        updatePaginationInfo();
+        toggleLoadMoreButton();
     } catch (error) {
         console.error('Error searching events:', error);
     }
@@ -85,13 +75,9 @@ async function loadMoreEvents() {
         const events = data.events;
         displayEvents(events, true);
 
-        // Mostrar información de paginación
+        // Actualizar información de paginación y botón "Mostrar más"
         updatePaginationInfo();
-
-        // Ocultar el botón "Mostrar más" si no hay más eventos para cargar
-        if (totalEvents <= offset + limit) {
-            document.getElementById('load-more').style.display = 'none';
-        }
+        toggleLoadMoreButton();
     } catch (error) {
         console.error('Error loading more events:', error);
     }
@@ -133,7 +119,26 @@ function displayEvents(events, append = false) {
     });
 }
 
+function displayNoResults(message) {
+    const eventsContainer = document.getElementById('events');
+    eventsContainer.innerHTML = `<div class="col-12"><p class="text-center text-muted">${message}</p></div>`;
+}
+
 function updatePaginationInfo() {
     const paginationInfo = document.getElementById('pagination-info');
-    paginationInfo.textContent = `Mostrando ${Math.min(offset + limit, totalEvents)} de ${totalEvents} eventos`;
+    if (isSearching && totalEvents > 0) {
+        paginationInfo.textContent = `Mostrando ${Math.min(offset + limit, totalEvents)} de ${totalEvents} eventos`;
+        paginationInfo.style.display = 'block';
+    } else {
+        paginationInfo.style.display = 'none';
+    }
+}
+
+function toggleLoadMoreButton() {
+    const loadMoreButton = document.getElementById('load-more');
+    if (isSearching && totalEvents > offset + limit) {
+        loadMoreButton.style.display = 'block';
+    } else {
+        loadMoreButton.style.display = 'none';
+    }
 }
