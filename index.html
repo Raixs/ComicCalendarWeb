@@ -15,12 +15,65 @@
         <h1 class="text-center my-4">Eventos de Comic en España</h1>
         <form class="search-form row justify-content-center mb-4" onsubmit="searchEvents(event)">
             <div class="form-group col-12 col-md-4">
-                <label for="date" class="sr-only">Fecha:</label>
-                <input type="text" class="form-control" id="date" placeholder="YYYY-MM">
+                <label for="date">Fecha:</label>
+                <input type="text" class="form-control" id="date" placeholder="Ej: 2024-08" pattern="\d{4}-\d{2}">
+                <small class="form-text text-muted">Formato: YYYY-MM</small>
             </div>
             <div class="form-group col-12 col-md-4">
-                <label for="province" class="sr-only">Provincia:</label>
-                <input type="text" class="form-control" id="province" placeholder="Provincia">
+                <label for="province">Provincia:</label>
+                <input type="text" class="form-control" id="province" list="province-list" placeholder="Seleccione una provincia">
+                <datalist id="province-list">
+                    <option value="A Coruña">
+                    <option value="Álava">
+                    <option value="Albacete">
+                    <option value="Alicante">
+                    <option value="Almería">
+                    <option value="Asturias">
+                    <option value="Ávila">
+                    <option value="Badajoz">
+                    <option value="Baleares">
+                    <option value="Barcelona">
+                    <option value="Burgos">
+                    <option value="Cáceres">
+                    <option value="Cádiz">
+                    <option value="Cantabria">
+                    <option value="Castellón">
+                    <option value="Ciudad Real">
+                    <option value="Córdoba">
+                    <option value="Cuenca">
+                    <option value="Girona">
+                    <option value="Granada">
+                    <option value="Guadalajara">
+                    <option value="Guipúzcoa">
+                    <option value="Huelva">
+                    <option value="Huesca">
+                    <option value="Jaén">
+                    <option value="La Rioja">
+                    <option value="Las Palmas">
+                    <option value="León">
+                    <option value="Lérida">
+                    <option value="Lugo">
+                    <option value="Madrid">
+                    <option value="Málaga">
+                    <option value="Murcia">
+                    <option value="Navarra">
+                    <option value="Ourense">
+                    <option value="Palencia">
+                    <option value="Pontevedra">
+                    <option value="Salamanca">
+                    <option value="Segovia">
+                    <option value="Sevilla">
+                    <option value="Soria">
+                    <option value="Tarragona">
+                    <option value="Tenerife">
+                    <option value="Teruel">
+                    <option value="Toledo">
+                    <option value="Valencia">
+                    <option value="Valladolid">
+                    <option value="Vizcaya">
+                    <option value="Zamora">
+                    <option value="Zaragoza">
+                </datalist>
             </div>
             <div class="col-12 text-center">
                 <button type="submit" class="btn btn-primary mb-2">Buscar</button>
