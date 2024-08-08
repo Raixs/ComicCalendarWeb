@@ -31,11 +31,13 @@ async function searchEvents(event) {
     offset = 0; // Reiniciar el offset cuando se realiza una nueva búsqueda
     isSearching = true; // Indicamos que estamos en modo búsqueda
 
-    const date = document.getElementById('date').value;
+    const year = document.getElementById('year').value;
+    const month = document.getElementById('month').value;
     const province = document.getElementById('province').value;
 
     let query = `${apiUrl}/events/search/?limit=${limit}&offset=${offset}`;
-    if (date) query += `&date=${date}`;
+    if (year) query += `&date=${year}`;
+    if (month) query += `-${month}`;
     if (province) query += `&province=${province}`;
 
     try {
@@ -62,11 +64,13 @@ async function searchEvents(event) {
 async function loadMoreEvents() {
     offset += limit; // Incrementar el offset para cargar la siguiente página de resultados
 
-    const date = document.getElementById('date').value;
+    const year = document.getElementById('year').value;
+    const month = document.getElementById('month').value;
     const province = document.getElementById('province').value;
 
     let query = `${apiUrl}/events/search/?limit=${limit}&offset=${offset}`;
-    if (date) query += `&date=${date}`;
+    if (year) query += `&date=${year}`;
+    if (month) query += `-${month}`;
     if (province) query += `&province=${province}`;
 
     try {

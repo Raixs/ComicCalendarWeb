@@ -14,10 +14,28 @@
     <div class="container">
         <h1 class="text-center my-4">Eventos de Comic en España</h1>
         <form class="search-form row justify-content-center mb-4" onsubmit="searchEvents(event)">
-            <div class="form-group col-12 col-md-4">
-                <label for="date">Fecha:</label>
-                <input type="text" class="form-control" id="date" placeholder="Ej: 2024-08" pattern="\d{4}-\d{2}">
-                <small class="form-text text-muted">Formato: YYYY-MM</small>
+            <div class="form-group col-12 col-md-3">
+                <label for="month">Mes:</label>
+                <select class="form-control" id="month">
+                    <option value="">Seleccione un mes</option>
+                    <option value="01">Enero</option>
+                    <option value="02">Febrero</option>
+                    <option value="03">Marzo</option>
+                    <option value="04">Abril</option>
+                    <option value="05">Mayo</option>
+                    <option value="06">Junio</option>
+                    <option value="07">Julio</option>
+                    <option value="08">Agosto</option>
+                    <option value="09">Septiembre</option>
+                    <option value="10">Octubre</option>
+                    <option value="11">Noviembre</option>
+                    <option value="12">Diciembre</option>
+                </select>
+            </div>
+            <div class="form-group col-12 col-md-3">
+                <label for="year">Año:</label>
+                <input type="text" class="form-control" id="year" placeholder="Ej: 2024" pattern="\d{4}">
+                <small class="form-text text-muted">Formato: YYYY</small>
             </div>
             <div class="form-group col-12 col-md-4">
                 <label for="province">Provincia:</label>
