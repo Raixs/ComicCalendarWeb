@@ -11,9 +11,33 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
 </head>
 <body>
-    <div class="container">
-        <h1 class="text-center my-4">Eventos de Comic en España</h1>
-        <form class="search-form row justify-content-center mb-4" onsubmit="searchEvents(event)">
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark w-100">
+        <div class="container-fluid">
+            <a class="navbar-brand" onclick="window.location.reload()" href="#">EventosComic.es</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" onclick="window.location.reload()" href="#">Inicio</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#search-form">Buscar Eventos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="https://github.com/Raixs/ComicCalendarWeb" target="_blank">
+                            <i class="fab fa-github"></i> GitHub
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-5">
+        <form id="search-form" class="search-form row justify-content-center mb-4" onsubmit="searchEvents(event)">
             <div class="form-group col-12 col-md-3">
                 <label for="month">Mes:</label>
                 <select class="form-control" id="month">
@@ -109,12 +133,15 @@
             <button id="load-more" class="btn btn-success" onclick="loadMoreEvents()" style="display: none;">Mostrar más</button>
         </div>
     </div>
-    <footer class="bg-light text-center py-3 mt-4">
-        <div class="container">
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white text-center py-3 mt-4">
+        <div class="container-fluid">
             <p><span id="current-year"></span> | Nos encontramos en desarrollo 😉</p>
-            <p>Colabora con nosotros en  <a href="https://github.com/Raixs/ComicCalendarWeb" target="_blank"><i class="fab fa-github"></i> GitHub</a></p>
+            <p>Colabora con nosotros en <a href="https://github.com/Raixs/ComicCalendarWeb" target="_blank" class="text-white"><i class="fab fa-github"></i> GitHub</a></p>
         </div>
     </footer>
+
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
