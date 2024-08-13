@@ -203,7 +203,7 @@ function displayEvents(events, append = false) {
                     <p class="card-text"><i class="fas fa-map-pin"></i> <strong>Dirección:</strong> ${event.address}</p>
                     <p class="card-text event-description"><i class="fas fa-info-circle"></i> <strong>Descripción:</strong> ${descriptionWithLinks}</p>
                     ${event.description.length > 200 ? `<a href="#" class="btn btn-link show-more">Mostrar más</a>` : ''}
-                    ${localStorage.getItem('access_token') ? '<button class="btn btn-primary mt-2" onclick="editEvent(' + event.id + ')">Editar</button>' : ''}
+                    ${localStorage.getItem('access_token') ? '<button class="btn btn-warning mt-2" onclick="editEvent(' + event.id + ')">Editar</button>' : ''}
                 </div>
             </div>
         `;
