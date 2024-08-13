@@ -4,6 +4,7 @@ const limit = 20; // Número de resultados por página
 let totalEvents = 0; // Total de eventos retornados por la API
 let isSearching = false; // Indica si estamos en modo búsqueda o no
 let currentEventId = null;
+let eventIdToDelete = null;
 
 document.addEventListener('DOMContentLoaded', () => {
     loadEvents();
@@ -203,7 +204,10 @@ function displayEvents(events, append = false) {
                     <p class="card-text"><i class="fas fa-map-pin"></i> <strong>Dirección:</strong> ${event.address}</p>
                     <p class="card-text event-description"><i class="fas fa-info-circle"></i> <strong>Descripción:</strong> ${descriptionWithLinks}</p>
                     ${event.description.length > 200 ? `<a href="#" class="btn btn-link show-more">Mostrar más</a>` : ''}
-                    ${localStorage.getItem('access_token') ? '<button class="btn btn-warning mt-2" onclick="editEvent(' + event.id + ')">Editar</button>' : ''}
+                    ${localStorage.getItem('access_token') ? `
+                        <button class="btn btn-warning mt-2" onclick="editEvent(${event.id})">Editar</button>
+                        <button class="btn btn-danger mt-2" onclick="confirmDeleteEvent(${event.id})">Eliminar</button>
+                    ` : ''}
                 </div>
             </div>
         `;
@@ -349,4 +353,30 @@ function showLoading() {
 
 function hideLoading() {
     document.getElementById('loading-indicator').style.display = 'none';
+}
+
+function confirmDeleteEvent(eventId) {
+    eventIdToDelete = eventId;
+    $('#deleteEventModal').modal('show');
+}
+
+async function deleteEvent() {
+    try {
+        const response = await fetch(`${apiUrl}/events/${eventIdToDelete}`, {
+            method: 'DELETE',
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem('access_token')}`
+            }
+        });
+
+        if (response.ok) {
+            $('#deleteEventModal').modal('hide');
+            loadEvents();
+            showAlert('Evento eliminado con éxito', 'success');
+        } else {
+            showAlert('Error al eliminar el evento', 'danger');
+        }
+    } catch (error) {
+        showAlert('Error de conexión', 'danger');
+    }
 }
