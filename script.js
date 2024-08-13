@@ -207,8 +207,12 @@ function displayEvents(events, append = false) {
                     <p class="card-text event-description"><i class="fas fa-info-circle"></i> <strong>Descripción:</strong> ${descriptionWithLinks}</p>
                     ${event.description.length > 200 ? `<a href="#" class="btn btn-link show-more">Mostrar más</a>` : ''}
                     ${localStorage.getItem('access_token') ? `
-                        <button class="btn btn-warning mt-2" onclick="editEvent(${event.id})">Editar</button>
-                        <button class="btn btn-danger mt-2" onclick="confirmDeleteEvent(${event.id})">Eliminar</button>
+                        <button class="btn btn-warning mt-2" onclick="editEvent(${event.id})">
+                            <i class="fas fa-edit"></i> Editar
+                        </button>
+                        <button class="btn btn-danger mt-2" onclick="confirmDeleteEvent(${event.id})">
+                            <i class="fas fa-trash-alt"></i> Eliminar
+                        </button>
                     ` : ''}
                 </div>
             </div>
