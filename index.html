@@ -50,7 +50,7 @@
     <div class="container mt-5">
         <form id="search-form" class="search-form row justify-content-center mb-4" onsubmit="searchEvents(event)">
             <div class="form-group col-12 col-md-3">
-                <label for="month">Mes:</label>
+                <label for="month" class="form-label">Mes:</label>
                 <select class="form-control" id="month">
                     <option value="">Seleccione un mes</option>
                     <option value="01">Enero</option>
@@ -68,12 +68,12 @@
                 </select>
             </div>
             <div class="form-group col-12 col-md-3">
-                <label for="year">Año:</label>
+                <label for="year" class="form-label">Año:</label>
                 <input type="text" class="form-control" id="year" placeholder="Ej: 2024" pattern="\d{4}">
                 <small class="form-text text-muted">Formato: YYYY</small>
             </div>
             <div class="form-group col-12 col-md-4">
-                <label for="province">Provincia:</label>
+                <label for="province" class="form-label">Provincia:</label>
                 <input type="text" class="form-control" id="province" list="province-list" placeholder="Seleccione una provincia">
                 <datalist id="province-list">
                     <option value="Albacete">
@@ -137,7 +137,7 @@
         <div id="alert-placeholder"></div>
         <div id="loading-indicator" style="display: none;" class="text-center">
             <div class="spinner-border" role="status">
-                <span class="sr-only">Loading...</span>
+                <span class="sr-only">Cargando...</span>
             </div>
         </div>
         <div id="events" class="row"></div>
