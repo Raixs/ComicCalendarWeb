@@ -2,14 +2,14 @@ body {
     font-family: Arial, sans-serif;
     background-color: #f0f0f0;
     margin: 0;
-    padding: 0; /* Eliminamos el padding para que navbar y footer ocupen todo el ancho */
+    padding: 0;
 }
 
 .event-description {
     max-height: 100px;
     overflow: hidden;
     position: relative;
-    white-space: pre-wrap; /* Para respetar los saltos de línea en las descripciones */
+    white-space: pre-wrap;
     color: #555;
 }
 
@@ -17,32 +17,37 @@ body {
     max-height: none;
 }
 
+/* Mostrar/Ocultar descripción */
 .show-more {
-    display: block;
     text-align: right;
-    color: #007BFF;
     cursor: pointer;
-    margin-top: 5px;
     font-weight: bold;
     transition: color 0.3s ease, transform 0.3s ease;
+    margin-top: 10px;
+    display: inline-block;
 }
 
 .show-more:hover {
-    color: #0056b3;
     transform: scale(1.1);
 }
 
-/* Mejorar visibilidad de las tarjetas */
+/* Mejorar visibilidad y sombra de las tarjetas */
 .card {
-    border: 1px solid #ddd;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    background-color: #fff; /* Fondo blanco para mayor contraste */
+    border: 1px solid #ddd; /* Borde suave para destacar */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1) !important; /* Sombra inicial suave */
+    transition: transform 0.3s ease, box-shadow 0.3s ease !important; /* Transiciones suaves */
+    background-color: #fff;
 }
 
 .card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    transform: translateY(-5px) !important; /* Elevar ligeramente la tarjeta al hacer hover */
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2) !important; /* Aumentar la sombra en hover */
+}
+
+/* Estilos específicos para el contenido de la tarjeta */
+.card-body {
+    padding: 20px; /* Añadir más padding para que el contenido respire mejor */
+    transition: padding 0.3s ease;
 }
 
 /* Centrado del botón de paginación */

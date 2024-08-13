@@ -190,25 +190,27 @@ function displayEvents(events, append = false) {
             descriptionWithLinks = descriptionWithLinks.replace(/<a /g, '<a target="_blank" ');
         }
 
+        // Crear la tarjeta de Bootstrap
         eventCard.innerHTML = `
-            <div class="card h-100">
+            <div class="card h-100 shadow-sm">
                 <div class="card-body">
                     <h5 class="card-title">${event.summary}</h5>
-                    <p class="card-text"><i class="fas fa-calendar-alt"></i> <strong>Fecha:</strong> ${event.start_date} - ${event.end_date}</p>
+                    <p class="card-text"><i class="fas fa-calendar-alt"></i> <strong>Fecha:</strong> ${event.start_date.split(' ')[0]} - ${event.end_date.split(' ')[0]}</p>
                     <p class="card-text"><i class="fas fa-map-marker-alt"></i> <strong>Ciudad:</strong> ${event.city}</p>
                     <p class="card-text"><i class="fas fa-map-marker-alt"></i> <strong>Provincia:</strong> ${event.province}</p>
                     <p class="card-text"><i class="fas fa-landmark"></i> <strong>Comunidad:</strong> ${event.community}</p>
                     <p class="card-text"><i class="fas fa-tag"></i> <strong>Tipo:</strong> ${event.type}</p>
                     <p class="card-text"><i class="fas fa-map-pin"></i> <strong>Dirección:</strong> ${event.address}</p>
                     <p class="card-text event-description"><i class="fas fa-info-circle"></i> <strong>Descripción:</strong> ${descriptionWithLinks}</p>
-                    ${event.description.length > 200 ? `<span class="show-more">Mostrar más</span>` : ''}
-                    ${localStorage.getItem('access_token') ? '<button class="btn btn-warning mt-2" onclick="editEvent(' + event.id + ')">Editar</button>' : ''}
+                    ${event.description.length > 200 ? `<a href="#" class="btn btn-link show-more">Mostrar más</a>` : ''}
+                    ${localStorage.getItem('access_token') ? '<button class="btn btn-primary mt-2" onclick="editEvent(' + event.id + ')">Editar</button>' : ''}
                 </div>
             </div>
         `;
 
         if (event.description.length > 200) {
-            eventCard.querySelector('.show-more').addEventListener('click', function() {
+            eventCard.querySelector('.show-more').addEventListener('click', function (e) {
+                e.preventDefault();
                 const description = eventCard.querySelector('.event-description');
                 description.classList.toggle('expanded');
                 this.textContent = description.classList.contains('expanded') ? 'Mostrar menos' : 'Mostrar más';
@@ -218,6 +220,7 @@ function displayEvents(events, append = false) {
         eventsContainer.appendChild(eventCard);
     });
 }
+
 
 async function editEvent(eventId) {
     currentEventId = eventId;
