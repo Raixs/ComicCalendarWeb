@@ -3,11 +3,68 @@ let offset = 0;
 const limit = 20; // Número de resultados por página
 let totalEvents = 0; // Total de eventos retornados por la API
 let isSearching = false; // Indica si estamos en modo búsqueda o no
+let currentEventId = null;
 
 document.addEventListener('DOMContentLoaded', () => {
     loadEvents();
     document.getElementById('current-year').textContent = new Date().getFullYear();
+    checkAuthentication();
 });
+
+function checkAuthentication() {
+    const token = localStorage.getItem('access_token');
+    if (token) {
+        document.getElementById('login-item').classList.add('d-none');
+        document.getElementById('logout-item').classList.remove('d-none');
+    } else {
+        document.getElementById('login-item').classList.remove('d-none');
+        document.getElementById('logout-item').classList.add('d-none');
+    }
+}
+
+async function login(event) {
+    event.preventDefault();
+    const username = document.getElementById('username').value;
+    const password = document.getElementById('password').value;
+
+    try {
+        const response = await fetch(`${apiUrl}/token`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: new URLSearchParams({
+                username: username,
+                password: password
+            })
+        });
+
+        const data = await response.json();
+        if (response.ok) {
+            localStorage.setItem('access_token', data.access_token);
+            $('#loginModal').modal('hide');
+            checkAuthentication();
+            showAlert('Inicio de sesión exitoso', 'success');
+            
+            // Recargar eventos para mostrar botones de edición
+            loadEvents();
+        } else {
+            showAlert(data.detail || 'Error en la autenticación', 'danger');
+        }
+    } catch (error) {
+        showAlert('Error de conexión', 'danger');
+    }
+}
+
+
+function logout() {
+    localStorage.removeItem('access_token');
+    checkAuthentication();
+    showAlert('Sesión cerrada', 'success');
+
+    // Recargar eventos para actualizar la interfaz y ocultar los botones de edición
+    loadEvents();
+}
 
 async function loadEvents() {
     try {
@@ -139,6 +196,7 @@ function displayEvents(events, append = false) {
                     <p class="card-text"><i class="fas fa-map-pin"></i> <strong>Dirección:</strong> ${event.address}</p>
                     <p class="card-text event-description"><i class="fas fa-info-circle"></i> <strong>Descripción:</strong> ${event.description}</p>
                     ${event.description.length > 200 ? `<span class="show-more">Mostrar más</span>` : ''}
+                    ${localStorage.getItem('access_token') ? `<button class="btn btn-warning mt-2" onclick="editEvent(${event.id})">Editar</button>` : ''}
                 </div>
             </div>
         `;
@@ -154,6 +212,85 @@ function displayEvents(events, append = false) {
         eventsContainer.appendChild(eventCard);
     });
 }
+
+async function editEvent(eventId) {
+    currentEventId = eventId;
+
+    try {
+        const response = await fetch(`${apiUrl}/events/${eventId}`);
+        
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const event = await response.json();
+
+        // Comprobamos y asignamos valores solo si los elementos existen en el DOM
+        const summaryElement = document.getElementById('edit-summary');
+        const startDateElement = document.getElementById('edit-start-date');
+        const endDateElement = document.getElementById('edit-end-date');
+        const provinceElement = document.getElementById('edit-province');
+        const communityElement = document.getElementById('edit-community');
+        const cityElement = document.getElementById('edit-city');
+        const typeElement = document.getElementById('edit-type');
+        const addressElement = document.getElementById('edit-address');
+        const descriptionElement = document.getElementById('edit-description');
+
+        if (summaryElement) summaryElement.value = event.summary;
+        if (startDateElement) startDateElement.value = event.start_date.split(' ')[0];
+        if (endDateElement) endDateElement.value = event.end_date.split(' ')[0];
+        if (provinceElement) provinceElement.value = event.province;
+        if (communityElement) communityElement.value = event.community;
+        if (cityElement) cityElement.value = event.city;
+        if (typeElement) typeElement.value = event.type;
+        if (addressElement) addressElement.value = event.address;
+        if (descriptionElement) descriptionElement.value = event.description;
+
+        // Mostrar el modal de edición solo si todo está en orden
+        $('#editEventModal').modal('show');
+    } catch (error) {
+        console.error('Error al cargar los detalles del evento:', error);
+        showAlert('Error al cargar los detalles del evento', 'danger');
+    }
+}
+
+async function updateEvent(event) {
+    event.preventDefault();
+    
+    const updatedEvent = {
+        summary: document.getElementById('edit-summary').value,
+        start_date: document.getElementById('edit-start-date').value,
+        end_date: document.getElementById('edit-end-date').value,
+        province: document.getElementById('edit-province').value,
+        community: document.getElementById('edit-community').value,
+        city: document.getElementById('edit-city').value,
+        type: document.getElementById('edit-type').value,
+        address: document.getElementById('edit-address').value,
+        description: document.getElementById('edit-description').value
+    };
+
+    try {
+        const response = await fetch(`${apiUrl}/events/${currentEventId}/`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('access_token')}`
+            },
+            body: JSON.stringify(updatedEvent)
+        });
+
+        if (response.ok) {
+            $('#editEventModal').modal('hide');
+            loadEvents();
+            showAlert('Evento actualizado con éxito', 'success');
+        } else {
+            showAlert('Error al actualizar el evento', 'danger');
+        }
+    } catch (error) {
+        showAlert('Error de conexión', 'danger');
+    }
+}
+
 
 function displayNoResults(message) {
     const eventsContainer = document.getElementById('events');

@@ -31,11 +31,20 @@
                             <i class="fab fa-github"></i> GitHub
                         </a>
                     </li>
+                    <li class="nav-item" id="login-item">
+                        <a class="nav-link" href="#" data-toggle="modal" data-target="#loginModal">
+                            <i class="fas fa-sign-in-alt"></i> Iniciar Sesión
+                        </a>
+                    </li>
+                    <li class="nav-item d-none" id="logout-item">
+                        <a class="nav-link" href="#" onclick="logout()">Cerrar Sesión</a>
+                    </li>
                 </ul>
             </div>
         </div>
     </nav>
 
+    <!-- Formulario de búsqueda -->
     <div class="container mt-5">
         <form id="search-form" class="search-form row justify-content-center mb-4" onsubmit="searchEvents(event)">
             <div class="form-group col-12 col-md-3">
@@ -141,6 +150,89 @@
             <p>Colabora con nosotros en <a href="https://github.com/Raixs/ComicCalendarWeb" target="_blank" class="text-white"><i class="fab fa-github"></i> GitHub</a></p>
         </div>
     </footer>
+
+    <!-- Modal de Inicio de Sesión -->
+    <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="loginModalLabel">Iniciar Sesión</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="login-form" onsubmit="login(event)">
+                        <div class="form-group">
+                            <label for="username">Usuario:</label>
+                            <input type="text" class="form-control" id="username" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="password">Contraseña:</label>
+                            <input type="password" class="form-control" id="password" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Iniciar Sesión</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Edición de Evento -->
+    <div class="modal fade" id="editEventModal" tabindex="-1" role="dialog" aria-labelledby="editEventModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editEventModalLabel">Editar Evento</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="edit-event-form" onsubmit="updateEvent(event)">
+                        <div class="form-group">
+                            <label for="edit-summary">Título:</label>
+                            <input type="text" class="form-control" id="edit-summary" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="edit-start-date">Fecha de Inicio:</label>
+                            <input type="date" class="form-control" id="edit-start-date" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="edit-end-date">Fecha de Fin:</label>
+                            <input type="date" class="form-control" id="edit-end-date" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="edit-province">Provincia:</label>
+                            <input type="text" class="form-control" id="edit-province" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="edit-community">Comunidad Autónoma:</label>
+                            <input type="text" class="form-control" id="edit-community" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="edit-city">Ciudad:</label>
+                            <input type="text" class="form-control" id="edit-city" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="edit-type">Tipo:</label>
+                            <input type="text" class="form-control" id="edit-type" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="edit-address">Dirección:</label>
+                            <input type="text" class="form-control" id="edit-address" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="edit-description">Descripción:</label>
+                            <textarea class="form-control" id="edit-description" rows="3" required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                    </form>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
