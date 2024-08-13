@@ -17,9 +17,11 @@ function checkAuthentication() {
     if (token) {
         document.getElementById('login-item').classList.add('d-none');
         document.getElementById('logout-item').classList.remove('d-none');
+        document.getElementById('upload-item').classList.remove('d-none');
     } else {
         document.getElementById('login-item').classList.remove('d-none');
         document.getElementById('logout-item').classList.add('d-none');
+        document.getElementById('upload-item').classList.add('d-none');
     }
 }
 
@@ -375,6 +377,43 @@ async function deleteEvent() {
             showAlert('Evento eliminado con éxito', 'success');
         } else {
             showAlert('Error al eliminar el evento', 'danger');
+        }
+    } catch (error) {
+        showAlert('Error de conexión', 'danger');
+    }
+}
+
+async function uploadEvent(event) {
+    event.preventDefault();
+    
+    const newEvent = {
+        summary: document.getElementById('upload-summary').value,
+        start_date: document.getElementById('upload-start-date').value,
+        end_date: document.getElementById('upload-end-date').value,
+        province: document.getElementById('upload-province').value,
+        community: document.getElementById('upload-community').value,
+        city: document.getElementById('upload-city').value,
+        type: document.getElementById('upload-type').value,
+        address: document.getElementById('upload-address').value,
+        description: document.getElementById('upload-description').value
+    };
+
+    try {
+        const response = await fetch(`${apiUrl}/events/`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('access_token')}`
+            },
+            body: JSON.stringify(newEvent)
+        });
+
+        if (response.ok) {
+            $('#uploadEventModal').modal('hide');
+            loadEvents();
+            showAlert('Evento subido con éxito', 'success');
+        } else {
+            showAlert('Error al subir el evento', 'danger');
         }
     } catch (error) {
         showAlert('Error de conexión', 'danger');
