@@ -185,7 +185,10 @@ function displayEvents(events, append = false) {
         eventCard.className = 'col-md-4 mb-4';
 
         // Aseguramos que los enlaces en la descripción se abran en una nueva pestaña
-        const descriptionWithLinks = event.description.replace(/<a /g, '<a target="_blank" ');
+        let descriptionWithLinks = event.description;
+        if (descriptionWithLinks.includes('<a ')) {
+            descriptionWithLinks = descriptionWithLinks.replace(/<a /g, '<a target="_blank" ');
+        }
 
         eventCard.innerHTML = `
             <div class="card h-100">
@@ -199,6 +202,7 @@ function displayEvents(events, append = false) {
                     <p class="card-text"><i class="fas fa-map-pin"></i> <strong>Dirección:</strong> ${event.address}</p>
                     <p class="card-text event-description"><i class="fas fa-info-circle"></i> <strong>Descripción:</strong> ${descriptionWithLinks}</p>
                     ${event.description.length > 200 ? `<span class="show-more">Mostrar más</span>` : ''}
+                    ${localStorage.getItem('access_token') ? '<button class="btn btn-warning mt-2" onclick="editEvent(' + event.id + ')">Editar</button>' : ''}
                 </div>
             </div>
         `;
