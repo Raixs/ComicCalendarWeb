@@ -49,26 +49,3 @@ body {
     padding: 20px; /* Añadir más padding para que el contenido respire mejor */
     transition: padding 0.3s ease;
 }
-
-/* Centrado del botón de paginación */
-#load-more-container {
-    display: flex;
-    justify-content: center;
-    margin-top: 20px;
-}
-
-#load-more {
-    padding: 10px 20px;
-    background-color: #28a745;
-    border: none;
-    border-radius: 5px;
-    color: white;
-    font-size: 1em;
-    cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.3s ease;
-}
-
-#load-more:hover {
-    background-color: #218838;
-    transform: scale(1.1);
-}
