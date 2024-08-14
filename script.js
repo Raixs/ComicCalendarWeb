@@ -199,9 +199,8 @@ function displayEvents(events, append = false) {
                 <div class="card-body">
                     <h5 class="card-title">${event.summary}</h5>
                     <p class="card-text"><i class="fas fa-calendar-alt"></i> <strong>Fecha:</strong> ${event.start_date.split(' ')[0]} - ${event.end_date.split(' ')[0]}</p>
-                    <p class="card-text"><i class="fas fa-map-marker-alt"></i> <strong>Ciudad:</strong> ${event.city}</p>
+                    <p class="card-text"><i class="fas fa-map-marker-alt"></i> <strong>Ciudad:</strong> ${event.city}, ${event.community}</p>
                     <p class="card-text"><i class="fas fa-map-marker-alt"></i> <strong>Provincia:</strong> ${event.province}</p>
-                    <p class="card-text"><i class="fas fa-landmark"></i> <strong>Comunidad:</strong> ${event.community}</p>
                     <p class="card-text"><i class="fas fa-tag"></i> <strong>Tipo:</strong> ${event.type}</p>
                     <p class="card-text"><i class="fas fa-map-pin"></i> <strong>Dirección:</strong> ${event.address}</p>
                     <p class="card-text event-description"><i class="fas fa-info-circle"></i> <strong>Descripción:</strong> ${descriptionWithLinks}</p>
