@@ -47,7 +47,7 @@ async function login(event) {
             localStorage.setItem('access_token', data.access_token);
             $('#loginModal').modal('hide');
             checkAuthentication();
-            showAlert('Inicio de sesión exitoso', 'success');
+            showAlert('Sesión iniciada correctamente', 'success', 3000);
             
             // Recargar eventos para mostrar botones de edición
             loadEvents();
@@ -100,13 +100,16 @@ async function searchEvents(event) {
 
     // Si el mes está seleccionado pero no el año, usa el año actual
     const currentYear = new Date().getFullYear();
+    let dateQuery = ''; // Para almacenar la fecha utilizada en la búsqueda
     if (month && !year) {
-        query += `&date=${currentYear}-${month}`;
+        dateQuery = `${currentYear}-${month}`;
+        query += `&date=${dateQuery}`;
     } else if (year) {
-        query += `&date=${year}`;
+        dateQuery = year;
         if (month) {
-            query += `-${month}`;
+            dateQuery += `-${month}`;
         }
+        query += `&date=${dateQuery}`;
     }
 
     if (province) query += `&province=${province}`;
@@ -116,15 +119,17 @@ async function searchEvents(event) {
         const response = await fetch(query);
         const data = await response.json();
 
+        let searchCriteria = `Fecha: ${dateQuery || 'Cualquier fecha'}, Provincia: ${province || 'Cualquier provincia'}`;
+
         if (data.detail) {
             displayNoResults(data.detail);
             totalEvents = 0;
-            showAlert('No se encontraron eventos para los criterios dados', 'warning');
+            showAlert(`No encontramos eventos para: \n\n${searchCriteria}`, 'warning', 0);
         } else {
             const events = data.events;
             totalEvents = data.total;
+            showAlert(`¡Listo! Encontramos ${totalEvents} evento(s) para: \n\n${searchCriteria}`, 'success', 7000);
             displayEvents(events);
-            showAlert('Eventos cargados correctamente', 'success');
         }
 
         hideLoading();
@@ -133,7 +138,7 @@ async function searchEvents(event) {
         toggleLoadMoreButton();
     } catch (error) {
         hideLoading();
-        showAlert('Error searching events: ' + error, 'danger');
+        showAlert(`Ocurrió un error al buscar eventos: ${error.message}`, 'danger');
     }
 }
 
@@ -334,7 +339,7 @@ function toggleLoadMoreButton() {
     }
 }
 
-function showAlert(message, type = 'info') {
+function showAlert(message, type = 'info', timeout = null) {
     const alertPlaceholder = document.getElementById('alert-placeholder');
     const alert = document.createElement('div');
     alert.className = `alert alert-${type} alert-dismissible fade show`;
@@ -347,10 +352,25 @@ function showAlert(message, type = 'info') {
     `;
     alertPlaceholder.appendChild(alert);
 
-    setTimeout(() => {
-        $(alert).alert('close');
-    }, 1000); // El mensaje desaparecerá después de 1 segundos
+    // Determinar el tiempo de visualización en función del tipo de alerta si no se proporciona
+    if (timeout === null) {
+        if (type === 'danger') {
+            timeout = 0; // Se queda fijo
+        } else if (type === 'warning') {
+            timeout = 5000; // 5 segundos
+        } else {
+            timeout = 1500; // 1.5 segundos por defecto para otros tipos
+        }
+    }
+
+    // Si timeout es mayor que 0, programar el cierre automático
+    if (timeout > 0) {
+        setTimeout(() => {
+            $(alert).alert('close');
+        }, timeout);
+    }
 }
+
 
 function showLoading() {
     document.getElementById('loading-indicator').style.display = 'block';
