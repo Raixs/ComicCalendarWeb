@@ -169,12 +169,14 @@
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="edit-community">Comunidad Autónoma:</label>
-                                <input type="text" class="form-control" id="edit-community" required>
+                                <input type="text" class="form-control" id="edit-community" required readonly>
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="edit-province">Provincia:</label>
-                            <input type="text" class="form-control" id="edit-province" required>
+                            <select class="form-control" id="edit-province" required>
+                                <!-- Las opciones serán añadidas dinámicamente desde provincias.js -->
+                            </select>
                         </div>
                         <div class="form-group">
                             <label for="edit-type">Tipo:</label>
@@ -249,12 +251,14 @@
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="upload-community">Comunidad Autónoma:</label>
-                                <input type="text" class="form-control" id="upload-community" required>
+                                <input type="text" class="form-control" id="upload-community" placeholder="Selecciona provincia" required readonly>
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="upload-province">Provincia:</label>
-                            <input type="text" class="form-control" id="upload-province" required>
+                            <select class="form-control" id="upload-province" required>
+                                <!-- Las opciones serán añadidas dinámicamente desde provincias.js -->
+                            </select>
                         </div>
                         <div class="form-group">
                             <label for="upload-type">Tipo:</label>
