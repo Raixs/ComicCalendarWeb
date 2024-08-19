@@ -12,12 +12,28 @@ document.addEventListener('DOMContentLoaded', () => {
     checkAuthentication();
 });
 
-function checkAuthentication() {
+async function checkAuthentication() {
     const token = localStorage.getItem('access_token');
     if (token) {
-        document.getElementById('login-item').classList.add('d-none');
-        document.getElementById('logout-item').classList.remove('d-none');
-        document.getElementById('upload-item').classList.remove('d-none');
+        try {
+            const response = await fetch(`${apiUrl}/token/validate`, {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+
+            if (response.ok) {
+                document.getElementById('login-item').classList.add('d-none');
+                document.getElementById('logout-item').classList.remove('d-none');
+                document.getElementById('upload-item').classList.remove('d-none');
+            } else {
+                logout();
+            }
+        } catch (error) {
+            console.error('Error validating token:', error);
+            logout();
+        }
     } else {
         document.getElementById('login-item').classList.remove('d-none');
         document.getElementById('logout-item').classList.add('d-none');
@@ -58,7 +74,6 @@ async function login(event) {
         showAlert('Error de conexión', 'danger');
     }
 }
-
 
 function logout() {
     localStorage.removeItem('access_token');
@@ -235,7 +250,6 @@ function displayEvents(events, append = false) {
     });
 }
 
-
 async function editEvent(eventId) {
     currentEventId = eventId;
 
@@ -314,7 +328,6 @@ async function updateEvent(event) {
     }
 }
 
-
 function displayNoResults(message) {
     const eventsContainer = document.getElementById('events');
     eventsContainer.innerHTML = `<div class="col-12"><p class="text-center text-muted">${message}</p></div>`;
@@ -370,7 +383,6 @@ function showAlert(message, type = 'info', timeout = null) {
         }, timeout);
     }
 }
-
 
 function showLoading() {
     document.getElementById('loading-indicator').style.display = 'block';
