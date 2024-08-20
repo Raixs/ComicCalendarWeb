@@ -77,12 +77,27 @@
                 <input type="text" class="form-control" id="year" placeholder="Ej: 2024" pattern="\d{4}">
                 <small class="form-text text-muted">Formato: YYYY</small>
             </div>
-            <div class="form-group col-12 col-md-4">
+            <div class="form-group col-12 col-md-3">
                 <label for="province" class="form-label">Provincia:</label>
                 <input type="text" class="form-control" id="province" list="province-list" placeholder="Seleccione una provincia">
                 <datalist id="province-list">
                     <!-- Las opciones serán añadidas dinámicamente desde provincias.js -->
                 </datalist>
+            </div>
+            <div class="form-group col-12 col-md-3">
+                <label for="community" class="form-label">Comunidad Autónoma:</label>
+                <input type="text" class="form-control" id="community" list="community-list" placeholder="Seleccione una comunidad">
+                <datalist id="community-list">
+                    <!-- Las opciones serán añadidas dinámicamente desde provincias.js -->
+                </datalist>
+            </div>
+            <div class="form-group col-12 col-md-3">
+                <label for="city" class="form-label">Ciudad:</label>
+                <input type="text" class="form-control" id="city" placeholder="Ingrese una ciudad">
+            </div>
+            <div class="form-group col-12 col-md-3">
+                <label for="type" class="form-label">Tipo:</label>
+                <input type="text" class="form-control" id="type" placeholder="Ingrese un tipo de evento">
             </div>
             <div class="col-12 text-center">
                 <button type="submit" class="btn btn-primary mb-2" aria-label="Buscar eventos">Buscar</button>
@@ -100,6 +115,7 @@
             <button id="load-more" class="btn btn-lg btn-success" onclick="loadMoreEvents()" style="display: none;">Mostrar más</button>
         </div>              
     </div>
+
 
     <!-- Footer -->
     <footer class="bg-dark text-white text-center py-3 mt-4">

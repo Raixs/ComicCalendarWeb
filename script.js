@@ -110,6 +110,9 @@ async function searchEvents(event) {
     const year = document.getElementById('year').value;
     const month = document.getElementById('month').value;
     const province = document.getElementById('province').value;
+    const community = document.getElementById('community').value;
+    const city = document.getElementById('city').value;
+    const type = document.getElementById('type').value;
 
     let query = `${apiUrl}/events/search/?limit=${limit}&offset=${offset}`;
 
@@ -128,13 +131,22 @@ async function searchEvents(event) {
     }
 
     if (province) query += `&province=${province}`;
+    if (community) query += `&community=${community}`;
+    if (city) query += `&city=${city}`;
+    if (type) query += `&type=${type}`;
 
     try {
         showLoading();
         const response = await fetch(query);
         const data = await response.json();
 
-        let searchCriteria = `Fecha: ${dateQuery || 'Cualquier fecha'}, Provincia: ${province || 'Cualquier provincia'}`;
+        let searchCriteria = `
+            Fecha: ${dateQuery || 'Cualquier fecha'}, 
+            Provincia: ${province || 'Cualquier provincia'}, 
+            Comunidad: ${community || 'Cualquier comunidad'}, 
+            Ciudad: ${city || 'Cualquier ciudad'}, 
+            Tipo: ${type || 'Cualquier tipo'}
+        `;
 
         if (data.detail) {
             displayNoResults(data.detail);
@@ -163,6 +175,9 @@ async function loadMoreEvents() {
     const year = document.getElementById('year').value;
     const month = document.getElementById('month').value;
     const province = document.getElementById('province').value;
+    const community = document.getElementById('community').value;
+    const city = document.getElementById('city').value;
+    const type = document.getElementById('type').value;
 
     let query = `${apiUrl}/events/search/?limit=${limit}&offset=${offset}`;
 
@@ -178,6 +193,9 @@ async function loadMoreEvents() {
     }
 
     if (province) query += `&province=${province}`;
+    if (community) query += `&community=${community}`;
+    if (city) query += `&city=${city}`;
+    if (type) query += `&type=${type}`;
 
     try {
         showLoading();
