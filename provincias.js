@@ -54,11 +54,10 @@ document.addEventListener('DOMContentLoaded', () => {
         { name: "Melilla", community: "Melilla" }
     ];
 
-    // Selección de elementos solo para los formularios de edición y subida de eventos
+    // Rellenar las opciones de provincia en los formularios de edición y subida de eventos
     const provinceSelects = document.querySelectorAll('#upload-province, #edit-province');
     const communityInputs = document.querySelectorAll('#upload-community, #edit-community');
 
-    // Rellenar las opciones de provincia en los formularios de edición y subida de eventos
     provinceSelects.forEach(select => {
         provinces.forEach(province => {
             const option = document.createElement('option');
@@ -83,5 +82,15 @@ document.addEventListener('DOMContentLoaded', () => {
         const option = document.createElement('option');
         option.value = province.name;
         searchProvinceDatalist.appendChild(option);
+    });
+
+    // Rellenar las opciones de comunidad en el datalist del formulario de búsqueda
+    const searchCommunityDatalist = document.getElementById('community-list');
+    const uniqueCommunities = [...new Set(provinces.map(province => province.community))];
+
+    uniqueCommunities.forEach(community => {
+        const option = document.createElement('option');
+        option.value = community;
+        searchCommunityDatalist.appendChild(option);
     });
 });
