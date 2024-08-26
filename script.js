@@ -202,20 +202,36 @@ async function loadMoreEvents() {
 
     let query = `${apiUrl}/events/search/?limit=${limit}&offset=${offset}`;
 
-    // Si el mes está seleccionado pero no el año, usa el año actual
-    const currentYear = new Date().getFullYear();
-    if (month && !year) {
-        query += `&date=${currentYear}-${month}`;
-    } else if (year) {
-        query += `&date=${year}`;
-        if (month) {
-            query += `-${month}`;
-        }
+    // Función para obtener el último día del mes
+    function getLastDayOfMonth(year, month) {
+        const date = new Date(year, month, 0);
+        return date.getDate();
     }
 
-    // Añadir parámetros para las fechas de inicio y fin
-    if (startDate) query += `&start_date=${startDate}`;
-    if (endDate) query += `&end_date=${endDate}`;
+    // Función para obtener las fechas de inicio y fin del mes
+    function getMonthStartEnd(year, month) {
+        const startDate = `${year}-${String(month).padStart(2, '0')}-01`;
+        const endDate = `${year}-${String(month).padStart(2, '0')}-${getLastDayOfMonth(year, month)}`;
+        return { startDate, endDate };
+    }
+
+    // Construir la consulta de fechas
+    const currentYear = new Date().getFullYear();
+    let startDateQuery = startDate;
+    let endDateQuery = endDate;
+
+    if (month && !year) {
+        const yearToUse = currentYear;
+        ({ startDate: startDateQuery, endDate: endDateQuery } = getMonthStartEnd(yearToUse, month));
+    } else if (year && !month) {
+        startDateQuery = `${year}-01-01`;
+        endDateQuery = `${year}-12-31`;
+    } else if (year && month) {
+        ({ startDate: startDateQuery, endDate: endDateQuery } = getMonthStartEnd(year, month));
+    }
+
+    if (startDateQuery) query += `&start_date=${startDateQuery}`;
+    if (endDateQuery) query += `&end_date=${endDateQuery}`;
 
     if (province) query += `&province=${province}`;
     if (community) query += `&community=${community}`;
