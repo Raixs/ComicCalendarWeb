@@ -113,6 +113,8 @@ async function searchEvents(event) {
     const community = document.getElementById('community').value;
     const city = document.getElementById('city').value;
     const type = document.getElementById('type').value;
+    const startDate = document.getElementById('start-date').value;
+    const endDate = document.getElementById('end-date').value;
 
     let query = `${apiUrl}/events/search/?limit=${limit}&offset=${offset}`;
 
@@ -130,6 +132,10 @@ async function searchEvents(event) {
         query += `&date=${dateQuery}`;
     }
 
+    // Añadir parámetros para las fechas de inicio y fin
+    if (startDate) query += `&start_date=${startDate}`;
+    if (endDate) query += `&end_date=${endDate}`;
+
     if (province) query += `&province=${province}`;
     if (community) query += `&community=${community}`;
     if (city) query += `&city=${city}`;
@@ -141,7 +147,7 @@ async function searchEvents(event) {
         const data = await response.json();
 
         let searchCriteria = `
-            Fecha: ${dateQuery || 'Cualquier fecha'}, 
+            Fecha: ${startDate || 'Cualquier fecha de inicio'} a ${endDate || 'Cualquier fecha de fin'}, 
             Provincia: ${province || 'Cualquier provincia'}, 
             Comunidad: ${community || 'Cualquier comunidad'}, 
             Ciudad: ${city || 'Cualquier ciudad'}, 
@@ -178,6 +184,8 @@ async function loadMoreEvents() {
     const community = document.getElementById('community').value;
     const city = document.getElementById('city').value;
     const type = document.getElementById('type').value;
+    const startDate = document.getElementById('start-date').value;
+    const endDate = document.getElementById('end-date').value;
 
     let query = `${apiUrl}/events/search/?limit=${limit}&offset=${offset}`;
 
@@ -191,6 +199,10 @@ async function loadMoreEvents() {
             query += `-${month}`;
         }
     }
+
+    // Añadir parámetros para las fechas de inicio y fin
+    if (startDate) query += `&start_date=${startDate}`;
+    if (endDate) query += `&end_date=${endDate}`;
 
     if (province) query += `&province=${province}`;
     if (community) query += `&community=${community}`;
