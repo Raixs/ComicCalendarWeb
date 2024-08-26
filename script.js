@@ -91,6 +91,18 @@ async function loadEvents() {
         const data = await response.json();
         const events = data.events;
         totalEvents = data.total;
+
+        // Mostrar la fecha de la última actualización en el footer
+        if (data.last_updated) {
+            const lastUpdatedElement = document.getElementById('last-updated');
+            const lastUpdatedDate = new Date(data.last_updated).toLocaleDateString('es-ES', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+            lastUpdatedElement.textContent = lastUpdatedDate;
+        }
+
         displayEvents(events);
         hideLoading();
         // No mostrar información de paginación y botón "Mostrar más" en la carga inicial
