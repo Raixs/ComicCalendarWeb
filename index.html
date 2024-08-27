@@ -55,6 +55,14 @@
     <div class="container mt-5">
         <form id="search-form" class="search-form row justify-content-center mb-4" onsubmit="searchEvents(event)">
             <div class="form-group col-12 col-md-3">
+                <label for="start-date" class="form-label">Fecha de Inicio:</label>
+                <input type="date" class="form-control" id="start-date" placeholder="Fecha de inicio">
+            </div>
+            <div class="form-group col-12 col-md-3">
+                <label for="end-date" class="form-label">Fecha de Fin:</label>
+                <input type="date" class="form-control" id="end-date" placeholder="Fecha de fin">
+            </div>
+            <div class="form-group col-12 col-md-3">
                 <label for="month" class="form-label">Mes:</label>
                 <select class="form-control" id="month">
                     <option value="">Seleccione un mes</option>
