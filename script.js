@@ -8,7 +8,6 @@ let eventIdToDelete = null;
 
 document.addEventListener('DOMContentLoaded', () => {
     loadEvents();
-    document.getElementById('current-year').textContent = new Date().getFullYear();
     checkAuthentication();
 });
 
@@ -84,6 +83,68 @@ function logout() {
     loadEvents();
 }
 
+function getLastDayOfMonth(year, month) {
+    return new Date(year, month, 0).getDate();
+}
+
+function getMonthStartEnd(year, month) {
+    const startDate = `${year}-${String(month).padStart(2, '0')}-01`;
+    const endDate = `${year}-${String(month).padStart(2, '0')}-${getLastDayOfMonth(year, month)}`;
+    return { startDate, endDate };
+}
+
+function constructDateQuery(year, month, startDate, endDate) {
+    const currentYear = new Date().getFullYear();
+    let startDateQuery = startDate;
+    let endDateQuery = endDate;
+
+    if (month && !year) {
+        ({ startDate: startDateQuery, endDate: endDateQuery } = getMonthStartEnd(currentYear, month));
+    } else if (year && !month) {
+        startDateQuery = `${year}-01-01`;
+        endDateQuery = `${year}-12-31`;
+    } else if (year && month) {
+        ({ startDate: startDateQuery, endDate: endDateQuery } = getMonthStartEnd(year, month));
+    }
+
+    return { startDateQuery, endDateQuery };
+}
+
+function buildQueryParams() {
+    const year = document.getElementById('year').value;
+    const month = document.getElementById('month').value;
+    const province = document.getElementById('province').value;
+    const community = document.getElementById('community').value;
+    const city = document.getElementById('city').value;
+    const type = document.getElementById('type').value;
+    const startDate = document.getElementById('start-date').value;
+    const endDate = document.getElementById('end-date').value;
+
+    const { startDateQuery, endDateQuery } = constructDateQuery(year, month, startDate, endDate);
+
+    let query = `?limit=${limit}&offset=${offset}`;
+    if (startDateQuery) query += `&start_date=${startDateQuery}`;
+    if (endDateQuery) query += `&end_date=${endDateQuery}`;
+    if (province) query += `&province=${province}`;
+    if (community) query += `&community=${community}`;
+    if (city) query += `&city=${city}`;
+    if (type) query += `&type=${type}`;
+
+    return { query, searchCriteria: { startDateQuery, endDateQuery, province, community, city, type } };
+}
+
+function updateLastUpdatedDate(lastUpdated) {
+    if (lastUpdated) {
+        const lastUpdatedElement = document.getElementById('last-updated');
+        const lastUpdatedDate = new Date(lastUpdated).toLocaleDateString('es-ES', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+        });
+        lastUpdatedElement.textContent = lastUpdatedDate;
+    }
+}
+
 async function loadEvents() {
     try {
         showLoading();
@@ -92,16 +153,7 @@ async function loadEvents() {
         const events = data.events;
         totalEvents = data.total;
 
-        // Mostrar la fecha de la última actualización en el footer
-        if (data.last_updated) {
-            const lastUpdatedElement = document.getElementById('last-updated');
-            const lastUpdatedDate = new Date(data.last_updated).toLocaleDateString('es-ES', {
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric'
-            });
-            lastUpdatedElement.textContent = lastUpdatedDate;
-        }
+        updateLastUpdatedDate(data.last_updated);
 
         displayEvents(events);
         hideLoading();
@@ -115,78 +167,34 @@ async function loadEvents() {
 
 async function searchEvents(event) {
     event.preventDefault(); // Prevenir el comportamiento predeterminado del formulario
-
     offset = 0; // Reiniciar el offset cuando se realiza una nueva búsqueda
     isSearching = true; // Indicamos que estamos en modo búsqueda
 
-    const year = document.getElementById('year').value;
-    const month = document.getElementById('month').value;
-    const province = document.getElementById('province').value;
-    const community = document.getElementById('community').value;
-    const city = document.getElementById('city').value;
-    const type = document.getElementById('type').value;
-    const startDate = document.getElementById('start-date').value;
-    const endDate = document.getElementById('end-date').value;
-
-    let query = `${apiUrl}/events/search/?limit=${limit}&offset=${offset}`;
-
-    // Función para obtener el último día del mes
-    function getLastDayOfMonth(year, month) {
-        const date = new Date(year, month, 0);
-        return date.getDate();
-    }
-
-    // Función para obtener las fechas de inicio y fin del mes
-    function getMonthStartEnd(year, month) {
-        const startDate = `${year}-${String(month).padStart(2, '0')}-01`;
-        const endDate = `${year}-${String(month).padStart(2, '0')}-${getLastDayOfMonth(year, month)}`;
-        return { startDate, endDate };
-    }
-
-    // Construir la consulta de fechas
-    const currentYear = new Date().getFullYear();
-    let startDateQuery = startDate;
-    let endDateQuery = endDate;
-
-    if (month && !year) {
-        const yearToUse = currentYear;
-        ({ startDate: startDateQuery, endDate: endDateQuery } = getMonthStartEnd(yearToUse, month));
-    } else if (year && !month) {
-        startDateQuery = `${year}-01-01`;
-        endDateQuery = `${year}-12-31`;
-    } else if (year && month) {
-        ({ startDate: startDateQuery, endDate: endDateQuery } = getMonthStartEnd(year, month));
-    }
-
-    if (startDateQuery) query += `&start_date=${startDateQuery}`;
-    if (endDateQuery) query += `&end_date=${endDateQuery}`;
-
-    if (province) query += `&province=${province}`;
-    if (community) query += `&community=${community}`;
-    if (city) query += `&city=${city}`;
-    if (type) query += `&type=${type}`;
+    const { query, searchCriteria } = buildQueryParams();
+    const fullQuery = `${apiUrl}/events/search/${query}`;
 
     try {
         showLoading();
-        const response = await fetch(query);
+        const response = await fetch(fullQuery);
         const data = await response.json();
 
-        let searchCriteria = `
-            Fecha: ${startDateQuery || 'Cualquier fecha de inicio'} a ${endDateQuery || 'Cualquier fecha de fin'}, 
-            Provincia: ${province || 'Cualquier provincia'}, 
-            Comunidad: ${community || 'Cualquier comunidad'}, 
-            Ciudad: ${city || 'Cualquier ciudad'}, 
-            Tipo: ${type || 'Cualquier tipo'}
+        let searchCriteriaString = `
+            Fecha: ${searchCriteria.startDateQuery || 'Cualquier fecha de inicio'} a ${searchCriteria.endDateQuery || 'Cualquier fecha de fin'}, 
+            Provincia: ${searchCriteria.province || 'Cualquier provincia'}, 
+            Comunidad: ${searchCriteria.community || 'Cualquier comunidad'}, 
+            Ciudad: ${searchCriteria.city || 'Cualquier ciudad'}, 
+            Tipo: ${searchCriteria.type || 'Cualquier tipo'}
         `;
 
         if (data.detail) {
             displayNoResults(data.detail);
             totalEvents = 0;
-            showAlert(`No encontramos eventos para: \n\n${searchCriteria}`, 'warning', 0);
+            showAlert(`No encontramos eventos para: \n\n${searchCriteriaString}`, 'warning', 0);
         } else {
             const events = data.events;
             totalEvents = data.total;
-            showAlert(`¡Listo! Encontramos ${totalEvents} evento(s) para: \n\n${searchCriteria}`, 'success', 7000);
+            updateLastUpdatedDate(data.last_updated);
+            showAlert(`¡Listo! Encontramos ${totalEvents} evento(s) para: \n\n${searchCriteriaString}`, 'success', 7000);
             displayEvents(events);
         }
 
@@ -203,56 +211,12 @@ async function searchEvents(event) {
 async function loadMoreEvents() {
     offset += limit; // Incrementar el offset para cargar la siguiente página de resultados
 
-    const year = document.getElementById('year').value;
-    const month = document.getElementById('month').value;
-    const province = document.getElementById('province').value;
-    const community = document.getElementById('community').value;
-    const city = document.getElementById('city').value;
-    const type = document.getElementById('type').value;
-    const startDate = document.getElementById('start-date').value;
-    const endDate = document.getElementById('end-date').value;
-
-    let query = `${apiUrl}/events/search/?limit=${limit}&offset=${offset}`;
-
-    // Función para obtener el último día del mes
-    function getLastDayOfMonth(year, month) {
-        const date = new Date(year, month, 0);
-        return date.getDate();
-    }
-
-    // Función para obtener las fechas de inicio y fin del mes
-    function getMonthStartEnd(year, month) {
-        const startDate = `${year}-${String(month).padStart(2, '0')}-01`;
-        const endDate = `${year}-${String(month).padStart(2, '0')}-${getLastDayOfMonth(year, month)}`;
-        return { startDate, endDate };
-    }
-
-    // Construir la consulta de fechas
-    const currentYear = new Date().getFullYear();
-    let startDateQuery = startDate;
-    let endDateQuery = endDate;
-
-    if (month && !year) {
-        const yearToUse = currentYear;
-        ({ startDate: startDateQuery, endDate: endDateQuery } = getMonthStartEnd(yearToUse, month));
-    } else if (year && !month) {
-        startDateQuery = `${year}-01-01`;
-        endDateQuery = `${year}-12-31`;
-    } else if (year && month) {
-        ({ startDate: startDateQuery, endDate: endDateQuery } = getMonthStartEnd(year, month));
-    }
-
-    if (startDateQuery) query += `&start_date=${startDateQuery}`;
-    if (endDateQuery) query += `&end_date=${endDateQuery}`;
-
-    if (province) query += `&province=${province}`;
-    if (community) query += `&community=${community}`;
-    if (city) query += `&city=${city}`;
-    if (type) query += `&type=${type}`;
+    const { query } = buildQueryParams();
+    const fullQuery = `${apiUrl}/events/search/${query}`;
 
     try {
         showLoading();
-        const response = await fetch(query);
+        const response = await fetch(fullQuery);
         const data = await response.json();
         const events = data.events;
         displayEvents(events, true);
