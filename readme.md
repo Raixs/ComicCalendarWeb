@@ -59,14 +59,10 @@ El frontend de **Comic Calendar** proporciona las siguientes funcionalidades:
 
 ## Tareas Pendientes
 
-- [ ]  **Filtros Adicionales**: Añadir filtros por rango de fechas, ciudad específica, tipo de evento, etc.
 - [ ]  **Detalles de Eventos**: Crear una página o modal para mostrar los detalles completos de un evento al hacer clic en él.
 - [ ]  **Integración de Mapas**: Mostrar la ubicación de los eventos en un mapa (ej. Google Maps).
-- [ ]  **Suscripciones y Notificaciones**: Permitir a los usuarios suscribirse a notificaciones de eventos futuros.
 - [ ]  **Compartir en Redes Sociales**: Añadir botones para compartir eventos en redes sociales.
-- [ ]  **Autenticación de Usuarios**: Implementar autenticación para gestionar eventos, comentarios, etc.
 - [ ]  **Modo Claro/Oscuro**: Añadir un interruptor para cambiar entre modo claro y oscuro.
-- [ ]  **Soporte para Múltiples Idiomas**: Implementar internacionalización para soportar varios idiomas.
 
 ## Agradecimientos
 
