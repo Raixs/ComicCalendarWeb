@@ -300,7 +300,9 @@ async function editEvent(eventId) {
         // Comprobamos y asignamos valores solo si los elementos existen en el DOM
         const summaryElement = document.getElementById('edit-summary');
         const startDateElement = document.getElementById('edit-start-date');
+        const startTimeElement = document.getElementById('edit-start-time');
         const endDateElement = document.getElementById('edit-end-date');
+        const endTimeElement = document.getElementById('edit-end-time');
         const provinceElement = document.getElementById('edit-province');
         const communityElement = document.getElementById('edit-community');
         const cityElement = document.getElementById('edit-city');
@@ -310,7 +312,9 @@ async function editEvent(eventId) {
 
         if (summaryElement) summaryElement.value = event.summary;
         if (startDateElement) startDateElement.value = event.start_date.split(' ')[0];
+        if (startTimeElement) startTimeElement.value = event.start_date.split(' ')[1].slice(0, 5); // Formato HH:MM
         if (endDateElement) endDateElement.value = event.end_date.split(' ')[0];
+        if (endTimeElement) endTimeElement.value = event.end_date.split(' ')[1].slice(0, 5); // Formato HH:MM
         if (provinceElement) provinceElement.value = event.province;
         if (communityElement) communityElement.value = event.community;
         if (cityElement) cityElement.value = event.city;
@@ -331,8 +335,8 @@ async function updateEvent(event) {
     
     const updatedEvent = {
         summary: document.getElementById('edit-summary').value,
-        start_date: document.getElementById('edit-start-date').value,
-        end_date: document.getElementById('edit-end-date').value,
+        start_date: `${document.getElementById('edit-start-date').value} ${document.getElementById('edit-start-time').value}`,
+        end_date: `${document.getElementById('edit-end-date').value} ${document.getElementById('edit-end-time').value}`,
         province: document.getElementById('edit-province').value,
         community: document.getElementById('edit-community').value,
         city: document.getElementById('edit-city').value,
@@ -458,8 +462,8 @@ async function uploadEvent(event) {
     
     const newEvent = {
         summary: document.getElementById('upload-summary').value,
-        start_date: document.getElementById('upload-start-date').value,
-        end_date: document.getElementById('upload-end-date').value,
+        start_date: `${document.getElementById('upload-start-date').value} ${document.getElementById('upload-start-time').value}`,
+        end_date: `${document.getElementById('upload-end-date').value} ${document.getElementById('upload-end-time').value}`,
         province: document.getElementById('upload-province').value,
         community: document.getElementById('upload-community').value,
         city: document.getElementById('upload-city').value,

@@ -182,8 +182,30 @@
                                 <input type="date" class="form-control" id="edit-start-date" required>
                             </div>
                             <div class="form-group col-md-6">
+                                <label for="edit-start-time">Hora de Inicio:</label>
+                                <input type="time" class="form-control" id="edit-start-time" required>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
                                 <label for="edit-end-date">Fecha de Fin:</label>
                                 <input type="date" class="form-control" id="edit-end-date" required>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="edit-end-time">Hora de Fin:</label>
+                                <input type="time" class="form-control" id="edit-end-time" required>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="edit-province">Provincia:</label>
+                                <select class="form-control" id="edit-province" required>
+                                    <!-- Las opciones serán añadidas dinámicamente desde provincias.js -->
+                                </select>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="edit-community">Comunidad Autónoma:</label>
+                                <input type="text" class="form-control" id="edit-community" readonly required>
                             </div>
                         </div>
                         <div class="form-row">
@@ -192,19 +214,9 @@
                                 <input type="text" class="form-control" id="edit-city" required>
                             </div>
                             <div class="form-group col-md-6">
-                                <label for="edit-community">Comunidad Autónoma:</label>
-                                <input type="text" class="form-control" id="edit-community" required readonly>
+                                <label for="edit-type">Tipo de Evento:</label>
+                                <input type="text" class="form-control" id="edit-type" required>
                             </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="edit-province">Provincia:</label>
-                            <select class="form-control" id="edit-province" required>
-                                <!-- Las opciones serán añadidas dinámicamente desde provincias.js -->
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="edit-type">Tipo:</label>
-                            <input type="text" class="form-control" id="edit-type" required>
                         </div>
                         <div class="form-group">
                             <label for="edit-address">Dirección:</label>
@@ -220,6 +232,7 @@
             </div>
         </div>
     </div>
+
 
     <!-- Modal de Confirmación de Eliminación -->
     <div class="modal fade" id="deleteEventModal" tabindex="-1" role="dialog" aria-labelledby="deleteEventModalLabel" aria-hidden="true">
@@ -264,8 +277,30 @@
                                 <input type="date" class="form-control" id="upload-start-date" required>
                             </div>
                             <div class="form-group col-md-6">
+                                <label for="upload-start-time">Hora de Inicio:</label>
+                                <input type="time" class="form-control" id="upload-start-time" required value="00:00">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
                                 <label for="upload-end-date">Fecha de Fin:</label>
                                 <input type="date" class="form-control" id="upload-end-date" required>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="upload-end-time">Hora de Fin:</label>
+                                <input type="time" class="form-control" id="upload-end-time" required value="23:59">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="upload-province">Provincia:</label>
+                                <select class="form-control" id="upload-province" required>
+                                    <!-- Las opciones serán añadidas dinámicamente desde provincias.js -->
+                                </select>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="upload-community">Comunidad Autónoma:</label>
+                                <input type="text" class="form-control" id="upload-community" placeholder="Selecciona provincia" readonly required>
                             </div>
                         </div>
                         <div class="form-row">
@@ -274,19 +309,9 @@
                                 <input type="text" class="form-control" id="upload-city" required>
                             </div>
                             <div class="form-group col-md-6">
-                                <label for="upload-community">Comunidad Autónoma:</label>
-                                <input type="text" class="form-control" id="upload-community" placeholder="Selecciona provincia" required readonly>
+                                <label for="upload-type">Tipo de Evento:</label>
+                                <input type="text" class="form-control" id="upload-type" required>
                             </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="upload-province">Provincia:</label>
-                            <select class="form-control" id="upload-province" required>
-                                <!-- Las opciones serán añadidas dinámicamente desde provincias.js -->
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="upload-type">Tipo:</label>
-                            <input type="text" class="form-control" id="upload-type" required>
                         </div>
                         <div class="form-group">
                             <label for="upload-address">Dirección:</label>
