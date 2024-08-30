@@ -56,14 +56,7 @@
     <!-- Formulario de búsqueda -->
     <div class="container mt-5">
         <form id="search-form" class="search-form row justify-content-center mb-4" onsubmit="searchEvents(event)">
-            <div class="form-group col-12 col-md-3">
-                <label for="start-date" class="form-label">Fecha de Inicio:</label>
-                <input type="date" class="form-control" id="start-date" placeholder="Fecha de inicio">
-            </div>
-            <div class="form-group col-12 col-md-3">
-                <label for="end-date" class="form-label">Fecha de Fin:</label>
-                <input type="date" class="form-control" id="end-date" placeholder="Fecha de fin">
-            </div>
+            <!-- Campos de búsqueda básica -->
             <div class="form-group col-12 col-md-3">
                 <label for="month" class="form-label">Mes:</label>
                 <select class="form-control" id="month">
@@ -83,36 +76,58 @@
                 </select>
             </div>
             <div class="form-group col-12 col-md-3">
-                <label for="year" class="form-label">Año:</label>
-                <input type="text" class="form-control" id="year" placeholder="Ej: 2024" pattern="\d{4}">
-                <small class="form-text text-muted">Formato: YYYY</small>
-            </div>
-            <div class="form-group col-12 col-md-3">
                 <label for="province" class="form-label">Provincia:</label>
                 <input type="text" class="form-control" id="province" list="province-list" placeholder="Seleccione una provincia">
                 <datalist id="province-list">
                     <!-- Las opciones serán añadidas dinámicamente desde provincias.js -->
                 </datalist>
             </div>
-            <div class="form-group col-12 col-md-4">
-                <label for="community" class="form-label">Comunidad Autónoma:</label>
-                <input type="text" class="form-control" id="community" list="community-list" placeholder="Seleccione una comunidad">
-                <datalist id="community-list">
-                    <!-- Las opciones serán añadidas dinámicamente desde provincias.js -->
-                </datalist>
-            </div>
             <div class="form-group col-12 col-md-3">
-                <label for="city" class="form-label">Ciudad:</label>
-                <input type="text" class="form-control" id="city" placeholder="Ingrese una ciudad">
+                <label for="year" class="form-label">Año:</label>
+                <input type="text" class="form-control" id="year" placeholder="Ej: 2024" pattern="\d{4}">
+                <small class="form-text text-muted">Formato: YYYY</small>
             </div>
-            <div class="form-group col-12 col-md-3">
-                <label for="type" class="form-label">Tipo:</label>
-                <input type="text" class="form-control" id="type" placeholder="Ingrese un tipo de evento">
-            </div>
+
+            <!-- Botón de búsqueda básica -->
             <div class="col-12 text-center">
                 <button type="submit" class="btn btn-primary mb-2" aria-label="Buscar eventos">Buscar</button>
             </div>
+
+            <!-- Opción de Búsqueda avanzada -->
+            <div class="col-12 text-center">
+                <button type="button" class="btn btn-link" id="toggle-advanced-search" onclick="toggleAdvancedSearch()">Búsqueda avanzada</button>
+            </div>
+
+            <!-- Campos de búsqueda avanzada (ocultos por defecto) -->
+            <div id="advanced-search" class="col-12 mt-4" style="display: none;">
+                <div class="form-row">
+                    <div class="form-group col-12 col-md-4">
+                        <label for="start-date" class="form-label">Fecha de Inicio:</label>
+                        <input type="date" class="form-control" id="start-date" placeholder="Fecha de inicio">
+                    </div>
+                    <div class="form-group col-12 col-md-4">
+                        <label for="end-date" class="form-label">Fecha de Fin:</label>
+                        <input type="date" class="form-control" id="end-date" placeholder="Fecha de fin">
+                    </div>
+                    <div class="form-group col-12 col-md-4">
+                        <label for="community" class="form-label">Comunidad Autónoma:</label>
+                        <input type="text" class="form-control" id="community" list="community-list" placeholder="Seleccione una comunidad">
+                        <datalist id="community-list">
+                            <!-- Las opciones serán añadidas dinámicamente desde provincias.js -->
+                        </datalist>
+                    </div>
+                    <div class="form-group col-12 col-md-4">
+                        <label for="city" class="form-label">Ciudad:</label>
+                        <input type="text" class="form-control" id="city" placeholder="Ingrese una ciudad">
+                    </div>
+                    <div class="form-group col-12 col-md-4">
+                        <label for="type" class="form-label">Tipo:</label>
+                        <input type="text" class="form-control" id="type" placeholder="Ingrese un tipo de evento">
+                    </div>
+                </div>
+            </div>
         </form>
+
         <div id="alert-placeholder"></div>
         <div id="loading-indicator" style="display: none;" class="text-center">
             <div class="spinner-border" role="status">

@@ -493,3 +493,16 @@ async function uploadEvent(event) {
         showAlert('Error de conexión', 'danger');
     }
 }
+
+function toggleAdvancedSearch() {
+    const advancedSearchDiv = document.getElementById('advanced-search');
+    const toggleButton = document.getElementById('toggle-advanced-search');
+
+    if (advancedSearchDiv.style.display === 'none') {
+        advancedSearchDiv.style.display = 'block';
+        toggleButton.textContent = 'Ocultar búsqueda avanzada';
+    } else {
+        advancedSearchDiv.style.display = 'none';
+        toggleButton.textContent = 'Búsqueda avanzada';
+    }
+}
