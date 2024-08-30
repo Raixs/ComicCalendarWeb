@@ -231,6 +231,25 @@ async function loadMoreEvents() {
     }
 }
 
+function formatDate(dateString) {
+    const date = new Date(dateString);
+    return date.toLocaleDateString('es-ES', {
+        day: 'numeric',
+        month: 'long',
+        year: 'numeric'
+    });
+}
+
+function formatTime(dateString) {
+    const [date, time] = dateString.split(' ');
+    const [hours, minutes] = time.split(':');
+    return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}`;
+}
+
+function isAllDayEvent(startTime, endTime) {
+    return (startTime === "00:00" && endTime === "23:59");
+}
+
 function displayEvents(events, append = false) {
     const eventsContainer = document.getElementById('events');
 
@@ -248,12 +267,30 @@ function displayEvents(events, append = false) {
             descriptionWithLinks = descriptionWithLinks.replace(/<a /g, '<a target="_blank" ');
         }
 
+        // Formatear fechas y horas
+        const startDateFormatted = formatDate(event.start_date);
+        const endDateFormatted = formatDate(event.end_date);
+        const startTimeFormatted = formatTime(event.start_date);
+        const endTimeFormatted = formatTime(event.end_date);
+
+        // Determinar si el evento es de todo el día
+        const allDayEvent = isAllDayEvent(startTimeFormatted, endTimeFormatted);
+
+        // Determinar qué mostrar para las fechas
+        let dateDisplay = `<strong>Fecha:</strong> ${startDateFormatted}`;
+        if (startDateFormatted !== endDateFormatted) {
+            dateDisplay += ` - ${endDateFormatted}`;
+        }
+        if (!allDayEvent) {
+            dateDisplay += ` (${startTimeFormatted} a ${endTimeFormatted})`;
+        }
+
         // Crear la tarjeta de Bootstrap
         eventCard.innerHTML = `
             <div class="card h-100 shadow-sm">
                 <div class="card-body">
                     <h5 class="card-title">${event.summary}</h5>
-                    <p class="card-text"><i class="fas fa-calendar-alt"></i> <strong>Fecha:</strong> ${event.start_date.split(' ')[0]} - ${event.end_date.split(' ')[0]}</p>
+                    <p class="card-text"><i class="fas fa-calendar-alt"></i> ${dateDisplay}</p>
                     <p class="card-text"><i class="fas fa-map-marker-alt"></i> <strong>Ciudad:</strong> ${event.city}, ${event.community}</p>
                     <p class="card-text"><i class="fas fa-map-marker-alt"></i> <strong>Provincia:</strong> ${event.province}</p>
                     <p class="card-text"><i class="fas fa-tag"></i> <strong>Tipo:</strong> ${event.type}</p>
