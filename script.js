@@ -231,6 +231,52 @@ async function loadMoreEvents() {
     }
 }
 
+function formatDate(dateString) {
+    const date = new Date(dateString);
+    return date.toLocaleDateString('es-ES', {
+        day: 'numeric',
+        month: 'long',
+        year: 'numeric'
+    });
+}
+
+function formatTime(dateString) {
+    const [date, time] = dateString.split(' ');
+    const [hours, minutes] = time.split(':');
+    return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}`;
+}
+
+function isAllDayEvent(startTime, endTime) {
+    return (startTime === "00:00" && endTime === "23:59");
+}
+
+function formatEventDate(startDate, endDate) {
+    const start = new Date(startDate);
+    const end = new Date(endDate);
+
+    const startDay = start.getDate();
+    const startMonth = start.toLocaleDateString('es-ES', { month: 'long' });
+    const startYear = start.getFullYear();
+
+    const endDay = end.getDate();
+    const endMonth = end.toLocaleDateString('es-ES', { month: 'long' });
+    const endYear = end.getFullYear();
+
+    if (startYear === endYear) {
+        if (startMonth === endMonth) {
+            if (startDay === endDay) {
+                return `${startDay} de ${startMonth} de ${startYear}`;
+            } else {
+                return `${startDay} al ${endDay} de ${startMonth} de ${startYear}`;
+            }
+        } else {
+            return `${startDay} de ${startMonth} al ${endDay} de ${endMonth} de ${startYear}`;
+        }
+    } else {
+        return `${startDay} de ${startMonth} de ${startYear} al ${endDay} de ${endMonth} de ${endYear}`;
+    }
+}
+
 function displayEvents(events, append = false) {
     const eventsContainer = document.getElementById('events');
 
@@ -248,12 +294,23 @@ function displayEvents(events, append = false) {
             descriptionWithLinks = descriptionWithLinks.replace(/<a /g, '<a target="_blank" ');
         }
 
+        // Formatear fechas y horas
+        const startTimeFormatted = formatTime(event.start_date);
+        const endTimeFormatted = formatTime(event.end_date);
+
+        // Determinar si el evento es de todo el día
+        const allDayEvent = isAllDayEvent(startTimeFormatted, endTimeFormatted);
+
+        // Formatear la fecha del evento de manera más legible
+        const dateDisplay = formatEventDate(event.start_date, event.end_date);
+        const timeDisplay = allDayEvent ? '' : ` (${startTimeFormatted} a ${endTimeFormatted})`;
+
         // Crear la tarjeta de Bootstrap
         eventCard.innerHTML = `
             <div class="card h-100 shadow-sm">
                 <div class="card-body">
                     <h5 class="card-title">${event.summary}</h5>
-                    <p class="card-text"><i class="fas fa-calendar-alt"></i> <strong>Fecha:</strong> ${event.start_date.split(' ')[0]} - ${event.end_date.split(' ')[0]}</p>
+                    <p class="card-text"><i class="fas fa-calendar-alt"></i> <strong>Fecha:</strong> ${dateDisplay}${timeDisplay}</p>
                     <p class="card-text"><i class="fas fa-map-marker-alt"></i> <strong>Ciudad:</strong> ${event.city}, ${event.community}</p>
                     <p class="card-text"><i class="fas fa-map-marker-alt"></i> <strong>Provincia:</strong> ${event.province}</p>
                     <p class="card-text"><i class="fas fa-tag"></i> <strong>Tipo:</strong> ${event.type}</p>
@@ -335,8 +392,14 @@ async function updateEvent(event) {
     
     const updatedEvent = {
         summary: document.getElementById('edit-summary').value,
-        start_date: `${document.getElementById('edit-start-date').value} ${document.getElementById('edit-start-time').value}`,
-        end_date: `${document.getElementById('edit-end-date').value} ${document.getElementById('edit-end-time').value}`,
+        start_date: formatToStandardDateTime(
+            document.getElementById('edit-start-date').value, 
+            document.getElementById('edit-start-time').value
+        ),
+        end_date: formatToStandardDateTime(
+            document.getElementById('edit-end-date').value, 
+            document.getElementById('edit-end-time').value
+        ),
         province: document.getElementById('edit-province').value,
         community: document.getElementById('edit-community').value,
         city: document.getElementById('edit-city').value,
@@ -457,13 +520,24 @@ async function deleteEvent() {
     }
 }
 
+function formatToStandardDateTime(date, time) {
+    // Asegura que la fecha y hora sigan el formato: "YYYY-MM-DD HH:MM:SS+00:00"
+    return `${date} ${time}:00+00:00`;
+}
+
 async function uploadEvent(event) {
     event.preventDefault();
     
     const newEvent = {
         summary: document.getElementById('upload-summary').value,
-        start_date: `${document.getElementById('upload-start-date').value} ${document.getElementById('upload-start-time').value}`,
-        end_date: `${document.getElementById('upload-end-date').value} ${document.getElementById('upload-end-time').value}`,
+        start_date: formatToStandardDateTime(
+            document.getElementById('upload-start-date').value, 
+            document.getElementById('upload-start-time').value
+        ),
+        end_date: formatToStandardDateTime(
+            document.getElementById('upload-end-date').value, 
+            document.getElementById('upload-end-time').value
+        ),
         province: document.getElementById('upload-province').value,
         community: document.getElementById('upload-community').value,
         city: document.getElementById('upload-city').value,
