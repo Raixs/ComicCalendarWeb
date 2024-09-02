@@ -396,8 +396,14 @@ async function updateEvent(event) {
     
     const updatedEvent = {
         summary: document.getElementById('edit-summary').value,
-        start_date: `${document.getElementById('edit-start-date').value} ${document.getElementById('edit-start-time').value}`,
-        end_date: `${document.getElementById('edit-end-date').value} ${document.getElementById('edit-end-time').value}`,
+        start_date: formatToStandardDateTime(
+            document.getElementById('edit-start-date').value, 
+            document.getElementById('edit-start-time').value
+        ),
+        end_date: formatToStandardDateTime(
+            document.getElementById('edit-end-date').value, 
+            document.getElementById('edit-end-time').value
+        ),
         province: document.getElementById('edit-province').value,
         community: document.getElementById('edit-community').value,
         city: document.getElementById('edit-city').value,
@@ -518,13 +524,24 @@ async function deleteEvent() {
     }
 }
 
+function formatToStandardDateTime(date, time) {
+    // Asegura que la fecha y hora sigan el formato: "YYYY-MM-DD HH:MM:SS+00:00"
+    return `${date} ${time}:00+00:00`;
+}
+
 async function uploadEvent(event) {
     event.preventDefault();
     
     const newEvent = {
         summary: document.getElementById('upload-summary').value,
-        start_date: `${document.getElementById('upload-start-date').value} ${document.getElementById('upload-start-time').value}`,
-        end_date: `${document.getElementById('upload-end-date').value} ${document.getElementById('upload-end-time').value}`,
+        start_date: formatToStandardDateTime(
+            document.getElementById('upload-start-date').value, 
+            document.getElementById('upload-start-time').value
+        ),
+        end_date: formatToStandardDateTime(
+            document.getElementById('upload-end-date').value, 
+            document.getElementById('upload-end-time').value
+        ),
         province: document.getElementById('upload-province').value,
         community: document.getElementById('upload-community').value,
         city: document.getElementById('upload-city').value,
