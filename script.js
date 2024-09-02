@@ -5,10 +5,6 @@ let totalEvents = 0; // Total de eventos retornados por la API
 let isSearching = false; // Indica si estamos en modo búsqueda o no
 let currentEventId = null;
 let eventIdToDelete = null;
-const DATE_FORMAT_OPTIONS = { day: 'numeric', month: 'long', year: 'numeric' };
-const LOCALE = 'es-ES';
-const ALL_DAY_START = "00:00";
-const ALL_DAY_END = "23:59";
 
 document.addEventListener('DOMContentLoaded', () => {
     loadEvents();
