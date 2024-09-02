@@ -250,20 +250,28 @@ function isAllDayEvent(startTime, endTime) {
     return (startTime === "00:00" && endTime === "23:59");
 }
 
+function formatDateToUTC(dateString) {
+    const date = new Date(dateString);
+    const year = date.getUTCFullYear();
+    const month = date.getUTCMonth(); // 0-indexed
+    const day = date.getUTCDate();
+    return { year, month, day };
+}
+
 function formatEventDate(startDate, endDate) {
-    const start = new Date(startDate);
-    const end = new Date(endDate);
+    const start = formatDateToUTC(startDate);
+    const end = formatDateToUTC(endDate);
 
-    const startDay = start.getDate();
-    const startMonth = start.toLocaleDateString('es-ES', { month: 'long' });
-    const startYear = start.getFullYear();
+    const startDay = start.day;
+    const startMonth = new Date(Date.UTC(start.year, start.month)).toLocaleDateString('es-ES', { month: 'long' });
+    const startYear = start.year;
 
-    const endDay = end.getDate();
-    const endMonth = end.toLocaleDateString('es-ES', { month: 'long' });
-    const endYear = end.getFullYear();
+    const endDay = end.day;
+    const endMonth = new Date(Date.UTC(end.year, end.month)).toLocaleDateString('es-ES', { month: 'long' });
+    const endYear = end.year;
 
     if (startYear === endYear) {
-        if (startMonth === endMonth) {
+        if (start.month === end.month) {
             if (startDay === endDay) {
                 return `${startDay} de ${startMonth} de ${startYear}`;
             } else {
