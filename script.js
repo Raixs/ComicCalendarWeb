@@ -5,6 +5,10 @@ let totalEvents = 0; // Total de eventos retornados por la API
 let isSearching = false; // Indica si estamos en modo búsqueda o no
 let currentEventId = null;
 let eventIdToDelete = null;
+const DATE_FORMAT_OPTIONS = { day: 'numeric', month: 'long', year: 'numeric' };
+const LOCALE = 'es-ES';
+const ALL_DAY_START = "00:00";
+const ALL_DAY_END = "23:59";
 
 document.addEventListener('DOMContentLoaded', () => {
     loadEvents();
@@ -250,6 +254,33 @@ function isAllDayEvent(startTime, endTime) {
     return (startTime === "00:00" && endTime === "23:59");
 }
 
+function formatEventDate(startDate, endDate) {
+    const start = new Date(startDate);
+    const end = new Date(endDate);
+
+    const startDay = start.getDate();
+    const startMonth = start.toLocaleDateString('es-ES', { month: 'long' });
+    const startYear = start.getFullYear();
+
+    const endDay = end.getDate();
+    const endMonth = end.toLocaleDateString('es-ES', { month: 'long' });
+    const endYear = end.getFullYear();
+
+    if (startYear === endYear) {
+        if (startMonth === endMonth) {
+            if (startDay === endDay) {
+                return `${startDay} de ${startMonth} de ${startYear}`;
+            } else {
+                return `${startDay} al ${endDay} de ${startMonth} de ${startYear}`;
+            }
+        } else {
+            return `${startDay} de ${startMonth} al ${endDay} de ${endMonth} de ${startYear}`;
+        }
+    } else {
+        return `${startDay} de ${startMonth} de ${startYear} al ${endDay} de ${endMonth} de ${endYear}`;
+    }
+}
+
 function displayEvents(events, append = false) {
     const eventsContainer = document.getElementById('events');
 
@@ -268,29 +299,22 @@ function displayEvents(events, append = false) {
         }
 
         // Formatear fechas y horas
-        const startDateFormatted = formatDate(event.start_date);
-        const endDateFormatted = formatDate(event.end_date);
         const startTimeFormatted = formatTime(event.start_date);
         const endTimeFormatted = formatTime(event.end_date);
 
         // Determinar si el evento es de todo el día
         const allDayEvent = isAllDayEvent(startTimeFormatted, endTimeFormatted);
 
-        // Determinar qué mostrar para las fechas
-        let dateDisplay = `<strong>Fecha:</strong> ${startDateFormatted}`;
-        if (startDateFormatted !== endDateFormatted) {
-            dateDisplay += ` - ${endDateFormatted}`;
-        }
-        if (!allDayEvent) {
-            dateDisplay += ` (${startTimeFormatted} a ${endTimeFormatted})`;
-        }
+        // Formatear la fecha del evento de manera más legible
+        const dateDisplay = formatEventDate(event.start_date, event.end_date);
+        const timeDisplay = allDayEvent ? '' : ` (${startTimeFormatted} a ${endTimeFormatted})`;
 
         // Crear la tarjeta de Bootstrap
         eventCard.innerHTML = `
             <div class="card h-100 shadow-sm">
                 <div class="card-body">
                     <h5 class="card-title">${event.summary}</h5>
-                    <p class="card-text"><i class="fas fa-calendar-alt"></i> ${dateDisplay}</p>
+                    <p class="card-text"><i class="fas fa-calendar-alt"></i> <strong>Fecha:</strong> ${dateDisplay}${timeDisplay}</p>
                     <p class="card-text"><i class="fas fa-map-marker-alt"></i> <strong>Ciudad:</strong> ${event.city}, ${event.community}</p>
                     <p class="card-text"><i class="fas fa-map-marker-alt"></i> <strong>Provincia:</strong> ${event.province}</p>
                     <p class="card-text"><i class="fas fa-tag"></i> <strong>Tipo:</strong> ${event.type}</p>
