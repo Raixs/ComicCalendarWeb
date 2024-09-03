@@ -315,7 +315,7 @@ function displayEvents(events, append = false) {
 
         // Crear la tarjeta de Bootstrap
         eventCard.innerHTML = `
-            <div class="card h-100 shadow-sm">
+            <div class="card h-100 shadow-sm" onclick="showEventDetails(${event.id})">
                 <div class="card-body">
                     <h5 class="card-title">${event.summary}</h5>
                     <p class="card-text"><i class="fas fa-calendar-alt"></i> <strong>Fecha:</strong> ${dateDisplay}${timeDisplay}</p>
@@ -326,16 +326,21 @@ function displayEvents(events, append = false) {
                     <p class="card-text event-description"><i class="fas fa-info-circle"></i> <strong>Descripción:</strong> ${descriptionWithLinks}</p>
                     ${event.description.length > 200 ? `<a href="#" class="btn btn-link show-more">Mostrar más</a>` : ''}
                     ${localStorage.getItem('access_token') ? `
-                        <button class="btn btn-warning mt-2" onclick="editEvent(${event.id})">
+                        <button class="btn btn-warning mt-2" onclick="event.stopPropagation(); editEvent(${event.id})">
                             <i class="fas fa-edit"></i> Editar
                         </button>
-                        <button class="btn btn-danger mt-2" onclick="confirmDeleteEvent(${event.id})">
+                        <button class="btn btn-danger mt-2" onclick="event.stopPropagation(); confirmDeleteEvent(${event.id})">
                             <i class="fas fa-trash-alt"></i> Eliminar
                         </button>
                     ` : ''}
                 </div>
             </div>
         `;
+
+        // Añadir evento de click a la tarjeta para mostrar el modal con los detalles del evento
+        eventCard.addEventListener('click', function() {
+            showEventDetails(event);
+        });
 
         if (event.description.length > 200) {
             eventCard.querySelector('.show-more').addEventListener('click', function (e) {
@@ -587,4 +592,28 @@ function toggleAdvancedSearch() {
         advancedSearchDiv.style.display = 'none';
         toggleButton.textContent = 'Búsqueda avanzada';
     }
+}
+
+function showEventDetails(event) {
+    // Cambiar el título del modal al nombre del evento
+    document.getElementById('eventDetailsModalLabel').textContent = event.summary;
+
+    // Formatear la fecha y hora del evento
+    const startTimeFormatted = formatTime(event.start_date);
+    const endTimeFormatted = formatTime(event.end_date);
+    const allDayEvent = isAllDayEvent(startTimeFormatted, endTimeFormatted);
+    const dateDisplay = formatEventDate(event.start_date, event.end_date);
+    const timeDisplay = allDayEvent ? 'Todo el día' : `${startTimeFormatted} a ${endTimeFormatted}`;
+
+    // Rellenar los campos del modal con la información del evento
+    document.getElementById('modalEventDate').textContent = dateDisplay;
+    document.getElementById('modalEventTime').textContent = timeDisplay;
+    document.getElementById('modalEventCity').textContent = `${event.city}, ${event.community}`;
+    document.getElementById('modalEventProvince').textContent = event.province;
+    document.getElementById('modalEventAddress').textContent = event.address;
+    document.getElementById('modalEventType').textContent = event.type;
+    document.getElementById('modalEventDescription').innerHTML = event.description;
+
+    // Mostrar el modal
+    $('#eventDetailsModal').modal('show');
 }
