@@ -11,6 +11,44 @@ document.addEventListener('DOMContentLoaded', () => {
     checkAuthentication();
 });
 
+document.addEventListener('DOMContentLoaded', function () {
+    const urlParams = new URLSearchParams(window.location.search);
+    const eventId = urlParams.get('id');
+
+    if (eventId) {
+        // Realizar la búsqueda del evento con el ID proporcionado en la URL
+        fetchEventById(eventId).then(event => {
+            if (event) {
+                showEventDetails(event);
+            }
+        }).catch(error => {
+            console.error('Error al cargar el evento:', error);
+        });
+    }
+});
+
+// Función para obtener el evento por ID
+async function fetchEventById(eventId) {
+    try {
+        const response = await fetch(`${apiUrl}/events/${eventId}`);
+        if (!response.ok) throw new Error('Evento no encontrado');
+        const event = await response.json();
+        return event;
+    } catch (error) {
+        console.error(error);
+        showInvalidEventMessage(); // Mostrar mensaje de error si no se encuentra el evento
+        return null;
+    }
+}
+
+function showInvalidEventMessage() {
+    const eventsContainer = document.getElementById('events');
+    eventsContainer.innerHTML = `
+        <div class="alert alert-danger text-center" role="alert">
+            El evento que buscas no existe o ha sido eliminado.
+        </div>`;
+}
+
 async function checkAuthentication() {
     const token = localStorage.getItem('access_token');
     if (token) {
@@ -241,7 +279,10 @@ function formatDate(dateString) {
 }
 
 function formatTime(dateString) {
-    const [date, time] = dateString.split(' ');
+    if (!dateString) return ''; // Verificamos que la fecha no sea nula o undefined
+    const parts = dateString.split(' ');
+    if (parts.length < 2) return ''; // Verificamos que la fecha tenga parte de hora
+    const time = parts[1];
     const [hours, minutes] = time.split(':');
     return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}`;
 }
@@ -614,6 +655,56 @@ function showEventDetails(event) {
     document.getElementById('modalEventType').textContent = event.type;
     document.getElementById('modalEventDescription').innerHTML = event.description;
 
+    // Actualizar la URL para incluir el ID del evento
+    history.pushState(null, '', `?id=${event.id}`);
+
+    // Actualizar meta tags
+    updateMetaTags(event);
+
     // Mostrar el modal
     $('#eventDetailsModal').modal('show');
+}
+
+$('#eventDetailsModal').on('hidden.bs.modal', function () {
+    // Restablecer la URL original cuando se cierra el modal
+    history.replaceState(null, '', window.location.pathname);
+});
+
+function updateMetaTags(event) {
+    // Cambiar el título de la página al nombre del evento
+    document.title = `${event.summary} | Eventos Comic`;
+
+    // Actualizar la meta descripción
+    let metaDescription = document.querySelector('meta[name="description"]');
+    if (!metaDescription) {
+        metaDescription = document.createElement('meta');
+        metaDescription.name = "description";
+        document.head.appendChild(metaDescription);
+    }
+    metaDescription.content = `${event.summary} en ${event.city}, ${event.community} el ${formatEventDate(event.start_date, event.end_date)}.`;
+
+    // Actualizar las meta etiquetas Open Graph
+    let ogTitle = document.querySelector('meta[property="og:title"]');
+    if (!ogTitle) {
+        ogTitle = document.createElement('meta');
+        ogTitle.setAttribute('property', 'og:title');
+        document.head.appendChild(ogTitle);
+    }
+    ogTitle.content = event.summary;
+
+    let ogDescription = document.querySelector('meta[property="og:description"]');
+    if (!ogDescription) {
+        ogDescription = document.createElement('meta');
+        ogDescription.setAttribute('property', 'og:description');
+        document.head.appendChild(ogDescription);
+    }
+    ogDescription.content = `${event.summary} en ${event.city}, ${event.community}.`;
+
+    let ogUrl = document.querySelector('meta[property="og:url"]');
+    if (!ogUrl) {
+        ogUrl = document.createElement('meta');
+        ogUrl.setAttribute('property', 'og:url');
+        document.head.appendChild(ogUrl);
+    }
+    ogUrl.content = window.location.href;
 }
