@@ -66,81 +66,94 @@
         </div>
     </header>
 
-    <!-- Formulario de búsqueda -->
+    <!-- Formulario de búsqueda mejorado -->
     <div class="container mb-5">
-        <form id="search-form" class="search-form row justify-content-center mb-4" onsubmit="searchEvents(event)">
-            <!-- Campos de búsqueda básica -->
-            <div class="form-group col-12 col-md-3">
-                <label for="month" class="form-label">Mes:</label>
-                <select class="form-control" id="month">
-                    <option value="">Seleccione un mes</option>
-                    <option value="01">Enero</option>
-                    <option value="02">Febrero</option>
-                    <option value="03">Marzo</option>
-                    <option value="04">Abril</option>
-                    <option value="05">Mayo</option>
-                    <option value="06">Junio</option>
-                    <option value="07">Julio</option>
-                    <option value="08">Agosto</option>
-                    <option value="09">Septiembre</option>
-                    <option value="10">Octubre</option>
-                    <option value="11">Noviembre</option>
-                    <option value="12">Diciembre</option>
-                </select>
-            </div>
-            <div class="form-group col-12 col-md-3">
-                <label for="province" class="form-label">Provincia:</label>
-                <input type="text" class="form-control" id="province" list="province-list" placeholder="Seleccione una provincia">
-                <datalist id="province-list">
-                    <!-- Las opciones serán añadidas dinámicamente desde provincias.js -->
-                </datalist>
-            </div>
-            <div class="form-group col-12 col-md-3">
-                <label for="year" class="form-label">Año:</label>
-                <input type="text" class="form-control" id="year" placeholder="Ej: 2024" pattern="\d{4}">
-                <small class="form-text text-muted">Formato: YYYY</small>
-            </div>
-
-            <!-- Opción de Búsqueda avanzada -->
-            <div class="col-12 text-center">
-                <button type="button" class="btn btn-link" id="toggle-advanced-search" onclick="toggleAdvancedSearch()">Búsqueda avanzada</button>
-            </div>
-
-            <!-- Campos de búsqueda avanzada (ocultos por defecto) -->
-            <div id="advanced-search" class="col-12 mt-4" style="display: none;">
-                <div class="row">
-                    <div class="form-group col-12 col-md-4">
-                        <label for="start-date" class="form-label">Fecha de Inicio:</label>
-                        <input type="date" class="form-control" id="start-date" placeholder="Fecha de inicio">
+        <div class="card shadow search-card">
+            <div class="card-body">
+                <ul class="nav nav-tabs" id="searchTab" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="basic-tab" data-bs-toggle="tab" data-bs-target="#basic" type="button" role="tab" aria-controls="basic" aria-selected="true">Búsqueda Básica</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="advanced-tab" data-bs-toggle="tab" data-bs-target="#advanced" type="button" role="tab" aria-controls="advanced" aria-selected="false">Opciones avanzadas</button>
+                    </li>
+                </ul>
+                <div class="tab-content" id="searchTabContent">
+                    <!-- Búsqueda Básica -->
+                    <div class="tab-pane fade show active" id="basic" role="tabpanel" aria-labelledby="basic-tab">
+                        <form id="search-form-basic" class="row g-3 mt-3" onsubmit="searchEvents(event)">
+                            <div class="col-md-4">
+                                <label for="month" class="form-label"><i class="fas fa-calendar-alt"></i> Mes:</label>
+                                <select class="form-select" id="month">
+                                    <option value="">Todos los meses</option>
+                                    <option value="01">Enero</option>
+                                    <option value="02">Febrero</option>
+                                    <option value="03">Marzo</option>
+                                    <option value="04">Abril</option>
+                                    <option value="05">Mayo</option>
+                                    <option value="06">Junio</option>
+                                    <option value="07">Julio</option>
+                                    <option value="08">Agosto</option>
+                                    <option value="09">Septiembre</option>
+                                    <option value="10">Octubre</option>
+                                    <option value="11">Noviembre</option>
+                                    <option value="12">Diciembre</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4">
+                                <label for="province" class="form-label"><i class="fas fa-map-marker-alt"></i> Provincia:</label>
+                                <input type="text" class="form-control" id="province" list="province-list" placeholder="Seleccione una provincia">
+                                <datalist id="province-list">
+                                    <!-- Opciones de provincias -->
+                                    <!-- ... -->
+                                </datalist>
+                            </div>
+                            <div class="col-md-4">
+                                <label for="year" class="form-label"><i class="fas fa-calendar"></i> Año:</label>
+                                <input type="text" class="form-control" id="year" placeholder="Ej: 2024" pattern="\d{4}">
+                            </div>
+                            <div class="col-12 text-center">
+                                <button type="submit" class="btn btn-primary mt-3"><i class="fas fa-search"></i> Buscar</button>
+                            </div>
+                        </form>
                     </div>
-                    <div class="form-group col-12 col-md-4">
-                        <label for="end-date" class="form-label">Fecha de Fin:</label>
-                        <input type="date" class="form-control" id="end-date" placeholder="Fecha de fin">
-                    </div>
-                    <div class="form-group col-12 col-md-4">
-                        <label for="community" class="form-label">Comunidad Autónoma:</label>
-                        <input type="text" class="form-control" id="community" list="community-list" placeholder="Seleccione una comunidad">
-                        <datalist id="community-list">
-                            <!-- Las opciones serán añadidas dinámicamente desde provincias.js -->
-                        </datalist>
-                    </div>
-                    <div class="form-group col-12 col-md-4">
-                        <label for="city" class="form-label">Ciudad:</label>
-                        <input type="text" class="form-control" id="city" placeholder="Ingrese una ciudad">
-                    </div>
-                    <div class="form-group col-12 col-md-4">
-                        <label for="type" class="form-label">Tipo:</label>
-                        <input type="text" class="form-control" id="type" placeholder="Ingrese un tipo de evento">
+                    <!-- Búsqueda Avanzada -->
+                    <div class="tab-pane fade" id="advanced" role="tabpanel" aria-labelledby="advanced-tab">
+                        <form id="search-form-advanced" class="row g-3 mt-3" onsubmit="searchEvents(event)">
+                            <div class="col-md-4">
+                                <label for="start-date" class="form-label"><i class="fas fa-calendar-day"></i> Fecha de Inicio:</label>
+                                <input type="date" class="form-control" id="start-date">
+                            </div>
+                            <div class="col-md-4">
+                                <label for="end-date" class="form-label"><i class="fas fa-calendar-day"></i> Fecha de Fin:</label>
+                                <input type="date" class="form-control" id="end-date">
+                            </div>
+                            <div class="col-md-4">
+                                <label for="community" class="form-label"><i class="fas fa-map"></i> Comunidad Autónoma:</label>
+                                <input type="text" class="form-control" id="community" list="community-list" placeholder="Seleccione una comunidad">
+                                <datalist id="community-list">
+                                    <!-- Opciones de comunidades -->
+                                    <!-- ... -->
+                                </datalist>
+                            </div>
+                            <div class="col-md-4">
+                                <label for="city" class="form-label"><i class="fas fa-city"></i> Ciudad:</label>
+                                <input type="text" class="form-control" id="city" placeholder="Ingrese una ciudad">
+                            </div>
+                            <div class="col-md-4">
+                                <label for="type" class="form-label"><i class="fas fa-tags"></i> Tipo:</label>
+                                <input type="text" class="form-control" id="type" placeholder="Ingrese un tipo de evento">
+                            </div>
+                            <div class="col-12 text-center">
+                                <button type="submit" class="btn btn-primary mt-3"><i class="fas fa-search"></i> Buscar</button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
-
-            <!-- Botón de búsqueda básica -->
-            <div class="col-12 text-center">
-                <button type="submit" class="btn btn-primary mb-2" aria-label="Buscar eventos">Buscar</button>
-            </div>
-        </form>
+        </div>
     </div>
+
 
     <!-- Contenido principal -->
     <div class="container">

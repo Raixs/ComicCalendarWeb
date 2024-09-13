@@ -369,9 +369,11 @@ function displayEvents(events, append = false) {
         const dateDisplay = formatEventDate(event.start_date, event.end_date);
         const timeDisplay = allDayEvent ? '' : ` (${startTimeFormatted} a ${endTimeFormatted})`;
 
-        // Crear la tarjeta de Bootstrap
+        // Crear la tarjeta de Bootstrap con diseño mejorado
         eventCard.innerHTML = `
-            <div class="card h-100 shadow-sm">
+            <div class="card h-100 shadow-sm event-card">
+                <!-- Aquí puedes añadir una imagen destacada si está disponible -->
+                <!-- <img src="${event.image_url || 'ruta/por/defecto.jpg'}" class="card-img-top" alt="${event.summary}"> -->
                 <div class="card-body d-flex flex-column">
                     <h5 class="card-title">${event.summary}</h5>
                     <p class="card-text"><i class="fas fa-calendar-alt"></i> <strong>Fecha:</strong> ${dateDisplay}${timeDisplay}</p>
@@ -380,16 +382,21 @@ function displayEvents(events, append = false) {
                     <p class="card-text"><i class="fas fa-tag"></i> <strong>Tipo:</strong> ${event.type}</p>
                     <p class="card-text event-description"><i class="fas fa-info-circle"></i> <strong>Información:</strong> ${descriptionWithLinks}</p>
                     ${event.description.length > 200 ? `<a href="#" class="show-more mt-auto">Mostrar más</a>` : ''}
-                    <div class="mt-3">
-                        ${localStorage.getItem('access_token') ? `
-                            <button class="btn btn-warning btn-sm me-2" onclick="event.stopPropagation(); editEvent(${event.id})">
-                                <i class="fas fa-edit"></i> Editar
+                </div>
+                <div class="card-footer d-flex justify-content-between align-items-center">
+                    <button class="btn btn-primary btn-sm view-details-btn">
+                        <i class="fas fa-info-circle"></i> Ver detalles
+                    </button>
+                    ${localStorage.getItem('access_token') ? `
+                        <div>
+                            <button class="btn btn-warning btn-sm me-2 edit-event-btn">
+                                <i class="fas fa-edit"></i>
                             </button>
-                            <button class="btn btn-danger btn-sm" onclick="event.stopPropagation(); confirmDeleteEvent(${event.id})">
-                                <i class="fas fa-trash-alt"></i> Eliminar
+                            <button class="btn btn-danger btn-sm delete-event-btn">
+                                <i class="fas fa-trash-alt"></i>
                             </button>
-                        ` : ''}
-                    </div>
+                        </div>
+                    ` : ''}
                 </div>
             </div>
         `;
@@ -398,6 +405,29 @@ function displayEvents(events, append = false) {
         eventCard.addEventListener('click', function() {
             showEventDetails(event);
         });
+
+        // Añadir evento de click al botón "Ver detalles"
+        const viewDetailsBtn = eventCard.querySelector('.view-details-btn');
+        viewDetailsBtn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            showEventDetails(event);
+        });
+
+        // Añadir eventos de click a los botones de edición y eliminación
+        if (localStorage.getItem('access_token')) {
+            const editBtn = eventCard.querySelector('.edit-event-btn');
+            const deleteBtn = eventCard.querySelector('.delete-event-btn');
+
+            editBtn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                editEvent(event.id);
+            });
+
+            deleteBtn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                confirmDeleteEvent(event.id);
+            });
+        }
 
         if (event.description.length > 200) {
             eventCard.querySelector('.show-more').addEventListener('click', function (e) {

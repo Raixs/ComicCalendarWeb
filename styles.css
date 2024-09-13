@@ -17,44 +17,114 @@ header {
 }
 
 header h1, header p {
-    /* Eliminamos el texto blanco y lo cambiamos a blanco con sombra */
     color: #fff;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
 
-.card {
+/* Estilos para el formulario de búsqueda */
+.search-card {
     transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: none;
+    border-radius: 0.75rem;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
 }
 
-.card:hover {
+.search-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
 }
 
-.card-title {
+.search-card .form-label {
     font-weight: bold;
 }
 
-.event-description {
+.search-card .form-control, .search-card .form-select {
+    border-radius: 0.5rem;
+}
+
+.search-card .btn {
+    border-radius: 0.5rem;
+}
+
+#searchTab .nav-link {
+    color: #0d6efd;
+}
+
+#searchTab .nav-link.active {
+    background-color: #0d6efd;
+    color: #fff;
+}
+
+@media (max-width: 768px) {
+    .search-card .form-label {
+        font-size: 0.9rem;
+    }
+}
+
+/* Estilos para las tarjetas de eventos */
+.event-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: none;
+    border-radius: 0.75rem;
+    overflow: hidden;
+    background-color: #fff;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.event-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 25px rgba(0, 0, 0, 0.2);
+}
+
+.event-card .card-body {
+    flex: 1 1 auto;
+    padding: 1.25rem;
+}
+
+.event-card .card-title {
+    font-size: 1.25rem;
+    font-weight: bold;
+    margin-bottom: 0.75rem;
+    color: #333;
+}
+
+.event-card .card-text {
+    color: #555;
+    margin-bottom: 0.5rem;
+}
+
+.event-card .card-footer {
+    background-color: #f8f9fa;
+    border-top: none;
+    padding: 0.75rem 1.25rem;
+}
+
+.event-card .btn {
+    border-radius: 0.5rem;
+}
+
+.event-card .btn i {
+    margin-right: 0.25rem;
+}
+
+.event-card .event-description {
     max-height: 80px;
     overflow: hidden;
     position: relative;
     white-space: pre-wrap;
-    color: #555;
 }
 
-.event-description.expanded {
+.event-card .event-description.expanded {
     max-height: none;
 }
 
-.show-more {
+.event-card .show-more {
     cursor: pointer;
     font-weight: bold;
     color: #0d6efd;
     text-decoration: none;
 }
 
-.show-more:hover {
+.event-card .show-more:hover {
     text-decoration: underline;
 }
 
@@ -74,5 +144,9 @@ footer a {
 
     header p {
         font-size: 1rem;
+    }
+
+    .event-card .card-title {
+        font-size: 1.1rem;
     }
 }
