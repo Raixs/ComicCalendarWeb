@@ -1,31 +1,36 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
+    <!-- Metadatos y enlaces a estilos -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Eventos de Comic en España</title>
+    <title>Eventos de Cómic en España</title>
     <meta name="description" content="Encuentra y busca eventos de cómics en España. Descubre los eventos más recientes y sus detalles, incluyendo fecha, provincia, dirección y descripción.">
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome 6 -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <!-- Tu archivo CSS personalizado -->
     <link rel="stylesheet" href="styles.css">
-    <!-- Font Awesome -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
 </head>
 <body>
     <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark w-100">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow">
         <div class="container-fluid">
-            <a class="navbar-brand" onclick="window.location.reload()" href="#">EventosComic.com</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <a class="navbar-brand" href="#">EventosComic.com</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
-                <ul class="navbar-nav">
+                <ul class="navbar-nav align-items-center">
                     <li class="nav-item">
-                        <a class="nav-link" onclick="window.location.reload()" href="#">Inicio</a>
+                        <a class="nav-link active" aria-current="page" href="#" onclick="window.location.reload()">Inicio</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="https://t.me/eventoscomic_bot" target="_blank">
-                            <i class="fab fa-telegram"></i> Telegram bot
+                            <i class="fab fa-telegram"></i> Telegram Bot
                         </a>
                     </li>
                     <li class="nav-item">
@@ -34,7 +39,7 @@
                         </a>
                     </li>
                     <li class="nav-item" id="login-item">
-                        <a class="nav-link" href="#" data-toggle="modal" data-target="#loginModal">
+                        <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#loginModal">
                             <i class="fas fa-sign-in-alt"></i> Iniciar Sesión
                         </a>
                     </li>
@@ -44,7 +49,7 @@
                         </a>
                     </li>
                     <li class="nav-item d-none" id="upload-item">
-                        <button class="btn btn-primary" data-toggle="modal" data-target="#uploadEventModal">
+                        <button class="btn btn-light" data-bs-toggle="modal" data-bs-target="#uploadEventModal">
                             <i class="fas fa-upload"></i> Subir Evento
                         </button>
                     </li>
@@ -53,8 +58,16 @@
         </div>
     </nav>
 
+    <!-- Encabezado principal -->
+    <header class="bg-light text-center py-5 mb-4">
+        <div class="container">
+            <h1 class="fw-bold">Encuentra los mejores eventos de cómic en España</h1>
+            <p class="lead">Explora y descubre eventos cercanos a ti</p>
+        </div>
+    </header>
+
     <!-- Formulario de búsqueda -->
-    <div class="container mt-5">
+    <div class="container mb-5">
         <form id="search-form" class="search-form row justify-content-center mb-4" onsubmit="searchEvents(event)">
             <!-- Campos de búsqueda básica -->
             <div class="form-group col-12 col-md-3">
@@ -95,7 +108,7 @@
 
             <!-- Campos de búsqueda avanzada (ocultos por defecto) -->
             <div id="advanced-search" class="col-12 mt-4" style="display: none;">
-                <div class="form-row">
+                <div class="row">
                     <div class="form-group col-12 col-md-4">
                         <label for="start-date" class="form-label">Fecha de Inicio:</label>
                         <input type="date" class="form-control" id="start-date" placeholder="Fecha de inicio">
@@ -127,47 +140,49 @@
                 <button type="submit" class="btn btn-primary mb-2" aria-label="Buscar eventos">Buscar</button>
             </div>
         </form>
+    </div>
 
+    <!-- Contenido principal -->
+    <div class="container">
         <div id="alert-placeholder"></div>
         <div id="loading-indicator" style="display: none;" class="text-center">
             <div class="spinner-border" role="status">
-                <span class="sr-only">Cargando...</span>
+                <span class="visually-hidden">Cargando...</span>
             </div>
         </div>
-        <div id="events" class="row"></div>
+        <div id="events" class="row row-cols-1 row-cols-md-3 g-4"></div>
         <div id="pagination-info" class="text-center mt-2"></div>
         <div id="load-more-container" class="d-flex justify-content-center mt-4">
             <button id="load-more" class="btn btn-lg btn-success" onclick="loadMoreEvents()" style="display: none;">Mostrar más</button>
-        </div>              
+        </div>
     </div>
 
-
     <!-- Footer -->
-    <footer class="bg-dark text-white text-center py-3 mt-4">
-        <div class="container-fluid">
+    <footer class="bg-primary text-white text-center py-4 mt-5">
+        <div class="container">
             <p>Última actualización: <span id="last-updated">Cargando...</span></p>
             <p>Colabora con nosotros en <a href="https://github.com/Raixs/ComicCalendarWeb" target="_blank" class="text-white"><i class="fab fa-github"></i> GitHub</a></p>
         </div>
     </footer>
 
+    <!-- Modales -->
+
     <!-- Modal de Inicio de Sesión -->
-    <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel" aria-hidden="true">
-        <div class="modal-dialog-centered modal-dialog" role="document">
+    <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="loginModalLabel">Iniciar Sesión</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+                    <h5 class="modal-title">Iniciar Sesión</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
                 </div>
                 <div class="modal-body">
                     <form id="login-form" onsubmit="login(event)">
-                        <div class="form-group">
-                            <label for="username">Usuario:</label>
+                        <div class="mb-3">
+                            <label for="username" class="form-label">Usuario:</label>
                             <input type="text" class="form-control" id="username" required>
                         </div>
-                        <div class="form-group">
-                            <label for="password">Contraseña:</label>
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Contraseña:</label>
                             <input type="password" class="form-control" id="password" required>
                         </div>
                         <button type="submit" class="btn btn-primary">Iniciar Sesión</button>
@@ -178,69 +193,67 @@
     </div>
 
     <!-- Modal de Edición de Evento -->
-    <div class="modal fade" id="editEventModal" tabindex="-1" role="dialog" aria-labelledby="editEventModalLabel" aria-hidden="true">
-        <div class="modal-dialog-centered modal-dialog" role="document">
+    <div class="modal fade" id="editEventModal" tabindex="-1" aria-labelledby="editEventModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="editEventModalLabel">Editar Evento</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+                    <h5 class="modal-title">Editar Evento</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
                 </div>
                 <div class="modal-body">
                     <form id="edit-event-form" onsubmit="updateEvent(event)">
-                        <div class="form-group">
-                            <label for="edit-summary">Nombre del evento:</label>
+                        <div class="mb-3">
+                            <label for="edit-summary" class="form-label">Nombre del evento:</label>
                             <input type="text" class="form-control" id="edit-summary" required>
                         </div>
-                        <div class="form-row">
-                            <div class="form-group col-md-6">
-                                <label for="edit-start-date">Fecha de Inicio:</label>
+                        <div class="row">
+                            <div class="mb-3 col-md-6">
+                                <label for="edit-start-date" class="form-label">Fecha de Inicio:</label>
                                 <input type="date" class="form-control" id="edit-start-date" required>
                             </div>
-                            <div class="form-group col-md-6">
-                                <label for="edit-start-time">Hora de Inicio:</label>
+                            <div class="mb-3 col-md-6">
+                                <label for="edit-start-time" class="form-label">Hora de Inicio:</label>
                                 <input type="time" class="form-control" id="edit-start-time" required>
                             </div>
                         </div>
-                        <div class="form-row">
-                            <div class="form-group col-md-6">
-                                <label for="edit-end-date">Fecha de Fin:</label>
+                        <div class="row">
+                            <div class="mb-3 col-md-6">
+                                <label for="edit-end-date" class="form-label">Fecha de Fin:</label>
                                 <input type="date" class="form-control" id="edit-end-date" required>
                             </div>
-                            <div class="form-group col-md-6">
-                                <label for="edit-end-time">Hora de Fin:</label>
+                            <div class="mb-3 col-md-6">
+                                <label for="edit-end-time" class="form-label">Hora de Fin:</label>
                                 <input type="time" class="form-control" id="edit-end-time" required>
                             </div>
                         </div>
-                        <div class="form-row">
-                            <div class="form-group col-md-6">
-                                <label for="edit-province">Provincia:</label>
+                        <div class="row">
+                            <div class="mb-3 col-md-6">
+                                <label for="edit-province" class="form-label">Provincia:</label>
                                 <select class="form-control" id="edit-province" required>
                                     <!-- Las opciones serán añadidas dinámicamente desde provincias.js -->
                                 </select>
                             </div>
-                            <div class="form-group col-md-6">
-                                <label for="edit-community">Comunidad Autónoma:</label>
+                            <div class="mb-3 col-md-6">
+                                <label for="edit-community" class="form-label">Comunidad Autónoma:</label>
                                 <input type="text" class="form-control" id="edit-community" readonly required>
                             </div>
                         </div>
-                        <div class="form-row">
-                            <div class="form-group col-md-6">
-                                <label for="edit-city">Ciudad:</label>
+                        <div class="row">
+                            <div class="mb-3 col-md-6">
+                                <label for="edit-city" class="form-label">Ciudad:</label>
                                 <input type="text" class="form-control" id="edit-city" required>
                             </div>
-                            <div class="form-group col-md-6">
-                                <label for="edit-type">Tipo de Evento:</label>
+                            <div class="mb-3 col-md-6">
+                                <label for="edit-type" class="form-label">Tipo de Evento:</label>
                                 <input type="text" class="form-control" id="edit-type" required>
                             </div>
                         </div>
-                        <div class="form-group">
-                            <label for="edit-address">Dirección:</label>
+                        <div class="mb-3">
+                            <label for="edit-address" class="form-label">Dirección:</label>
                             <input type="text" class="form-control" id="edit-address" required>
                         </div>
-                        <div class="form-group">
-                            <label for="edit-description">Descripción:</label>
+                        <div class="mb-3">
+                            <label for="edit-description" class="form-label">Descripción:</label>
                             <textarea class="form-control" id="edit-description" rows="3" required></textarea>
                         </div>
                         <button type="submit" class="btn btn-primary">Guardar Cambios</button>
@@ -250,22 +263,19 @@
         </div>
     </div>
 
-
     <!-- Modal de Confirmación de Eliminación -->
-    <div class="modal fade" id="deleteEventModal" tabindex="-1" role="dialog" aria-labelledby="deleteEventModalLabel" aria-hidden="true">
-        <div class="modal-dialog-centered modal-dialog" role="document">
+    <div class="modal fade" id="deleteEventModal" tabindex="-1" aria-labelledby="deleteEventModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="deleteEventModalLabel">Confirmar Eliminación</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+                    <h5 class="modal-title">Confirmar Eliminación</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
                 </div>
                 <div class="modal-body">
                     ¿Estás seguro de que deseas eliminar este evento? Esta acción no se puede deshacer.
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
                     <button type="button" class="btn btn-danger" onclick="deleteEvent()">Eliminar</button>
                 </div>
             </div>
@@ -273,69 +283,67 @@
     </div>
 
     <!-- Modal de Subida de Evento -->
-    <div class="modal fade" id="uploadEventModal" tabindex="-1" role="dialog" aria-labelledby="uploadEventModalLabel" aria-hidden="true">
-        <div class="modal-dialog-centered modal-dialog" role="document">
+    <div class="modal fade" id="uploadEventModal" tabindex="-1" aria-labelledby="uploadEventModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="uploadEventModalLabel">Subir Evento</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+                    <h5 class="modal-title">Subir Evento</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
                 </div>
                 <div class="modal-body">
                     <form id="upload-event-form" onsubmit="uploadEvent(event)">
-                        <div class="form-group">
-                            <label for="upload-summary">Nombre del evento:</label>
+                        <div class="mb-3">
+                            <label for="upload-summary" class="form-label">Nombre del evento:</label>
                             <input type="text" class="form-control" id="upload-summary" required>
                         </div>
-                        <div class="form-row">
-                            <div class="form-group col-md-6">
-                                <label for="upload-start-date">Fecha de Inicio:</label>
+                        <div class="row">
+                            <div class="mb-3 col-md-6">
+                                <label for="upload-start-date" class="form-label">Fecha de Inicio:</label>
                                 <input type="date" class="form-control" id="upload-start-date" required>
                             </div>
-                            <div class="form-group col-md-6">
-                                <label for="upload-start-time">Hora de Inicio:</label>
+                            <div class="mb-3 col-md-6">
+                                <label for="upload-start-time" class="form-label">Hora de Inicio:</label>
                                 <input type="time" class="form-control" id="upload-start-time" required value="00:00">
                             </div>
                         </div>
-                        <div class="form-row">
-                            <div class="form-group col-md-6">
-                                <label for="upload-end-date">Fecha de Fin:</label>
+                        <div class="row">
+                            <div class="mb-3 col-md-6">
+                                <label for="upload-end-date" class="form-label">Fecha de Fin:</label>
                                 <input type="date" class="form-control" id="upload-end-date" required>
                             </div>
-                            <div class="form-group col-md-6">
-                                <label for="upload-end-time">Hora de Fin:</label>
+                            <div class="mb-3 col-md-6">
+                                <label for="upload-end-time" class="form-label">Hora de Fin:</label>
                                 <input type="time" class="form-control" id="upload-end-time" required value="23:59">
                             </div>
                         </div>
-                        <div class="form-row">
-                            <div class="form-group col-md-6">
-                                <label for="upload-province">Provincia:</label>
+                        <div class="row">
+                            <div class="mb-3 col-md-6">
+                                <label for="upload-province" class="form-label">Provincia:</label>
                                 <select class="form-control" id="upload-province" required>
                                     <!-- Las opciones serán añadidas dinámicamente desde provincias.js -->
                                 </select>
                             </div>
-                            <div class="form-group col-md-6">
-                                <label for="upload-community">Comunidad Autónoma:</label>
+                            <div class="mb-3 col-md-6">
+                                <label for="upload-community" class="form-label">Comunidad Autónoma:</label>
                                 <input type="text" class="form-control" id="upload-community" placeholder="Selecciona provincia" readonly required>
                             </div>
                         </div>
-                        <div class="form-row">
-                            <div class="form-group col-md-6">
-                                <label for="upload-city">Ciudad:</label>
+                        <div class="row">
+                            <div class="mb-3 col-md-6">
+                                <label for="upload-city" class="form-label">Ciudad:</label>
                                 <input type="text" class="form-control" id="upload-city" required>
                             </div>
-                            <div class="form-group col-md-6">
-                                <label for="upload-type">Tipo de Evento:</label>
+                            <div class="mb-3 col-md-6">
+                                <label for="upload-type" class="form-label">Tipo de Evento:</label>
                                 <input type="text" class="form-control" id="upload-type" required>
                             </div>
                         </div>
-                        <div class="form-group">
-                            <label for="upload-address">Dirección:</label>
+                        <div class="mb-3">
+                            <label for="upload-address" class="form-label">Dirección:</label>
                             <input type="text" class="form-control" id="upload-address" required>
                         </div>
-                        <div class="form-group">
-                            <label for="upload-description">Descripción:</label>
+                        <div class="mb-3">
+                            <label for="upload-description" class="form-label">Descripción:</label>
                             <textarea class="form-control" id="upload-description" rows="3" required></textarea>
                         </div>
                         <button type="submit" class="btn btn-primary">Subir Evento</button>
@@ -345,15 +353,13 @@
         </div>
     </div>
 
-    <!-- Modal para mostrar los detalles del evento -->
-    <div class="modal fade" id="eventDetailsModal" tabindex="-1" role="dialog" aria-labelledby="eventDetailsModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+    <!-- Modal de Detalles del Evento -->
+    <div class="modal fade" id="eventDetailsModal" tabindex="-1" aria-labelledby="eventDetailsModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
                     <h4 class="modal-title" id="eventDetailsModalLabel"></h4> <!-- Aquí mostraremos el título del evento -->
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
                 </div>
                 <div class="modal-body">
                     <!-- Aquí se cargará dinámicamente la información del evento -->
@@ -367,16 +373,18 @@
                     <div id="modalEventDescription"></div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <!-- Scripts de Bootstrap 5 y tus scripts personalizados -->
+    <!-- Bootstrap Bundle con Popper.js incluido -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Tu script.js -->
     <script src="script.js"></script>
-    <script src="provincias.js"></script> <!-- Incluir el nuevo archivo de provincias -->
+    <!-- Archivo de provincias.js si es necesario -->
+    <script src="provincias.js"></script>
 </body>
 </html>

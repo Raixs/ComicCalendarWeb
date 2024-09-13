@@ -1,3 +1,4 @@
+// Definición de variables y constantes
 const apiUrl = 'https://api.eventoscomic.com/v1';
 let offset = 0;
 const limit = 20; // Número de resultados por página
@@ -6,11 +7,13 @@ let isSearching = false; // Indica si estamos en modo búsqueda o no
 let currentEventId = null;
 let eventIdToDelete = null;
 
+// Inicialización al cargar el DOM
 document.addEventListener('DOMContentLoaded', () => {
     loadEvents();
     checkAuthentication();
 });
 
+// Comprobar si hay un ID de evento en la URL y cargar sus detalles
 document.addEventListener('DOMContentLoaded', function () {
     const urlParams = new URLSearchParams(window.location.search);
     const eventId = urlParams.get('id');
@@ -49,6 +52,7 @@ function showInvalidEventMessage() {
         </div>`;
 }
 
+// Función para verificar si el usuario está autenticado
 async function checkAuthentication() {
     const token = localStorage.getItem('access_token');
     if (token) {
@@ -78,6 +82,7 @@ async function checkAuthentication() {
     }
 }
 
+// Función para iniciar sesión
 async function login(event) {
     event.preventDefault();
     const username = document.getElementById('username').value;
@@ -98,7 +103,8 @@ async function login(event) {
         const data = await response.json();
         if (response.ok) {
             localStorage.setItem('access_token', data.access_token);
-            $('#loginModal').modal('hide');
+            const loginModal = bootstrap.Modal.getInstance(document.getElementById('loginModal'));
+            loginModal.hide();
             checkAuthentication();
             showAlert('Sesión iniciada correctamente', 'success', 3000);
             
@@ -112,6 +118,7 @@ async function login(event) {
     }
 }
 
+// Función para cerrar sesión
 function logout() {
     localStorage.removeItem('access_token');
     checkAuthentication();
@@ -121,6 +128,7 @@ function logout() {
     loadEvents();
 }
 
+// Funciones auxiliares para manejo de fechas
 function getLastDayOfMonth(year, month) {
     return new Date(year, month, 0).getDate();
 }
@@ -148,6 +156,7 @@ function constructDateQuery(year, month, startDate, endDate) {
     return { startDateQuery, endDateQuery };
 }
 
+// Construir los parámetros de consulta para la búsqueda
 function buildQueryParams() {
     const year = document.getElementById('year').value;
     const month = document.getElementById('month').value;
@@ -163,14 +172,15 @@ function buildQueryParams() {
     let query = `?limit=${limit}&offset=${offset}`;
     if (startDateQuery) query += `&start_date=${startDateQuery}`;
     if (endDateQuery) query += `&end_date=${endDateQuery}`;
-    if (province) query += `&province=${province}`;
-    if (community) query += `&community=${community}`;
-    if (city) query += `&city=${city}`;
-    if (type) query += `&type=${type}`;
+    if (province) query += `&province=${encodeURIComponent(province)}`;
+    if (community) query += `&community=${encodeURIComponent(community)}`;
+    if (city) query += `&city=${encodeURIComponent(city)}`;
+    if (type) query += `&type=${encodeURIComponent(type)}`;
 
     return { query, searchCriteria: { startDateQuery, endDateQuery, province, community, city, type } };
 }
 
+// Actualizar la fecha de última actualización en el footer
 function updateLastUpdatedDate(lastUpdated) {
     if (lastUpdated) {
         const lastUpdatedElement = document.getElementById('last-updated');
@@ -183,6 +193,7 @@ function updateLastUpdatedDate(lastUpdated) {
     }
 }
 
+// Función para cargar eventos iniciales
 async function loadEvents() {
     try {
         showLoading();
@@ -199,10 +210,11 @@ async function loadEvents() {
         document.getElementById('pagination-info').style.display = 'none';
         document.getElementById('load-more').style.display = 'none';
     } catch (error) {
-        showAlert('Error loading events: ' + error, 'danger');
+        showAlert('Error al cargar eventos: ' + error, 'danger');
     }
 }
 
+// Función para buscar eventos según los criterios del formulario
 async function searchEvents(event) {
     event.preventDefault(); // Prevenir el comportamiento predeterminado del formulario
     offset = 0; // Reiniciar el offset cuando se realiza una nueva búsqueda
@@ -246,6 +258,7 @@ async function searchEvents(event) {
     }
 }
 
+// Función para cargar más eventos al hacer clic en "Mostrar más"
 async function loadMoreEvents() {
     offset += limit; // Incrementar el offset para cargar la siguiente página de resultados
 
@@ -265,10 +278,11 @@ async function loadMoreEvents() {
         toggleLoadMoreButton();
     } catch (error) {
         hideLoading();
-        showAlert('Error loading more events: ' + error, 'danger');
+        showAlert('Error al cargar más eventos: ' + error, 'danger');
     }
 }
 
+// Funciones para formatear fechas y horas
 function formatDate(dateString) {
     const date = new Date(dateString);
     return date.toLocaleDateString('es-ES', {
@@ -326,6 +340,7 @@ function formatEventDate(startDate, endDate) {
     }
 }
 
+// Función para mostrar los eventos en la página
 function displayEvents(events, append = false) {
     const eventsContainer = document.getElementById('events');
 
@@ -335,7 +350,7 @@ function displayEvents(events, append = false) {
 
     events.forEach(event => {
         const eventCard = document.createElement('div');
-        eventCard.className = 'col-md-4 mb-4';
+        eventCard.className = 'col';
 
         // Aseguramos que los enlaces en la descripción se abran en una nueva pestaña
         let descriptionWithLinks = event.description;
@@ -356,23 +371,25 @@ function displayEvents(events, append = false) {
 
         // Crear la tarjeta de Bootstrap
         eventCard.innerHTML = `
-            <div class="card h-100 shadow-sm" onclick="showEventDetails(${event.id})">
-                <div class="card-body">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body d-flex flex-column">
                     <h5 class="card-title">${event.summary}</h5>
                     <p class="card-text"><i class="fas fa-calendar-alt"></i> <strong>Fecha:</strong> ${dateDisplay}${timeDisplay}</p>
                     <p class="card-text"><i class="fas fa-map-marker-alt"></i> <strong>Ciudad:</strong> ${event.city}, ${event.community}</p>
                     <p class="card-text"><i class="fas fa-map-marker-alt"></i> <strong>Provincia:</strong> ${event.province}</p>
                     <p class="card-text"><i class="fas fa-tag"></i> <strong>Tipo:</strong> ${event.type}</p>
                     <p class="card-text event-description"><i class="fas fa-info-circle"></i> <strong>Información:</strong> ${descriptionWithLinks}</p>
-                    ${event.description.length > 200 ? `<a href="#" class="btn btn-link show-more">Mostrar más</a>` : ''}
-                    ${localStorage.getItem('access_token') ? `
-                        <button class="btn btn-warning mt-2" onclick="event.stopPropagation(); editEvent(${event.id})">
-                            <i class="fas fa-edit"></i> Editar
-                        </button>
-                        <button class="btn btn-danger mt-2" onclick="event.stopPropagation(); confirmDeleteEvent(${event.id})">
-                            <i class="fas fa-trash-alt"></i> Eliminar
-                        </button>
-                    ` : ''}
+                    ${event.description.length > 200 ? `<a href="#" class="show-more mt-auto">Mostrar más</a>` : ''}
+                    <div class="mt-3">
+                        ${localStorage.getItem('access_token') ? `
+                            <button class="btn btn-warning btn-sm me-2" onclick="event.stopPropagation(); editEvent(${event.id})">
+                                <i class="fas fa-edit"></i> Editar
+                            </button>
+                            <button class="btn btn-danger btn-sm" onclick="event.stopPropagation(); confirmDeleteEvent(${event.id})">
+                                <i class="fas fa-trash-alt"></i> Eliminar
+                            </button>
+                        ` : ''}
+                    </div>
                 </div>
             </div>
         `;
@@ -395,6 +412,7 @@ function displayEvents(events, append = false) {
     });
 }
 
+// Función para editar un evento
 async function editEvent(eventId) {
     currentEventId = eventId;
 
@@ -433,13 +451,15 @@ async function editEvent(eventId) {
         if (descriptionElement) descriptionElement.value = event.description;
 
         // Mostrar el modal de edición solo si todo está en orden
-        $('#editEventModal').modal('show');
+        const editModal = new bootstrap.Modal(document.getElementById('editEventModal'));
+        editModal.show();
     } catch (error) {
         console.error('Error al cargar los detalles del evento:', error);
         showAlert('Error al cargar los detalles del evento', 'danger');
     }
 }
 
+// Función para actualizar un evento
 async function updateEvent(event) {
     event.preventDefault();
     
@@ -472,7 +492,8 @@ async function updateEvent(event) {
         });
 
         if (response.ok) {
-            $('#editEventModal').modal('hide');
+            const editModal = bootstrap.Modal.getInstance(document.getElementById('editEventModal'));
+            editModal.hide();
             loadEvents();
             showAlert('Evento actualizado con éxito', 'success');
         } else {
@@ -483,11 +504,13 @@ async function updateEvent(event) {
     }
 }
 
+// Función para mostrar mensaje cuando no hay resultados
 function displayNoResults(message) {
     const eventsContainer = document.getElementById('events');
     eventsContainer.innerHTML = `<div class="col-12"><p class="text-center text-muted">${message}</p></div>`;
 }
 
+// Función para actualizar la información de paginación
 function updatePaginationInfo() {
     const paginationInfo = document.getElementById('pagination-info');
     if (isSearching && totalEvents > 0) {
@@ -498,6 +521,7 @@ function updatePaginationInfo() {
     }
 }
 
+// Función para mostrar u ocultar el botón "Mostrar más"
 function toggleLoadMoreButton() {
     const loadMoreButton = document.getElementById('load-more');
     if (isSearching && totalEvents > offset + limit) {
@@ -507,6 +531,7 @@ function toggleLoadMoreButton() {
     }
 }
 
+// Función para mostrar alertas en la interfaz
 function showAlert(message, type = 'info', timeout = null) {
     const alertPlaceholder = document.getElementById('alert-placeholder');
     const alert = document.createElement('div');
@@ -514,9 +539,7 @@ function showAlert(message, type = 'info', timeout = null) {
     alert.role = 'alert';
     alert.innerHTML = `
         ${message}
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </button>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     `;
     alertPlaceholder.appendChild(alert);
 
@@ -534,11 +557,16 @@ function showAlert(message, type = 'info', timeout = null) {
     // Si timeout es mayor que 0, programar el cierre automático
     if (timeout > 0) {
         setTimeout(() => {
-            $(alert).alert('close');
+            alert.classList.remove('show');
+            alert.classList.add('hide');
+            setTimeout(() => {
+                alertPlaceholder.removeChild(alert);
+            }, 500);
         }, timeout);
     }
 }
 
+// Funciones para mostrar y ocultar el indicador de carga
 function showLoading() {
     document.getElementById('loading-indicator').style.display = 'block';
 }
@@ -547,11 +575,14 @@ function hideLoading() {
     document.getElementById('loading-indicator').style.display = 'none';
 }
 
+// Función para confirmar la eliminación de un evento
 function confirmDeleteEvent(eventId) {
     eventIdToDelete = eventId;
-    $('#deleteEventModal').modal('show');
+    const deleteModal = new bootstrap.Modal(document.getElementById('deleteEventModal'));
+    deleteModal.show();
 }
 
+// Función para eliminar un evento
 async function deleteEvent() {
     try {
         const response = await fetch(`${apiUrl}/events/${eventIdToDelete}`, {
@@ -562,7 +593,8 @@ async function deleteEvent() {
         });
 
         if (response.ok) {
-            $('#deleteEventModal').modal('hide');
+            const deleteModal = bootstrap.Modal.getInstance(document.getElementById('deleteEventModal'));
+            deleteModal.hide();
             loadEvents();
             showAlert('Evento eliminado con éxito', 'success');
         } else {
@@ -573,11 +605,13 @@ async function deleteEvent() {
     }
 }
 
+// Función para formatear fecha y hora al formato estándar
 function formatToStandardDateTime(date, time) {
     // Asegura que la fecha y hora sigan el formato: "YYYY-MM-DD HH:MM:SS+00:00"
     return `${date} ${time}:00+00:00`;
 }
 
+// Función para subir un nuevo evento
 async function uploadEvent(event) {
     event.preventDefault();
     
@@ -610,7 +644,8 @@ async function uploadEvent(event) {
         });
 
         if (response.ok) {
-            $('#uploadEventModal').modal('hide');
+            const uploadModal = bootstrap.Modal.getInstance(document.getElementById('uploadEventModal'));
+            uploadModal.hide();
             loadEvents();
             showAlert('Evento subido con éxito', 'success');
         } else {
@@ -621,6 +656,7 @@ async function uploadEvent(event) {
     }
 }
 
+// Función para alternar la visualización de la búsqueda avanzada
 function toggleAdvancedSearch() {
     const advancedSearchDiv = document.getElementById('advanced-search');
     const toggleButton = document.getElementById('toggle-advanced-search');
@@ -634,6 +670,7 @@ function toggleAdvancedSearch() {
     }
 }
 
+// Función para mostrar los detalles de un evento en un modal
 function showEventDetails(event) {
     // Cambiar el título del modal al nombre del evento
     document.getElementById('eventDetailsModalLabel').textContent = event.summary;
@@ -661,14 +698,17 @@ function showEventDetails(event) {
     updateMetaTags(event);
 
     // Mostrar el modal
-    $('#eventDetailsModal').modal('show');
+    const eventDetailsModal = new bootstrap.Modal(document.getElementById('eventDetailsModal'));
+    eventDetailsModal.show();
 }
 
-$('#eventDetailsModal').on('hidden.bs.modal', function () {
+// Evento cuando se cierra el modal de detalles del evento
+document.getElementById('eventDetailsModal').addEventListener('hidden.bs.modal', function () {
     // Restablecer la URL original cuando se cierra el modal
     history.replaceState(null, '', window.location.pathname);
 });
 
+// Función para actualizar las meta etiquetas de la página
 function updateMetaTags(event) {
     // Cambiar el título de la página al nombre del evento
     document.title = `${event.summary} | Eventos Comic`;
@@ -707,3 +747,16 @@ function updateMetaTags(event) {
     }
     ogUrl.content = window.location.href;
 }
+
+// Evento para actualizar la comunidad autónoma al seleccionar una provincia
+document.getElementById('upload-province').addEventListener('change', function() {
+    const province = this.value;
+    const community = provincesAndCommunities[province];
+    document.getElementById('upload-community').value = community || '';
+});
+
+document.getElementById('edit-province').addEventListener('change', function() {
+    const province = this.value;
+    const community = provincesAndCommunities[province];
+    document.getElementById('edit-community').value = community || '';
+});

@@ -1,12 +1,42 @@
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f0f0f0;
+    font-family: 'Roboto', sans-serif;
+    background-color: #f8f9fa;
+    color: #333;
     margin: 0;
     padding: 0;
 }
 
+.navbar-brand {
+    font-weight: bold;
+}
+
+header {
+    /* Cambiamos el fondo a un degradado azul */
+    background: linear-gradient(135deg, #0d6efd, #6610f2);
+    color: #fff;
+}
+
+header h1, header p {
+    /* Eliminamos el texto blanco y lo cambiamos a blanco con sombra */
+    color: #fff;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.card-title {
+    font-weight: bold;
+}
+
 .event-description {
-    max-height: 100px;
+    max-height: 80px;
     overflow: hidden;
     position: relative;
     white-space: pre-wrap;
@@ -17,35 +47,32 @@ body {
     max-height: none;
 }
 
-/* Mostrar/Ocultar descripción */
 .show-more {
-    text-align: right;
     cursor: pointer;
     font-weight: bold;
-    transition: color 0.3s ease, transform 0.3s ease;
-    margin-top: 10px;
-    display: inline-block;
+    color: #0d6efd;
+    text-decoration: none;
 }
 
 .show-more:hover {
-    transform: scale(1.1);
+    text-decoration: underline;
 }
 
-/* Mejorar visibilidad y sombra de las tarjetas */
-.card {
-    border: 1px solid #ddd; /* Borde suave para destacar */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1) !important; /* Sombra inicial suave */
-    transition: transform 0.3s ease, box-shadow 0.3s ease !important; /* Transiciones suaves */
-    background-color: #fff;
+footer {
+    background-color: #0d6efd;
 }
 
-.card:hover {
-    transform: translateY(-5px) !important; /* Elevar ligeramente la tarjeta al hacer hover */
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2) !important; /* Aumentar la sombra en hover */
+footer a {
+    color: #fff;
+    text-decoration: underline;
 }
 
-/* Estilos específicos para el contenido de la tarjeta */
-.card-body {
-    padding: 20px; /* Añadir más padding para que el contenido respire mejor */
-    transition: padding 0.3s ease;
+@media (max-width: 767px) {
+    header h1 {
+        font-size: 1.75rem;
+    }
+
+    header p {
+        font-size: 1rem;
+    }
 }
