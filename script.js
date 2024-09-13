@@ -384,9 +384,14 @@ function displayEvents(events, append = false) {
                     ${event.description.length > 200 ? `<a href="#" class="show-more mt-auto">Mostrar más</a>` : ''}
                 </div>
                 <div class="card-footer d-flex justify-content-between align-items-center">
-                    <button class="btn btn-primary btn-sm view-details-btn">
-                        <i class="fas fa-info-circle"></i> Ver detalles
-                    </button>
+                    <div>
+                        <button class="btn btn-primary btn-sm view-details-btn">
+                            <i class="fas fa-info-circle"></i> Ver detalles
+                        </button>
+                        <button class="btn btn-secondary btn-sm share-event-btn">
+                            <i class="fas fa-share-alt"></i> Compartir
+                        </button>
+                    </div>
                     ${localStorage.getItem('access_token') ? `
                         <div>
                             <button class="btn btn-warning btn-sm me-2 edit-event-btn">
@@ -411,6 +416,13 @@ function displayEvents(events, append = false) {
         viewDetailsBtn.addEventListener('click', function(e) {
             e.stopPropagation();
             showEventDetails(event);
+        });
+
+        // Añadir evento de click al botón "Compartir"
+        const shareBtn = eventCard.querySelector('.share-event-btn');
+        shareBtn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            shareEvent(event);
         });
 
         // Añadir eventos de click a los botones de edición y eliminación
@@ -790,3 +802,38 @@ document.getElementById('edit-province').addEventListener('change', function() {
     const community = provincesAndCommunities[province];
     document.getElementById('edit-community').value = community || '';
 });
+
+function shareEvent(event) {
+    const eventUrl = `${window.location.origin}?id=${event.id}`;
+    const shareData = {
+        title: event.summary,
+        text: `${event.summary} - ${formatEventDate(event.start_date, event.end_date)} en ${event.city}, ${event.province}.`,
+        url: eventUrl
+    };
+
+    if (navigator.share) {
+        navigator.share(shareData)
+            .then(() => {
+                console.log('Evento compartido exitosamente');
+            })
+            .catch((error) => {
+                console.error('Error al compartir el evento:', error);
+            });
+    } else {
+        // Si la Web Share API no está disponible, copiar al portapapeles
+        copyToClipboard(eventUrl);
+        showAlert('El enlace del evento se ha copiado al portapapeles.', 'info', 3000);
+    }
+}
+
+// Función para copiar texto al portapapeles
+function copyToClipboard(text) {
+    const tempInput = document.createElement('input');
+    tempInput.style.position = 'fixed';
+    tempInput.style.opacity = '0';
+    tempInput.value = text;
+    document.body.appendChild(tempInput);
+    tempInput.select();
+    document.execCommand('copy');
+    document.body.removeChild(tempInput);
+}

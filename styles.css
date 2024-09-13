@@ -150,3 +150,8 @@ footer a {
         font-size: 1.1rem;
     }
 }
+
+/* Opcional: Estilos para el botón "Compartir" */
+.event-card .share-event-btn {
+    margin-left: 0.5rem;
+}
