@@ -371,7 +371,7 @@ function displayEvents(events, append = false) {
 
         // Crear la tarjeta de Bootstrap con diseño mejorado
         eventCard.innerHTML = `
-            <div class="card h-100 shadow-sm event-card">
+            <div class="card h-100 event-card">
                 <!-- Aquí puedes añadir una imagen destacada si está disponible -->
                 <!-- <img src="${event.image_url || 'ruta/por/defecto.jpg'}" class="card-img-top" alt="${event.summary}"> -->
                 <div class="card-body d-flex flex-column">

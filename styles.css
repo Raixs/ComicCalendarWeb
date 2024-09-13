@@ -61,7 +61,7 @@ header h1, header p {
 }
 
 /* Estilos para las tarjetas de eventos */
-.event-card {
+.card.event-card {
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     border: none;
     border-radius: 0.75rem;
@@ -70,61 +70,61 @@ header h1, header p {
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
 }
 
-.event-card:hover {
+.card.event-card:hover {
     transform: translateY(-5px);
     box-shadow: 0 15px 25px rgba(0, 0, 0, 0.2);
 }
 
-.event-card .card-body {
+.card.event-card .card-body {
     flex: 1 1 auto;
     padding: 1.25rem;
 }
 
-.event-card .card-title {
+.card.event-card .card-title {
     font-size: 1.25rem;
     font-weight: bold;
     margin-bottom: 0.75rem;
     color: #333;
 }
 
-.event-card .card-text {
+.card.event-card .card-text {
     color: #555;
     margin-bottom: 0.5rem;
 }
 
-.event-card .card-footer {
+.card.event-card .card-footer {
     background-color: #f8f9fa;
     border-top: none;
     padding: 0.75rem 1.25rem;
 }
 
-.event-card .btn {
+.card.event-card .btn {
     border-radius: 0.5rem;
 }
 
-.event-card .btn i {
+.card.event-card .btn i {
     margin-right: 0.25rem;
 }
 
-.event-card .event-description {
+.card.event-card .event-description {
     max-height: 80px;
     overflow: hidden;
     position: relative;
     white-space: pre-wrap;
 }
 
-.event-card .event-description.expanded {
+.card.event-card .event-description.expanded {
     max-height: none;
 }
 
-.event-card .show-more {
+.card.event-card .show-more {
     cursor: pointer;
     font-weight: bold;
     color: #0d6efd;
     text-decoration: none;
 }
 
-.event-card .show-more:hover {
+.card.event-card .show-more:hover {
     text-decoration: underline;
 }
 
@@ -146,7 +146,7 @@ footer a {
         font-size: 1rem;
     }
 
-    .event-card .card-title {
+    .card.event-card .card-title {
         font-size: 1.1rem;
     }
 }
