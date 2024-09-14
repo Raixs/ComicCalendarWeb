@@ -1,43 +1,57 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
+    <!-- Metadatos y enlaces a estilos -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gráficas de Eventos de Comic</title>
-    <meta name="description" content="Visualiza las gráficas de eventos de cómics en España.">
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <title>Eventos de Cómic en España</title>
+    <meta name="description" content="Encuentra y busca eventos de cómics en España. Descubre los eventos más recientes y sus detalles, incluyendo fecha, provincia, dirección y descripción.">
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome 6 -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <!-- Tu archivo CSS personalizado -->
     <link rel="stylesheet" href="styles.css">
-    <!-- Font Awesome -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
 </head>
 <body>
     <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark w-100">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow">
         <div class="container-fluid">
-            <a class="navbar-brand" onclick="window.location.reload()" href="#">EventosComic.com</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <a class="navbar-brand" href="#">EventosComic.com</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
-                <ul class="navbar-nav">
+                <ul class="navbar-nav align-items-center">
                     <li class="nav-item">
-                        <a class="nav-link" href="index.html">Inicio</a>
+                        <a class="nav-link active" aria-current="page" href="index.html">Inicio</a>
+                    </li>
+                    <li class="nav-item d-none" id="upload-item">
+                        <button class="btn btn-light" data-bs-toggle="modal" data-bs-target="#uploadEventModal">
+                            <i class="fas fa-upload"></i> Subir Evento
+                        </button>
                     </li>
                 </ul>
             </div>
         </div>
     </nav>
-
+    <header class="bg-light text-center py-5 mb-4">
+        <div class="container">
+            <h1 class="fw-bold">Evolución de eventos...</h1>
+            <p class="lead">Analiza y compara como evolucionan los eventos...</p>
+        </div>
+    </header>
     <!-- Contenido específico de graficas.html -->
     <div class="container mt-5">
-        <h1>Gráficas de eventos del mundo del cómic</h1>
-        <h2>Evolución de eventos del mundo del cómic por año...</h2>
-        <div class="form-group">
+        <h1>Evolución de eventos por año...</h1>
+        <div class="form-group"> 
             <label for="year-select">Selecciona un año:</label>
             <input type="number" class="form-control" id="year-select" min="2000" max="2100" placeholder="Introduce un año" onchange="loadGraph('year')">
         </div>
         <div class="mt-4">
-            <h2>Evolución totales agregados...</h2>
+            <h1>Evolución de eventos totales...</h1>
             <ul>
                 <li><a href="#" onclick="loadGraph('comunidad_eventos'); return false;">Evolución de eventos por comunidad</a></li>
                 <li><a href="#" onclick="loadGraph('provincia_eventos'); return false;">Evolución de eventos por provincia</a></li>
