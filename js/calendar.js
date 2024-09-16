@@ -43,8 +43,11 @@ var CalendarUtils = (function() {
         }
 
         const summary = escapeICSString(event.summary);
-        const description = escapeICSString(stripHTML(event.description));
+        const description = escapeICSString(event.description); // Incluimos el HTML tal cual
         const location = escapeICSString(`${event.address}, ${event.city}, ${event.province}, España`);
+
+        // Extraer el primer enlace de la descripción para el campo URL
+        const eventUrl = extractFirstLink(event.description);
 
         const icsContent = `
 BEGIN:VCALENDAR
@@ -61,6 +64,7 @@ ${dtendProperty}:${dtend}
 SUMMARY:${summary}
 DESCRIPTION:${description}
 LOCATION:${location}
+${eventUrl ? `URL:${escapeICSString(eventUrl)}` : ''}
 END:VEVENT
 END:VCALENDAR
 `.trim();
@@ -98,16 +102,19 @@ END:VCALENDAR
     function escapeICSString(str) {
         if (!str) return '';
         return str.replace(/\\/g, '\\\\')
-                  .replace(/;/g, '\\;')
+                  .replace(/\n/g, '\\n')
+                  .replace(/\r/g, '\\n')
                   .replace(/,/g, '\\,')
-                  .replace(/\r\n/g, '\\n')
-                  .replace(/\n/g, '\\n');
+                  .replace(/;/g, '\\;');
+        // No eliminamos ni escapamos las etiquetas HTML
     }
 
-    function stripHTML(html) {
+    // Función para extraer el primer enlace de la descripción
+    function extractFirstLink(html) {
         const tmp = document.createElement('div');
         tmp.innerHTML = html;
-        return tmp.textContent || tmp.innerText || '';
+        const link = tmp.querySelector('a');
+        return link ? link.href : '';
     }
 
     function addDays(date, days) {
