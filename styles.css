@@ -155,3 +155,57 @@ footer a {
 .event-card .share-event-btn {
     margin-left: 0.5rem;
 }
+
+/* Estilos para el modal de detalles del evento */
+.event-modal .modal-header {
+    background-color: #0d6efd;
+    color: #fff;
+}
+
+.event-modal .modal-title {
+    font-weight: bold;
+}
+
+.event-modal .modal-body {
+    padding: 1.5rem;
+}
+
+.event-modal .modal-body p {
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+    color: #333;
+}
+
+.event-modal .modal-body hr {
+    margin: 1rem 0;
+}
+
+.event-modal #modalEventDescription {
+    white-space: pre-wrap;
+    color: #555;
+}
+
+.event-modal #modalEventMap {
+    height: 200px;
+    background-color: #e9ecef;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0.5rem;
+    overflow: hidden;
+    /* Aquí puedes añadir una imagen de fondo o un mapa estático */
+}
+
+.event-modal #modalEventMap::before {
+    content: 'Mapa del evento';
+    color: #6c757d;
+    font-style: italic;
+}
+
+.event-modal .btn {
+    border-radius: 0.5rem;
+}
+
+.event-modal .modal-footer {
+    justify-content: space-between;
+}
