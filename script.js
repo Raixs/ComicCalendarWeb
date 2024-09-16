@@ -733,6 +733,34 @@ function showEventDetails(event) {
     document.getElementById('modalEventType').textContent = event.type;
     document.getElementById('modalEventDescription').innerHTML = event.description;
 
+    // Mostrar botones de administrador si el usuario está autenticado
+    if (localStorage.getItem('access_token')) {
+        document.getElementById('adminButtons').classList.remove('d-none');
+
+        // Asignar eventos a los botones de editar y eliminar
+        document.getElementById('editEventModalBtn').onclick = function() {
+            editEvent(event.id);
+        };
+        document.getElementById('deleteEventModalBtn').onclick = function() {
+            confirmDeleteEvent(event.id);
+        };
+    } else {
+        document.getElementById('adminButtons').classList.add('d-none');
+    }
+
+    // Preparar botones de acción
+    document.getElementById('addToCalendarBtn').onclick = function() {
+        addToCalendar(event);
+    };
+
+    document.getElementById('getDirectionsBtn').onclick = function() {
+        getDirections(event);
+    };
+
+    document.getElementById('shareEventBtn').onclick = function() {
+        shareEvent(event);
+    };
+
     // Actualizar la URL para incluir el ID del evento
     history.pushState(null, '', `?id=${event.id}`);
 
@@ -836,4 +864,82 @@ function copyToClipboard(text) {
     tempInput.select();
     document.execCommand('copy');
     document.body.removeChild(tempInput);
+}
+
+function addToCalendar(event) {
+    // Generar el contenido del archivo .ics
+    const icsContent = generateICSFile(event);
+
+    // Crear un Blob con el contenido del archivo
+    const blob = new Blob([icsContent], { type: 'text/calendar;charset=utf-8' });
+
+    // Crear un enlace de descarga temporal
+    const url = URL.createObjectURL(blob);
+    const downloadLink = document.createElement('a');
+    downloadLink.href = url;
+    downloadLink.download = `${event.summary}.ics`;
+    document.body.appendChild(downloadLink);
+    downloadLink.click();
+
+    // Limpiar
+    document.body.removeChild(downloadLink);
+    URL.revokeObjectURL(url);
+}
+
+function generateICSFile(event) {
+    // Formatear las fechas en formato YYYYMMDDTHHMMSSZ
+    const startDate = formatDateForICS(event.start_date);
+    const endDate = formatDateForICS(event.end_date);
+
+    // Escapar caracteres especiales en el resumen y la descripción
+    const summary = escapeICSString(event.summary);
+    const description = escapeICSString(event.description);
+    const location = escapeICSString(`${event.address}, ${event.city}, ${event.province}, España`);
+
+    // Generar el contenido del archivo .ics
+    const icsContent = `BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//TuEmpresa//TuProducto//ES
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:${generateUID()}
+DTSTAMP:${getCurrentTimestamp()}
+DTSTART:${startDate}
+DTEND:${endDate}
+SUMMARY:${summary}
+DESCRIPTION:${description}
+LOCATION:${location}
+END:VEVENT
+END:VCALENDAR`;
+
+    return icsContent;
+}
+
+function formatDateForICS(dateString) {
+    const date = new Date(dateString);
+    const formattedDate = date.toISOString().replace(/[-:]/g, '').split('.')[0];
+    return formattedDate;
+}
+
+function escapeICSString(str) {
+    return str.replace(/\\|;|,|\n/g, function(match) {
+        return '\\' + match;
+    });
+}
+
+function generateUID() {
+    return `${Date.now()}@eventoscomic.com`;
+}
+
+function getCurrentTimestamp() {
+    const now = new Date();
+    return now.toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
+}
+
+function getDirections(event) {
+    // Implementar la funcionalidad para obtener direcciones
+    const address = encodeURIComponent(`${event.address}, ${event.city}, ${event.province}, España`);
+    const mapsUrl = `https://www.google.com/maps/dir/?api=1&destination=${address}`;
+    window.open(mapsUrl, '_blank');
 }
