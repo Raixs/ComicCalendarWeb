@@ -369,28 +369,55 @@
     <!-- Modal de Detalles del Evento -->
     <div class="modal fade" id="eventDetailsModal" tabindex="-1" aria-labelledby="eventDetailsModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg modal-dialog-centered">
-            <div class="modal-content">
+            <div class="modal-content event-modal">
                 <div class="modal-header">
-                    <h4 class="modal-title" id="eventDetailsModalLabel"></h4> <!-- Aquí mostraremos el título del evento -->
+                    <h4 class="modal-title" id="eventDetailsModalLabel"></h4>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
                 </div>
                 <div class="modal-body">
-                    <!-- Aquí se cargará dinámicamente la información del evento -->
-                    <p><strong>Fecha:</strong> <span id="modalEventDate"></span></p>
-                    <p><strong>Horario:</strong> <span id="modalEventTime"></span></p>
-                    <p><strong>Ciudad:</strong> <span id="modalEventCity"></span></p>
-                    <p><strong>Provincia:</strong> <span id="modalEventProvince"></span></p>
-                    <p><strong>Dirección:</strong> <span id="modalEventAddress"></span></p>
-                    <p><strong>Tipo:</strong> <span id="modalEventType"></span></p>
-                    <p><strong>Descripción:</strong></p>
-                    <div id="modalEventDescription"></div>
+                    <div class="container-fluid">
+                        <div class="row">
+                            <!-- Columna de información principal -->
+                            <div class="col-md-8">
+                                <p><i class="fas fa-calendar-alt"></i> <strong>Fecha:</strong> <span id="modalEventDate"></span></p>
+                                <p><i class="fas fa-clock"></i> <strong>Horario:</strong> <span id="modalEventTime"></span></p>
+                                <p><i class="fas fa-map-marker-alt"></i> <strong>Ciudad:</strong> <span id="modalEventCity"></span></p>
+                                <p><i class="fas fa-map-marker-alt"></i> <strong>Provincia:</strong> <span id="modalEventProvince"></span></p>
+                                <p><i class="fas fa-map-pin"></i> <strong>Dirección:</strong> <span id="modalEventAddress"></span></p>
+                                <p><i class="fas fa-tag"></i> <strong>Tipo:</strong> <span id="modalEventType"></span></p>
+                                <hr>
+                                <p><i class="fas fa-info-circle"></i> <strong>Descripción:</strong></p>
+                                <div id="modalEventDescription"></div>
+                            </div>
+                            <!-- Columna de funcionalidades adicionales -->
+                            <div class="col-md-4">
+                                <!-- Mapa o imagen del evento -->
+                                <div id="modalEventMap" class="mb-3">
+                                    <!-- Aquí puedes añadir un mapa interactivo o una imagen -->
+                                </div>
+                                <!-- Botones de acción -->
+                                <div class="d-grid gap-2">
+                                    <button class="btn btn-success" id="addToCalendarBtn"><i class="fas fa-calendar-plus"></i> Añadir al calendario</button>
+                                    <button class="btn btn-primary" id="getDirectionsBtn"><i class="fas fa-directions"></i> Cómo llegar</button>
+                                    <button class="btn btn-secondary" id="shareEventBtn"><i class="fas fa-share-alt"></i> Compartir</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
+                <!-- Pie del modal -->
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    <!-- Botones de administrador -->
+                    <div id="adminButtons" class="d-none">
+                        <button class="btn btn-warning" id="editEventModalBtn"><i class="fas fa-edit"></i> Editar</button>
+                        <button class="btn btn-danger" id="deleteEventModalBtn"><i class="fas fa-trash-alt"></i> Eliminar</button>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+
 
     <!-- Scripts de Bootstrap 5 y tus scripts personalizados -->
     <!-- Bootstrap Bundle con Popper.js incluido -->
