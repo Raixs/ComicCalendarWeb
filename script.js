@@ -454,141 +454,6 @@ function displayEvents(events, append = false) {
     });
 }
 
-
-// Función para mostrar u ocultar el botón "Mostrar más"
-function toggleLoadMoreButton() {
-    const loadMoreButton = document.getElementById('load-more');
-    if (isSearching && totalEvents > offset + limit) {
-        loadMoreButton.style.display = 'block';
-    } else {
-        loadMoreButton.style.display = 'none';
-    }
-}
-
-// Función para mostrar alertas en la interfaz
-function showAlert(message, type = 'info', timeout = null) {
-    const alertPlaceholder = document.getElementById('alert-placeholder');
-    const alert = document.createElement('div');
-    alert.className = `alert alert-${type} alert-dismissible fade show`;
-    alert.role = 'alert';
-    alert.innerHTML = `
-        ${message}
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    `;
-    alertPlaceholder.appendChild(alert);
-
-    // Determinar el tiempo de visualización en función del tipo de alerta si no se proporciona
-    if (timeout === null) {
-        if (type === 'danger') {
-            timeout = 0; // Se queda fijo
-        } else if (type === 'warning') {
-            timeout = 5000; // 5 segundos
-        } else {
-            timeout = 1500; // 1.5 segundos por defecto para otros tipos
-        }
-    }
-
-    // Si timeout es mayor que 0, programar el cierre automático
-    if (timeout > 0) {
-        setTimeout(() => {
-            alert.classList.remove('show');
-            alert.classList.add('hide');
-            setTimeout(() => {
-                alertPlaceholder.removeChild(alert);
-            }, 500);
-        }, timeout);
-    }
-}
-
-// Funciones para mostrar y ocultar el indicador de carga
-function showLoading() {
-    document.getElementById('loading-indicator').style.display = 'block';
-}
-
-function hideLoading() {
-    document.getElementById('loading-indicator').style.display = 'none';
-}
-
-// Función para mostrar los detalles de un evento en un modal
-function showEventDetails(event) {
-    // Cambiar el título del modal al nombre del evento
-    document.getElementById('eventDetailsModalLabel').textContent = event.summary;
-
-    // Formatear la fecha y hora del evento
-    const startTimeFormatted = formatTime(event.start_date);
-    const endTimeFormatted = formatTime(event.end_date);
-    const allDayEvent = isAllDayEvent(startTimeFormatted, endTimeFormatted);
-    const dateDisplay = formatEventDate(event.start_date, event.end_date);
-    const timeDisplay = allDayEvent ? 'Todo el día' : `${startTimeFormatted} a ${endTimeFormatted}`;
-
-    // Rellenar los campos del modal con la información del evento
-    document.getElementById('modalEventDate').textContent = dateDisplay;
-    document.getElementById('modalEventTime').textContent = timeDisplay;
-    document.getElementById('modalEventCity').textContent = `${event.city}, ${event.community}`;
-    document.getElementById('modalEventProvince').textContent = event.province;
-    document.getElementById('modalEventAddress').textContent = event.address;
-    document.getElementById('modalEventType').textContent = event.type;
-    document.getElementById('modalEventDescription').innerHTML = event.description;
-
-    // Mostrar botones de administrador si el usuario está autenticado
-    if (localStorage.getItem('access_token')) {
-        document.getElementById('adminButtons').classList.remove('d-none');
-
-        // Asignar eventos a los botones de editar y eliminar
-        document.getElementById('editEventModalBtn').onclick = function() {
-            const eventDetailsModal = bootstrap.Modal.getInstance(document.getElementById('eventDetailsModal'));
-            eventDetailsModal.hide();
-
-            eventDetailsModal._element.addEventListener('hidden.bs.modal', function () {
-                editEvent(event.id);
-            }, { once: true });
-        };
-
-        document.getElementById('deleteEventModalBtn').onclick = function() {
-            const eventDetailsModal = bootstrap.Modal.getInstance(document.getElementById('eventDetailsModal'));
-            eventDetailsModal.hide();
-
-            eventDetailsModal._element.addEventListener('hidden.bs.modal', function () {
-                confirmDeleteEvent(event.id);
-            }, { once: true });
-        };
-    } else {
-        document.getElementById('adminButtons').classList.add('d-none');
-    }
-
-    // Preparar botones de acción
-    document.getElementById('addToCalendarBtn').onclick = function() {
-        const currentEvent = event; // Capturamos el objeto event
-        loadCalendarScript(function() {
-            CalendarUtils.addToCalendar(currentEvent);
-        });
-    };
-
-    document.getElementById('getDirectionsBtn').onclick = function() {
-        getDirections(event);
-    };
-
-    document.getElementById('shareEventBtn').onclick = function() {
-        shareEvent(event);
-    };
-
-    // Actualizar la URL para incluir el ID del evento
-    history.pushState(null, '', `?id=${event.id}`);
-
-    // Actualizar meta tags
-    updateMetaTags(event);
-
-    // Mostrar el modal
-    const eventDetailsModal = new bootstrap.Modal(document.getElementById('eventDetailsModal'));
-    eventDetailsModal.show();
-}
-
-// Evento cuando se cierra el modal de detalles del evento
-document.getElementById('eventDetailsModal').addEventListener('hidden.bs.modal', function () {
-    // Restablecer la URL original cuando se cierra el modal
-    history.replaceState(null, '', window.location.pathname);
-});
-
 // Función para editar un evento
 async function editEvent(eventId) {
     currentEventId = eventId;
@@ -630,13 +495,6 @@ async function editEvent(eventId) {
         // Mostrar el modal de edición solo si todo está en orden
         const editModal = new bootstrap.Modal(document.getElementById('editEventModal'));
         editModal.show();
-
-        // Opcional: Reabrir modal de detalles al cerrar el modal de edición
-        const editEventModalElement = document.getElementById('editEventModal');
-        editEventModalElement.addEventListener('hidden.bs.modal', function () {
-            const eventDetailsModal = new bootstrap.Modal(document.getElementById('eventDetailsModal'));
-            eventDetailsModal.show();
-        }, { once: true });
     } catch (error) {
         console.error('Error al cargar los detalles del evento:', error);
         showAlert('Error al cargar los detalles del evento', 'danger');
@@ -694,10 +552,74 @@ function displayNoResults(message) {
     eventsContainer.innerHTML = `<div class="col-12"><p class="text-center text-muted">${message}</p></div>`;
 }
 
+// Función para actualizar la información de paginación
+function updatePaginationInfo() {
+    const paginationInfo = document.getElementById('pagination-info');
+    if (isSearching && totalEvents > 0) {
+        paginationInfo.textContent = `Mostrando ${Math.min(offset + limit, totalEvents)} de ${totalEvents} eventos`;
+        paginationInfo.style.display = 'block';
+    } else {
+        paginationInfo.style.display = 'none';
+    }
+}
+
+// Función para mostrar u ocultar el botón "Mostrar más"
+function toggleLoadMoreButton() {
+    const loadMoreButton = document.getElementById('load-more');
+    if (isSearching && totalEvents > offset + limit) {
+        loadMoreButton.style.display = 'block';
+    } else {
+        loadMoreButton.style.display = 'none';
+    }
+}
+
+// Función para mostrar alertas en la interfaz
+function showAlert(message, type = 'info', timeout = null) {
+    const alertPlaceholder = document.getElementById('alert-placeholder');
+    const alert = document.createElement('div');
+    alert.className = `alert alert-${type} alert-dismissible fade show`;
+    alert.role = 'alert';
+    alert.innerHTML = `
+        ${message}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    `;
+    alertPlaceholder.appendChild(alert);
+
+    // Determinar el tiempo de visualización en función del tipo de alerta si no se proporciona
+    if (timeout === null) {
+        if (type === 'danger') {
+            timeout = 0; // Se queda fijo
+        } else if (type === 'warning') {
+            timeout = 5000; // 5 segundos
+        } else {
+            timeout = 1500; // 1.5 segundos por defecto para otros tipos
+        }
+    }
+
+    // Si timeout es mayor que 0, programar el cierre automático
+    if (timeout > 0) {
+        setTimeout(() => {
+            alert.classList.remove('show');
+            alert.classList.add('hide');
+            setTimeout(() => {
+                alertPlaceholder.removeChild(alert);
+            }, 500);
+        }, timeout);
+    }
+}
+
+// Funciones para mostrar y ocultar el indicador de carga
+function showLoading() {
+    document.getElementById('loading-indicator').style.display = 'block';
+}
+
+function hideLoading() {
+    document.getElementById('loading-indicator').style.display = 'none';
+}
+
 // Función para confirmar la eliminación de un evento
 function confirmDeleteEvent(eventId) {
     eventIdToDelete = eventId;
-
     const deleteModal = new bootstrap.Modal(document.getElementById('deleteEventModal'));
     deleteModal.show();
 }
@@ -789,6 +711,75 @@ function toggleAdvancedSearch() {
         toggleButton.textContent = 'Búsqueda avanzada';
     }
 }
+
+// Función para mostrar los detalles de un evento en un modal
+function showEventDetails(event) {
+    // Cambiar el título del modal al nombre del evento
+    document.getElementById('eventDetailsModalLabel').textContent = event.summary;
+
+    // Formatear la fecha y hora del evento
+    const startTimeFormatted = formatTime(event.start_date);
+    const endTimeFormatted = formatTime(event.end_date);
+    const allDayEvent = isAllDayEvent(startTimeFormatted, endTimeFormatted);
+    const dateDisplay = formatEventDate(event.start_date, event.end_date);
+    const timeDisplay = allDayEvent ? 'Todo el día' : `${startTimeFormatted} a ${endTimeFormatted}`;
+
+    // Rellenar los campos del modal con la información del evento
+    document.getElementById('modalEventDate').textContent = dateDisplay;
+    document.getElementById('modalEventTime').textContent = timeDisplay;
+    document.getElementById('modalEventCity').textContent = `${event.city}, ${event.community}`;
+    document.getElementById('modalEventProvince').textContent = event.province;
+    document.getElementById('modalEventAddress').textContent = event.address;
+    document.getElementById('modalEventType').textContent = event.type;
+    document.getElementById('modalEventDescription').innerHTML = event.description;
+
+    // Mostrar botones de administrador si el usuario está autenticado
+    if (localStorage.getItem('access_token')) {
+        document.getElementById('adminButtons').classList.remove('d-none');
+
+        // Asignar eventos a los botones de editar y eliminar
+        document.getElementById('editEventModalBtn').onclick = function() {
+            editEvent(event.id);
+        };
+        document.getElementById('deleteEventModalBtn').onclick = function() {
+            confirmDeleteEvent(event.id);
+        };
+    } else {
+        document.getElementById('adminButtons').classList.add('d-none');
+    }
+
+    // Preparar botones de acción
+    document.getElementById('addToCalendarBtn').onclick = function() {
+        const currentEvent = event; // Capturamos el objeto event
+        loadCalendarScript(function() {
+            CalendarUtils.addToCalendar(currentEvent);
+        });
+    };
+
+    document.getElementById('getDirectionsBtn').onclick = function() {
+        getDirections(event);
+    };
+
+    document.getElementById('shareEventBtn').onclick = function() {
+        shareEvent(event);
+    };
+
+    // Actualizar la URL para incluir el ID del evento
+    history.pushState(null, '', `?id=${event.id}`);
+
+    // Actualizar meta tags
+    updateMetaTags(event);
+
+    // Mostrar el modal
+    const eventDetailsModal = new bootstrap.Modal(document.getElementById('eventDetailsModal'));
+    eventDetailsModal.show();
+}
+
+// Evento cuando se cierra el modal de detalles del evento
+document.getElementById('eventDetailsModal').addEventListener('hidden.bs.modal', function () {
+    // Restablecer la URL original cuando se cierra el modal
+    history.replaceState(null, '', window.location.pathname);
+});
 
 // Función para actualizar las meta etiquetas de la página
 function updateMetaTags(event) {
