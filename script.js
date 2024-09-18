@@ -458,6 +458,13 @@ function displayEvents(events, append = false) {
 async function editEvent(eventId) {
     currentEventId = eventId;
 
+    // Ocultar el modal de detalles del evento si está abierto
+    const eventDetailsModalElement = document.getElementById('eventDetailsModal');
+    const eventDetailsModal = bootstrap.Modal.getInstance(eventDetailsModalElement);
+    if (eventDetailsModal) {
+        eventDetailsModal.hide();
+    }
+
     try {
         const response = await fetch(`${apiUrl}/events/${eventId}`);
         
@@ -467,30 +474,18 @@ async function editEvent(eventId) {
 
         const event = await response.json();
 
-        // Comprobamos y asignamos valores solo si los elementos existen en el DOM
-        const summaryElement = document.getElementById('edit-summary');
-        const startDateElement = document.getElementById('edit-start-date');
-        const startTimeElement = document.getElementById('edit-start-time');
-        const endDateElement = document.getElementById('edit-end-date');
-        const endTimeElement = document.getElementById('edit-end-time');
-        const provinceElement = document.getElementById('edit-province');
-        const communityElement = document.getElementById('edit-community');
-        const cityElement = document.getElementById('edit-city');
-        const typeElement = document.getElementById('edit-type');
-        const addressElement = document.getElementById('edit-address');
-        const descriptionElement = document.getElementById('edit-description');
-
-        if (summaryElement) summaryElement.value = event.summary;
-        if (startDateElement) startDateElement.value = event.start_date.split(' ')[0];
-        if (startTimeElement) startTimeElement.value = event.start_date.split(' ')[1].slice(0, 5); // Formato HH:MM
-        if (endDateElement) endDateElement.value = event.end_date.split(' ')[0];
-        if (endTimeElement) endTimeElement.value = event.end_date.split(' ')[1].slice(0, 5); // Formato HH:MM
-        if (provinceElement) provinceElement.value = event.province;
-        if (communityElement) communityElement.value = event.community;
-        if (cityElement) cityElement.value = event.city;
-        if (typeElement) typeElement.value = event.type;
-        if (addressElement) addressElement.value = event.address;
-        if (descriptionElement) descriptionElement.value = event.description;
+        // Rellenar el formulario con los datos del evento
+        document.getElementById('edit-summary').value = event.summary;
+        document.getElementById('edit-start-date').value = event.start_date.split(' ')[0];
+        document.getElementById('edit-start-time').value = event.start_date.split(' ')[1].slice(0, 5);
+        document.getElementById('edit-end-date').value = event.end_date.split(' ')[0];
+        document.getElementById('edit-end-time').value = event.end_date.split(' ')[1].slice(0, 5);
+        document.getElementById('edit-province').value = event.province;
+        document.getElementById('edit-community').value = event.community;
+        document.getElementById('edit-city').value = event.city;
+        document.getElementById('edit-type').value = event.type;
+        document.getElementById('edit-address').value = event.address;
+        document.getElementById('edit-description').value = event.description;
 
         // Mostrar el modal de edición solo si todo está en orden
         const editModal = new bootstrap.Modal(document.getElementById('editEventModal'));
@@ -620,6 +615,14 @@ function hideLoading() {
 // Función para confirmar la eliminación de un evento
 function confirmDeleteEvent(eventId) {
     eventIdToDelete = eventId;
+
+    // Ocultar el modal de detalles del evento si está abierto
+    const eventDetailsModalElement = document.getElementById('eventDetailsModal');
+    const eventDetailsModal = bootstrap.Modal.getInstance(eventDetailsModalElement);
+    if (eventDetailsModal) {
+        eventDetailsModal.hide();
+    }
+
     const deleteModal = new bootstrap.Modal(document.getElementById('deleteEventModal'));
     deleteModal.show();
 }
