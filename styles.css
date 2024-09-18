@@ -156,20 +156,29 @@ footer a {
     margin-left: 0.5rem;
 }
 
-/* Estilos para el modal de detalles del evento */
-.event-modal .modal-header {
+/* Estilos generales para todos los modales */
+.custom-modal .modal-header {
     background-color: #0d6efd;
     color: #fff;
 }
 
-.event-modal .modal-title {
+.custom-modal .modal-title {
     font-weight: bold;
 }
 
-.event-modal .modal-body {
+.custom-modal .modal-body {
     padding: 1.5rem;
 }
 
+.custom-modal .btn {
+    border-radius: 0.5rem;
+}
+
+.custom-modal .modal-footer {
+    justify-content: space-between;
+}
+
+/* Estilos específicos para el modal de detalles del evento */
 .event-modal .modal-body p {
     font-size: 1rem;
     margin-bottom: 0.5rem;
@@ -200,12 +209,4 @@ footer a {
     content: 'Mapa del evento';
     color: #6c757d;
     font-style: italic;
-}
-
-.event-modal .btn {
-    border-radius: 0.5rem;
-}
-
-.event-modal .modal-footer {
-    justify-content: space-between;
 }
