@@ -210,3 +210,12 @@ footer a {
     color: #6c757d;
     font-style: italic;
 }
+
+/* Estilos para el campo de fecha de actualización */
+.update-date-field {
+    background-color: #e9ecef;
+    padding: 0.75rem;
+    border-radius: 0.5rem;
+    margin-top: 1rem;
+    color: #333;
+}

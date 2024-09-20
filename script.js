@@ -720,6 +720,21 @@ function showEventDetails(event) {
     // Cambiar el título del modal al nombre del evento
     document.getElementById('eventDetailsModalLabel').textContent = event.summary;
 
+    const modalEventUpdateDate = document.getElementById('modalEventUpdateDate');
+
+    // Verificar si el valor de update_date es distinto a "1970-01-01 00:00:00"
+    if (event.update_date && event.update_date !== "1970-01-01 00:00:00") {
+        // Formatear la fecha de actualización
+        const updateDateFormatted = formatUpdateDate(event.update_date);
+        // Asignar el valor al campo correspondiente
+        document.getElementById('modalEventUpdateDateValue').textContent = updateDateFormatted;
+        // Mostrar el campo
+        modalEventUpdateDate.style.display = 'block';
+    } else {
+        // Ocultar el campo si no hay una fecha válida
+        modalEventUpdateDate.style.display = 'none';
+    }
+
     // Formatear la fecha y hora del evento
     const startTimeFormatted = formatTime(event.start_date);
     const endTimeFormatted = formatTime(event.end_date);
@@ -894,4 +909,15 @@ function getDirections(event) {
     const address = encodeURIComponent(`${event.address}, ${event.city}, ${event.province}, España`);
     const mapsUrl = `https://www.google.com/maps/dir/?api=1&destination=${address}`;
     window.open(mapsUrl, '_blank');
+}
+
+function formatUpdateDate(dateString) {
+    const date = new Date(dateString);
+    return date.toLocaleDateString('es-ES', {
+        day: 'numeric',
+        month: 'long',
+        year: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit'
+    });
 }
