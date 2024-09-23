@@ -109,8 +109,8 @@
                                 </datalist>
                             </div>
                             <div class="col-md-4">
-                                <label for="summary" class="form-label"><i class="fas fa-pencil-alt"></i> Nombre del evento:</label>
-                                <input type="text" class="form-control" id="summary" name="summary" placeholder="Ingrese el nombre del evento">
+                                <label for="year" class="form-label"><i class="fas fa-calendar"></i> Año:</label>
+                                <input type="text" class="form-control" id="year" placeholder="Ej: 2024" pattern="\d{4}">
                             </div>
                             <div class="col-12 text-center">
                                 <button type="submit" class="btn btn-primary mt-3"><i class="fas fa-search"></i> Buscar</button>
@@ -122,15 +122,11 @@
                         <form id="search-form-advanced" class="row g-3 mt-3" onsubmit="searchEvents(event)">
                             <div class="col-md-4">
                                 <label for="start-date" class="form-label"><i class="fas fa-calendar-day"></i> Fecha de Inicio:</label>
-                                <input type="date" class="form-control" id="start-date" name="start-date">
+                                <input type="date" class="form-control" id="start-date">
                             </div>
                             <div class="col-md-4">
                                 <label for="end-date" class="form-label"><i class="fas fa-calendar-day"></i> Fecha de Fin:</label>
-                                <input type="date" class="form-control" id="end-date" name="end-date">
-                            </div>
-                            <div class="col-md-4">
-                                <label for="year" class="form-label"><i class="fas fa-calendar"></i> Año:</label>
-                                <input type="text" class="form-control" id="year" name="year" placeholder="Ej: 2024" pattern="\d{4}">
+                                <input type="date" class="form-control" id="end-date">
                             </div>
                             <div class="col-md-4">
                                 <label for="community" class="form-label"><i class="fas fa-map"></i> Comunidad Autónoma:</label>

@@ -157,21 +157,19 @@ function constructDateQuery(year, month, startDate, endDate) {
 }
 
 // Construir los parámetros de consulta para la búsqueda
-function buildQueryParams(form) {
-    const summary = form.elements['summary'] ? form.elements['summary'].value : '';
-    const year = form.elements['year'] ? form.elements['year'].value : '';
-    const month = form.elements['month'] ? form.elements['month'].value : '';
-    const province = form.elements['province'] ? form.elements['province'].value : '';
-    const community = form.elements['community'] ? form.elements['community'].value : '';
-    const city = form.elements['city'] ? form.elements['city'].value : '';
-    const type = form.elements['type'] ? form.elements['type'].value : '';
-    const startDate = form.elements['start-date'] ? form.elements['start-date'].value : '';
-    const endDate = form.elements['end-date'] ? form.elements['end-date'].value : '';
+function buildQueryParams() {
+    const year = document.getElementById('year').value;
+    const month = document.getElementById('month').value;
+    const province = document.getElementById('province').value;
+    const community = document.getElementById('community').value;
+    const city = document.getElementById('city').value;
+    const type = document.getElementById('type').value;
+    const startDate = document.getElementById('start-date').value;
+    const endDate = document.getElementById('end-date').value;
 
     const { startDateQuery, endDateQuery } = constructDateQuery(year, month, startDate, endDate);
 
     let query = `?limit=${limit}&offset=${offset}`;
-    if (summary) query += `&summary=${encodeURIComponent(summary)}`;
     if (startDateQuery) query += `&start_date=${startDateQuery}`;
     if (endDateQuery) query += `&end_date=${endDateQuery}`;
     if (province) query += `&province=${encodeURIComponent(province)}`;
@@ -179,7 +177,7 @@ function buildQueryParams(form) {
     if (city) query += `&city=${encodeURIComponent(city)}`;
     if (type) query += `&type=${encodeURIComponent(type)}`;
 
-    return { query, searchCriteria: { summary, startDateQuery, endDateQuery, province, community, city, type } };
+    return { query, searchCriteria: { startDateQuery, endDateQuery, province, community, city, type } };
 }
 
 // Actualizar la fecha de última actualización en el footer
@@ -222,8 +220,7 @@ async function searchEvents(event) {
     offset = 0; // Reiniciar el offset cuando se realiza una nueva búsqueda
     isSearching = true; // Indicamos que estamos en modo búsqueda
 
-    const form = event.target;
-    const { query, searchCriteria } = buildQueryParams(form);
+    const { query, searchCriteria } = buildQueryParams();
     const fullQuery = `${apiUrl}/events/search/${query}`;
 
     try {
@@ -232,12 +229,11 @@ async function searchEvents(event) {
         const data = await response.json();
 
         let searchCriteriaString = `
-        Nombre del evento: ${searchCriteria.summary || 'Cualquier nombre'}, 
-        Fecha: ${searchCriteria.startDateQuery || 'Cualquier fecha de inicio'} a ${searchCriteria.endDateQuery || 'Cualquier fecha de fin'}, 
-        Provincia: ${searchCriteria.province || 'Cualquier provincia'}, 
-        Comunidad: ${searchCriteria.community || 'Cualquier comunidad'}, 
-        Ciudad: ${searchCriteria.city || 'Cualquier ciudad'}, 
-        Tipo: ${searchCriteria.type || 'Cualquier tipo'}
+            Fecha: ${searchCriteria.startDateQuery || 'Cualquier fecha de inicio'} a ${searchCriteria.endDateQuery || 'Cualquier fecha de fin'}, 
+            Provincia: ${searchCriteria.province || 'Cualquier provincia'}, 
+            Comunidad: ${searchCriteria.community || 'Cualquier comunidad'}, 
+            Ciudad: ${searchCriteria.city || 'Cualquier ciudad'}, 
+            Tipo: ${searchCriteria.type || 'Cualquier tipo'}
         `;
 
         if (data.detail) {
