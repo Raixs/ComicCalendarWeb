@@ -652,8 +652,8 @@ async function deleteEvent() {
 
 // Función para formatear fecha y hora al formato estándar
 function formatToStandardDateTime(date, time) {
-    // Asegura que la fecha y hora sigan el formato: "YYYY-MM-DD HH:MM:SS+00:00"
-    return `${date} ${time}:00+00:00`;
+    // Asegura que la fecha y hora sigan el formato: "YYYY-MM-DD HH:MM:SS"
+    return `${date} ${time}:00`;
 }
 
 // Función para subir un nuevo evento
