@@ -158,7 +158,7 @@ function constructDateQuery(year, month, startDate, endDate) {
 
 // Construir los parámetros de consulta para la búsqueda
 function buildQueryParams() {
-    const year = document.getElementById('year').value;
+    const eventName = document.getElementById('event-name').value;
     const month = document.getElementById('month').value;
     const province = document.getElementById('province').value;
     const community = document.getElementById('community').value;
@@ -166,10 +166,12 @@ function buildQueryParams() {
     const type = document.getElementById('type').value;
     const startDate = document.getElementById('start-date').value;
     const endDate = document.getElementById('end-date').value;
+    const year = document.getElementById('year').value;
 
     const { startDateQuery, endDateQuery } = constructDateQuery(year, month, startDate, endDate);
 
     let query = `?limit=${limit}&offset=${offset}`;
+    if (eventName) query += `&summary=${encodeURIComponent(eventName)}`;
     if (startDateQuery) query += `&start_date=${startDateQuery}`;
     if (endDateQuery) query += `&end_date=${endDateQuery}`;
     if (province) query += `&province=${encodeURIComponent(province)}`;
@@ -177,7 +179,15 @@ function buildQueryParams() {
     if (city) query += `&city=${encodeURIComponent(city)}`;
     if (type) query += `&type=${encodeURIComponent(type)}`;
 
-    return { query, searchCriteria: { startDateQuery, endDateQuery, province, community, city, type } };
+    return { query, searchCriteria: { 
+        summary: eventName || 'Cualquier nombre',
+        startDateQuery, 
+        endDateQuery, 
+        province, 
+        community, 
+        city, 
+        type 
+    } };
 }
 
 // Actualizar la fecha de última actualización en el footer
