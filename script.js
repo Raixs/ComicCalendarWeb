@@ -1,5 +1,5 @@
 // Definición de variables y constantes
-const apiUrl = 'https://api.eventoscomic.com/v1';
+const apiUrl = 'https://api.comicplan.com/v1';
 let offset = 0;
 const limit = 20; // Número de resultados por página
 let totalEvents = 0; // Total de eventos retornados por la API

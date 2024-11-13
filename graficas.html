@@ -19,7 +19,7 @@
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow">
         <div class="container-fluid">
-            <a class="navbar-brand" href="index.html">EventosComic.com</a>
+            <a class="navbar-brand" href="index.html">Comicplan.com</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -74,20 +74,20 @@
             if (type === 'year') {
                 const year = document.getElementById('year-select').value;
                 if (year) {
-                    url = `https://api.eventoscomic.com/static/graphs/graficas_eventos_${year}.html`;
+                    url = `https://api.comicplan.com/static/graphs/graficas_eventos_${year}.html`;
                 }
             } else if (type === 'comunidad_eventos') {
-                url = 'https://api.eventoscomic.com/static/graphs/evolucion_eventos_comunidad.html';
+                url = 'https://api.comicplan.com/static/graphs/evolucion_eventos_comunidad.html';
             } else if (type === 'provincia_eventos') {
-                url = 'https://api.eventoscomic.com/static/graphs/evolucion_eventos_provincia.html';
+                url = 'https://api.comicplan.com/static/graphs/evolucion_eventos_provincia.html';
             } else if (type === 'comunidad_totales') {
-                url = 'https://api.eventoscomic.com/static/graphs/evolucion_eventos_totales_comunidad.html';
+                url = 'https://api.comicplan.com/static/graphs/evolucion_eventos_totales_comunidad.html';
             } else if (type === 'provincia_totales') {
-                url = 'https://api.eventoscomic.com/static/graphs/evolucion_eventos_totales_provincia.html';
+                url = 'https://api.comicplan.com/static/graphs/evolucion_eventos_totales_provincia.html';
             } else if (type === 'comunidad_firmas') {
-                url = 'https://api.eventoscomic.com/static/graphs/evolucion_firmas_comunidad.html';
+                url = 'https://api.comicplan.com/static/graphs/evolucion_firmas_comunidad.html';
             } else if (type === 'provincia_firmas') {
-                url = 'https://api.eventoscomic.com/static/graphs/evolucion_firmas_provincia.html';
+                url = 'https://api.comicplan.com/static/graphs/evolucion_firmas_provincia.html';
             }
 
             if (url) {

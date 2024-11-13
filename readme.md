@@ -8,13 +8,13 @@
 ### Frontend
 
 - **Repositorio GitHub**: [ComicCalendarWeb](https://github.com/Raixs/ComicCalendarWeb)
-- **URL en Producción**: [eventoscomic.com](https://eventoscomic.com)
+- **URL en Producción**: [comicplan.com](https://comicplan.com)
 
 ### Backend
 
 - **Repositorio GitHub**: [ComicCalendar](https://github.com/malambra/comicCalendar)
-- **URL de la API**: [api.eventoscomic.com](https://api.eventoscomic.com)
-- **Documentación de la API**: [api.eventoscomic.com/docs](https://api.eventoscomic.com/docs)
+- **URL de la API**: [api.comicplan.com](https://api.comicplan.com)
+- **Documentación de la API**: [api.comicplan.com/docs](https://api.comicplan.com/docs)
 
 ## Características
 
