@@ -43,10 +43,10 @@
                         </a>
                     </li>
                     <li class="nav-item d-none d-lg-block">
-                        <a class="nav-link" href="graficas.html">
+                        <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#graficasModal">
                             <i class="fas fa-chart-bar"></i> Estadísticas
                         </a>
-                    </li>
+                    </li>                    
                     <li class="nav-item" id="login-item">
                         <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#loginModal">
                             <i class="fas fa-sign-in-alt"></i> Iniciar Sesión
@@ -434,6 +434,96 @@
         </div>
     </div>
 
+<!-- Modal de Gráficas -->
+<div class="modal fade" id="graficasModal" tabindex="-1" aria-labelledby="graficasModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl"> <!-- modal-xl para ancho extra grande -->
+        <div class="modal-content custom-modal">
+            <div class="modal-header">
+                <h5 class="modal-title" id="graficasModalLabel">Evolución de eventos...</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+            </div>
+            <div class="modal-body">
+                <!-- Contenido de graficas.html -->
+                <div class="container mt-3">
+                    <h1>Evolución de eventos por año...</h1>
+                    <div class="form-group"> 
+                        <label for="year-select">Selecciona un año:</label>
+                        <input type="number" class="form-control" id="year-select" min="2000" max="2100" placeholder="Introduce un año" onchange="loadGraph('year')">
+                    </div>
+                    <div class="mt-4">
+                        <h1>Evolución de eventos totales...</h1>
+                        <ul>
+                            <li><a href="#" onclick="loadGraph('comunidad_eventos'); return false;">Evolución de eventos por comunidad</a></li>
+                            <li><a href="#" onclick="loadGraph('provincia_eventos'); return false;">Evolución de eventos por provincia</a></li>
+                            <li><a href="#" onclick="loadGraph('comunidad_totales'); return false;">Evolución total por comunidad</a></li>
+                            <li><a href="#" onclick="loadGraph('provincia_totales'); return false;">Evolución total por provincia</a></li>
+                            <li><a href="#" onclick="loadGraph('comunidad_firmas'); return false;">Evolución de firmas por comunidad</a></li>
+                            <li><a href="#" onclick="loadGraph('provincia_firmas'); return false;">Evolución de firmas por provincia</a></li>
+                        </ul>
+                    </div>
+                    <div id="error-message" class="alert alert-danger" style="display:none;"></div>
+                    <iframe id="graph-frame" src="" width="100%" height="600px" style="border:none; display:none;"></iframe>
+                </div>
+                <!-- Fin del contenido de graficas.html -->
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    function loadGraph(type) {
+        const frame = document.getElementById('graph-frame');
+        const errorMessage = document.getElementById('error-message');
+        let url = '';
+
+        if (type === 'year') {
+            const year = document.getElementById('year-select').value;
+            if (year) {
+                url = `https://api.comicplan.com/static/graphs/graficas_eventos_${year}.html`;
+            }
+        } else if (type === 'comunidad_eventos') {
+            url = 'https://api.comicplan.com/static/graphs/evolucion_eventos_comunidad.html';
+        } else if (type === 'provincia_eventos') {
+            url = 'https://api.comicplan.com/static/graphs/evolucion_eventos_provincia.html';
+        } else if (type === 'comunidad_totales') {
+            url = 'https://api.comicplan.com/static/graphs/evolucion_eventos_totales_comunidad.html';
+        } else if (type === 'provincia_totales') {
+            url = 'https://api.comicplan.com/static/graphs/evolucion_eventos_totales_provincia.html';
+        } else if (type === 'comunidad_firmas') {
+            url = 'https://api.comicplan.com/static/graphs/evolucion_firmas_comunidad.html';
+        } else if (type === 'provincia_firmas') {
+            url = 'https://api.comicplan.com/static/graphs/evolucion_firmas_provincia.html';
+        }
+
+        if (url) {
+            fetch(url, { method: 'HEAD' })
+                .then(response => {
+                    if (response.ok) {
+                        frame.src = url;
+                        frame.style.display = 'block';
+                        errorMessage.style.display = 'none';
+                    } else {
+                        frame.src = '';
+                        frame.style.display = 'none';
+                        errorMessage.textContent = 'Lo sentimos, aún no hay disponibles gráficas para el año seleccionado.';
+                        errorMessage.style.display = 'block';
+                    }
+                })
+                .catch(() => {
+                    frame.src = '';
+                    frame.style.display = 'none';
+                    errorMessage.textContent = 'Lo sentimos, aún no hay disponibles gráficas para el año seleccionado.';
+                    errorMessage.style.display = 'block';
+                });
+        } else {
+            frame.src = '';
+            frame.style.display = 'none';
+            errorMessage.textContent = 'Lo sentimos, aún no hay disponibles gráficas para el año seleccionado.';
+            errorMessage.style.display = 'block';
+        }
+    }
+</script>
 
     <!-- Scripts de Bootstrap 5 y tus scripts personalizados -->
     <!-- Bootstrap Bundle con Popper.js incluido -->
