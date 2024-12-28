@@ -8,6 +8,10 @@ body {
 
 .navbar-brand {
     font-weight: bold;
+    font-size: 1.8em; /* Agrandar la fuente */
+    font-family: 'Roboto', sans-serif; /* Cambiar el tipo de letra */
+    margin-top: -10px; /* Reducir el margen superior */
+    margin-bottom: -10px; /* Reducir el margen inferior */
 }
 
 header {
