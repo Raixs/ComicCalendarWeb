@@ -35,6 +35,100 @@
     gtag('config', 'G-WX8H3NJBFL');
 </script>
 <body>
+    <!-- Modal -->
+    <div class="modal top fade" id="cookieconsent3" tabindex="-1" aria-labelledby="cookieconsentLabel3" aria-hidden="true" data-mdb-backdrop="static" data-mdb-keyboard="false">
+        <div class="modal-dialog">
+            <div class="modal-content d-block text-start">
+                <div class="modal-header d-block ">
+                    <h5 class="modal-title" id="cookieconsentLabel3">Cookies y Privacidad</h5>
+                    <p>
+                        Este sitio web utiliza cookies para garantizar que obtenga la mejor experiencia en nuestro sitio web.
+                    </p>
+                    <p><a href="#" data-bs-toggle="modal" data-bs-target="#cookieModal"> Política de Cookies</a></p>
+                </div>
+                <div class="modal-body">
+                    <!-- Necessary checkbox -->
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="" id="necessary" checked />
+                        <label class="form-check-label" for="necessary">
+                            <p>
+                                <strong>Cookies básicas</strong>
+                                <muted>ayudar con la funcionalidad básica de nuestro sitio web, por ejemplo, recordar si dio su consentimiento para las cookies.</muted>
+                            </p>
+                        </label>
+                    </div>
+                    <!-- Analytical checkbox -->
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="" id="analytical" />
+                        <label class="form-check-label" for="analytical">
+                            <p>
+                                <strong>Cookies para analíticas</strong>
+                                <muted>permiten recopilar estadísticas sobre el uso y tráfico en nuestro sitio web, para que podamos mejorarlo.</muted>
+                            </p>
+                        </label>
+                    </div>
+                    <!-- Marketing checkbox -->
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="" id="marketing" />
+                        <label class="form-check-label" for="marketing">
+                            <p>
+                                <strong>Cookies para marketing</strong>
+                                <muted>Permitir mostrarle contenido de redes sociales y anuncios más relevantes en nuestro sitio web y otras plataformas.</muted>
+                            </p>
+                        </label>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-primary btn-accept-necessary">
+                        Aceptar solo necesarias
+                    </button>
+                    <button type="button" class="btn btn-primary btn-accept-all">
+                        Aceptar todas
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var cookieModal = new bootstrap.Modal(document.getElementById('cookieconsent3'));
+            // Verificar si ya se aceptaron las cookies
+            if (!localStorage.getItem("cookieConsent")) {
+                cookieModal.show();
+            }
+            // Función para guardar la elección
+            function setCookieConsent(consentType) {
+                localStorage.setItem("cookieConsent", consentType);
+                cookieModal.hide();
+                if (consentType === "all") {
+                    enableAnalytics();
+                }
+            }
+            // Activar cookies analíticas si el usuario acepta
+            function enableAnalytics() {
+                console.log("Cookies analíticas activadas.");
+                gtag('consent', 'update', {
+                    'analytics_storage': 'granted'
+                });
+            }
+            // Eventos para los botones
+            document.querySelector(".btn-accept-necessary").addEventListener("click", function () {
+                setCookieConsent("necessary");
+            });
+            document.querySelector(".btn-accept-all").addEventListener("click", function () {
+                setCookieConsent("all");
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
+            $('#cookieModal').on('show.bs.modal', function (e) {
+                var modal = $(this);
+                modal.find('.modal-body').load('politica-cookies.html');
+            });
+        });
+    </script>
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow">
         <div class="container-fluid">
@@ -206,6 +300,7 @@
         <div class="container">
             <p>Última actualización: <span id="last-updated">Cargando...</span></p>
             <p>Nos encontramos en desarrollo <br>Colabora con nosotros en <a href="https://github.com/Raixs/ComicCalendarWeb" target="_blank" class="text-white"><i class="fab fa-github"></i> GitHub</a></p>
+            <p><a href="#" data-bs-toggle="modal" data-bs-target="#cookieModal"> Política de Cookies</a></p>
         </div>
     </footer>
 
@@ -487,7 +582,40 @@
         </div>
     </div>
 </div>
-
+<!-- Modal de politica de cookies -->
+<div class="modal fade" id="cookieModal" tabindex="-1" aria-labelledby="cookieModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content custom-modal">
+            <div class="modal-header">
+                <h5 class="modal-title" id="cookieModalLabel">Política de Cookies...</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="container mt-3">
+                    <!-- Aquí se cargará el contenido de politica-cookies.html -->
+                    <h1>Política de Cookies</h1>
+                    <p>Este sitio web utiliza cookies de terceros con el fin de analizar el tráfico y mejorar la experiencia del usuario. En particular, utilizamos Google Analytics, un servicio de análisis web proporcionado por Google, Inc.</p>
+                    <h2>¿Qué son las cookies?</h2>
+                    <p>Las cookies son pequeños archivos de texto que se almacenan en su dispositivo cuando visita un sitio web. Estas cookies permiten que el sitio recuerde información sobre su visita, como el idioma preferido y otras configuraciones, lo que puede facilitar su próxima visita y hacer que el sitio le resulte más útil.</p>
+                    <h2>¿Qué cookies utilizamos?</h2>
+                    <p>Utilizamos exclusivamente cookies de Google Analytics para recopilar información anónima sobre el uso del sitio web, como las páginas visitadas, el tiempo de permanencia y el origen del tráfico. Esto nos ayuda a mejorar el contenido y la experiencia del usuario.</p>
+                    <ul>
+                        <li><strong>_ga:</strong> Se usa para distinguir a los usuarios (caduca en 2 años).</li>
+                        <li><strong>_gid:</strong> Se usa para distinguir a los usuarios (caduca en 24 horas).</li>
+                        <li><strong>_gat:</strong> Se usa para limitar la tasa de solicitudes (caduca en 1 minuto).</li>
+                    </ul>
+                    <h2>¿Cómo gestionar las cookies?</h2>
+                    <p>Puede aceptar o rechazar el uso de cookies a través de la configuración de su navegador. También puede instalar el 
+                        <a href="https://tools.google.com/dlpage/gaoptout?hl=es" target="_blank">complemento de inhabilitación para navegadores de Google Analytics</a> 
+                        si desea evitar que Google Analytics recopile y utilice sus datos.</p>
+                    <p>Para más información sobre cómo Google trata sus datos, puede consultar su 
+                        <a href="https://policies.google.com/privacy?hl=es" target="_blank">Política de Privacidad</a>.</p>
+                    <p>Si continúas navegando en nuestro sitio web, entenderemos que aceptas el uso de estas cookies.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 <!-- Modal de Contacto -->
 <div class="modal fade" id="contactModal" tabindex="-1" aria-labelledby="contactModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
@@ -576,7 +704,6 @@
         }
     }
 </script>
-
     <!-- Scripts de Bootstrap 5 y tus scripts personalizados -->
     <!-- Bootstrap Bundle con Popper.js incluido -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
