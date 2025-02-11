@@ -125,14 +125,31 @@
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow">
         <div class="container-fluid">
-            <!-- <a class="navbar-brand" href="#" onclick="window.location.reload()">comicplan</a> -->
+            <!-- Logo -->
             <a class="navbar-brand" href="index.html" onclick="window.location.reload()">
                 <img src="images/icons/logo1.png" alt="comicplan Logo" style="height: 40px; margin-top: -10px; margin-bottom: -10px;">
             </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+
+            <!-- Iconos Sociales - SIEMPRE VISIBLES -->
+            <div class="d-flex align-items-center gap-2 order-lg-3">
+                <a href="https://github.com/malambra/comicCalendar" target="_blank" class="text-white">
+                    <i class="fab fa-github fa-lg"></i>
+                </a>
+                <!-- <a href="https://twitter.com/comicplan" target="_blank" class="text-white">
+                    <i class="fab fa-twitter fa-lg"></i>
+                </a> -->
+                <a href="https://www.instagram.com/comicplan" target="_blank" class="text-white">
+                    <i class="fab fa-instagram fa-lg"></i>
+                </a>
+            </div>
+
+            <!-- Botón Hamburguesa -->
+            <button class="navbar-toggler order-lg-2" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+
+            <!-- Menú Principal -->
+            <div class="collapse navbar-collapse justify-content-end order-lg-1" id="navbarNav">
                 <ul class="navbar-nav align-items-center">
                     <li class="nav-item">
                         <a class="nav-link active" aria-current="page" href="#" onclick="window.location.reload()">Inicio</a>
@@ -150,11 +167,6 @@
                     <li class="nav-item">
                         <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#contactModal">
                             <i class="fas fa-envelope"></i> Contacto
-                        </a>
-                    </li>   
-                    <li class="nav-item">
-                        <a class="nav-link" href="https://www.instagram.com/comicplan" target="_blank">
-                            <i class="fab fa-instagram"></i> Instagram
                         </a>
                     </li>
                     <li class="nav-item" id="login-item">
