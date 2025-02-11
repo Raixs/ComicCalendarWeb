@@ -22,7 +22,7 @@ header {
 
 header h1, header p {
     color: #ffffff;
-+   text-shadow: 0px 0px 0px rgba(0, 0, 0, 0.5);
+    text-shadow: 0px 0px 0px rgba(0, 0, 0, 0.5);
 }
 
 /* Estilos para el formulario de búsqueda */
