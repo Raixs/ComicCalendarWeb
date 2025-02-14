@@ -1,7 +1,7 @@
 // Definición de variables y constantes
 const apiUrl = 'https://api.comicplan.com/v1';
 let offset = 0;
-const limit = 20; // Número de resultados por página
+const limit = 21; // Número de resultados por página
 let totalEvents = 0; // Total de eventos retornados por la API
 let isSearching = false; // Indica si estamos en modo búsqueda o no
 let currentEventId = null;
