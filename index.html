@@ -155,7 +155,7 @@
                         <a class="nav-link active" aria-current="page" href="#" onclick="window.location.reload()">Inicio</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="https://t.me/eventoscomic_bot" target="_blank">
+                        <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#telegramBotModal">
                             <i class="fab fa-telegram"></i> Telegram Bot
                         </a>
                     </li>
@@ -316,6 +316,40 @@
 
     <!-- Modales -->
 
+    <!-- Modal de Telegram Bot -->
+    <div class="modal fade" id="telegramBotModal" tabindex="-1" aria-labelledby="telegramBotModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content custom-modal">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="telegramBotModalLabel">Telegram Bot</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+                <div class="modal-body">
+                    <p class="lead">
+                        Nuestro bot de Telegram te mantiene informado sobre los eventos en las provincias que selecciones y con los filtros que elijas.
+                    </p>
+                    <ul>
+                        <li>Recibe notificaciones de nuevos eventos en las provincias que tu elijas</li>
+                        <li>Accede a la información de los eventos directamente desde Telegram</li>
+                        <li>Estarás siempre actualizado</li>
+                    </ul>
+                    <p>
+                        Para empezar a usar el bot, haz clic en el siguiente enlace:
+                    </p>
+                    <p class="text-center text-primary fw-bold">
+                        <a href="https://t.me/eventoscomic_bot" target="_blank">Ir al Bot de Telegram</a>
+                    </p>
+                    <p class="text-muted text-center">
+                        ¡Mantente al día con los mejores eventos de cómic en España!
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Modal de Inicio de Sesión -->
     <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
@@ -336,6 +370,9 @@
                         </div>
                         <button type="submit" class="btn btn-primary">Iniciar Sesión</button>
                     </form>
+                    <p class="text-muted mt-3" style="font-size: 0.9em;">
+                        Esto es un panel de control para nuestros colaboradores, en el que pueden administrar los eventos de la web. Actualmente no aceptamos registro de usuarios. Si crees que puedes colaborar, <a href="#" data-bs-toggle="modal" data-bs-target="#contactModal">contacta con nosotros</a>.
+                    </p>
                 </div>
             </div>
         </div>
