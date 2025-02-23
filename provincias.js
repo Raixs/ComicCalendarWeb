@@ -52,7 +52,7 @@ document.addEventListener('DOMContentLoaded', () => {
         { name: "Zaragoza", community: "Aragón" },
         { name: "Ceuta", community: "Ceuta" },
         { name: "Melilla", community: "Melilla" },
-        { name: "NA", community: "NA" }
+        { name: "Nacional", community: "Nacional" }
     ];
 
     // Rellenar las opciones de provincia en los formularios de edición y subida de eventos
