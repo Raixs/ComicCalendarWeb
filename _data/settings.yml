@@ -30,7 +30,8 @@ github: https://github.com/malambra/comicCalendar # Add your
 
 #-------------------------------
 # Comment Section (Disqus)
-disqus-identifier: mr-brown # add your shortname for Disqus Comment. For example mr-brown
+# To enable the Disqus comment section, uncomment disqus-identifier.
+#disqus-identifier: mr-brown # add your shortname for Disqus Comment. For example mr-brown
 
 
 #-------------------------------
