@@ -114,3 +114,7 @@
 
 // 4.5 Tag Page
 @import '4-layouts/tag-page';
+
+.post__navigation {
+    display: none   // Hide post navigation by default
+};
