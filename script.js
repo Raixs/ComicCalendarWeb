@@ -315,6 +315,10 @@ function isAllDayEvent(startTime, endTime) {
     return (startTime === "00:00" && endTime === "23:59");
 }
 
+function datePart(dateString) {
+    return dateString ? dateString.split(' ')[0] : '';
+}
+
 function formatDateToUTC(dateString) {
     const date = new Date(dateString);
     const year = date.getUTCFullYear();
@@ -776,13 +780,34 @@ function showEventDetails(event) {
         document.getElementById('adminButtons').classList.add('d-none');
     }
 
-    // Preparar botones de acción
-    document.getElementById('addToCalendarBtn').onclick = function() {
-        const currentEvent = event; // Capturamos el objeto event
+    // Preparar botón "Añadir al calendario"
+    const atcbContainer = document.getElementById('addToCalendarBtn');
+    if (typeof atcb_init === 'function') {
+        const atcbData = {
+            name: event.summary,
+            description: event.description.replace(/<[^>]*>/g, ''),
+            startDate: datePart(event.start_date),
+            endDate: datePart(event.end_date),
+            options: ['Google', 'Outlook.com', 'Apple', 'iCal'],
+            timeZone: 'Europe/Madrid',
+            label: 'Añadir al calendario'
+        };
+        const startTime = formatTime(event.start_date);
+        const endTime = formatTime(event.end_date);
+        if (!isAllDayEvent(startTime, endTime)) {
+            atcbData.startTime = startTime;
+            atcbData.endTime = endTime;
+        }
+        atcbContainer.textContent = JSON.stringify(atcbData);
+        atcbContainer.classList.remove('atcb-initialized');
+        atcb_init();
+    } else {
+        atcbContainer.innerHTML = '';
+        const currentEvent = event; // fallback
         loadCalendarScript(function() {
             CalendarUtils.addToCalendar(currentEvent);
         });
-    };
+    }
 
     document.getElementById('getDirectionsBtn').onclick = function() {
         getDirections(event);
