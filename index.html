@@ -14,7 +14,7 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <!-- Tu archivo CSS personalizado -->
     <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/add-to-calendar-button@1/assets/css/atcb.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/add-to-calendar-button@2/assets/css/atcb.min.css">
     <meta name="theme-color" content="#007bff">
     <!-- Favicons -->
     <link rel="icon" href="images/icons/favicon.ico" sizes="any" type="image/x-icon">
@@ -574,7 +574,9 @@
                                 </div>
                                 <!-- Botones de acción -->
                                 <div class="d-grid gap-2">
-                                    <div id="addToCalendarBtn" class="atcb" style="display:none;"></div>
+                                    <button class="btn btn-success" id="addToCalendarBtn">
+                                        <i class="fas fa-calendar-plus"></i> Añadir al calendario
+                                    </button>
                                     <button class="btn btn-primary" id="getDirectionsBtn"><i class="fas fa-directions"></i> Cómo llegar</button>
                                     <button class="btn btn-secondary" id="shareEventBtn"><i class="fas fa-share-alt"></i> Compartir</button>
                                 </div>
@@ -758,7 +760,7 @@
     <!-- Tu script.js -->
     <script src="script.js"></script>
     <!-- Add to Calendar Button library -->
-    <script src="https://cdn.jsdelivr.net/npm/add-to-calendar-button@1" async defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/add-to-calendar-button@2" async defer></script>
     <!-- Archivo de provincias.js si es necesario -->
     <script src="provincias.js"></script>
 </body>
