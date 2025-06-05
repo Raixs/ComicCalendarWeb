@@ -879,22 +879,41 @@ function shareEvent(event) {
                 console.error('Error al compartir el evento:', error);
             });
     } else {
-        // Si la Web Share API no está disponible, copiar al portapapeles
-        copyToClipboard(eventUrl);
-        showAlert('El enlace del evento se ha copiado al portapapeles.', 'info', 3000);
+        // Si la Web Share API no está disponible, intentar copiar al portapapeles
+        copyToClipboard(eventUrl)
+            .then(() => {
+                showAlert('El enlace del evento se ha copiado al portapapeles.', 'info', 3000);
+            })
+            .catch((error) => {
+                console.error('Error al copiar el enlace:', error);
+                showAlert('No se pudo copiar el enlace del evento.', 'danger', 3000);
+            });
     }
 }
 
 // Función para copiar texto al portapapeles
 function copyToClipboard(text) {
-    const tempInput = document.createElement('input');
-    tempInput.style.position = 'fixed';
-    tempInput.style.opacity = '0';
-    tempInput.value = text;
-    document.body.appendChild(tempInput);
-    tempInput.select();
-    document.execCommand('copy');
-    document.body.removeChild(tempInput);
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+        return navigator.clipboard.writeText(text);
+    }
+
+    // Método de respaldo para navegadores más antiguos
+    return new Promise((resolve, reject) => {
+        try {
+            const tempInput = document.createElement('input');
+            tempInput.style.position = 'fixed';
+            tempInput.style.opacity = '0';
+            tempInput.value = text;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            const successful = document.execCommand('copy');
+            document.body.removeChild(tempInput);
+
+            successful ? resolve() : reject(new Error('Fallback copy failed'));
+        } catch (err) {
+            reject(err);
+        }
+    });
 }
 
 function loadCalendarScript(callback) {
