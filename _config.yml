@@ -14,7 +14,7 @@ plugins:
   - jekyll/tagging
 
 paginate: 5
-paginate_path: "/blog/page/:num"  # <-- Ojo, para paginación del blog
+paginate_path: "/blog/page/:num/"  # <-- Ojo, para paginación del blog
 
 # Blog URL y estructura
 collections:
@@ -28,6 +28,12 @@ defaults:
       path: '_pages'
     values:
       permalink: /:basename:output_ext
+  - scope:
+      path: ""
+      type: "posts"
+    values:
+      layout: "post"
+      permalink: /blog/:year/:month/:day/:title/
 
 include:
   - _pages
@@ -35,9 +41,10 @@ include:
   - _layouts
   - _includes
   - _sass
+  - blog
 
 # Etiquetas (para jekyll/tagging)
-tag_page_dir:         tag
+tag_page_dir:         blog/tag
 tag_page_layout:      tag_page
 tag_permalink_style:  pretty
 
