@@ -3,7 +3,7 @@
 title: "ComicPlan"
 description: "Web y Blog de ComicPlan"
 baseurl: ""  # si usás GitHub Pages con dominio personalizado, dejar así
-url: "http://localhost:4000"
+url: "https://comicplan.com"
 
 # Build settings
 markdown: kramdown
