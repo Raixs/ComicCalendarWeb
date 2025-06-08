@@ -315,6 +315,10 @@ function isAllDayEvent(startTime, endTime) {
     return (startTime === "00:00" && endTime === "23:59");
 }
 
+function datePart(dateString) {
+    return dateString ? dateString.split(' ')[0] : '';
+}
+
 function formatDateToUTC(dateString) {
     const date = new Date(dateString);
     const year = date.getUTCFullYear();
@@ -776,13 +780,34 @@ function showEventDetails(event) {
         document.getElementById('adminButtons').classList.add('d-none');
     }
 
-    // Preparar botones de acción
-    document.getElementById('addToCalendarBtn').onclick = function() {
-        const currentEvent = event; // Capturamos el objeto event
-        loadCalendarScript(function() {
-            CalendarUtils.addToCalendar(currentEvent);
-        });
+    // Preparar botón "Añadir al calendario"
+    const addToCalendarBtn = document.getElementById('addToCalendarBtn');
+    const atcbData = {
+        name: event.summary,
+        description: event.description.replace(/<[^>]*>/g, ''),
+        startDate: datePart(event.start_date),
+        endDate: datePart(event.end_date),
+        options: ['Google', 'Outlook.com', 'Apple', 'iCal'],
+        timeZone: 'Europe/Madrid'
     };
+    const startTime = formatTime(event.start_date);
+    const endTime = formatTime(event.end_date);
+    if (!isAllDayEvent(startTime, endTime)) {
+        atcbData.startTime = startTime;
+        atcbData.endTime = endTime;
+    }
+    if (typeof atcb_action === 'function') {
+        addToCalendarBtn.onclick = function() {
+            atcb_action(atcbData, addToCalendarBtn);
+        };
+    } else {
+        addToCalendarBtn.onclick = function() {
+            const currentEvent = event; // fallback
+            loadCalendarScript(function() {
+                CalendarUtils.addToCalendar(currentEvent);
+            });
+        };
+    }
 
     document.getElementById('getDirectionsBtn').onclick = function() {
         getDirections(event);
@@ -879,22 +904,41 @@ function shareEvent(event) {
                 console.error('Error al compartir el evento:', error);
             });
     } else {
-        // Si la Web Share API no está disponible, copiar al portapapeles
-        copyToClipboard(eventUrl);
-        showAlert('El enlace del evento se ha copiado al portapapeles.', 'info', 3000);
+        // Si la Web Share API no está disponible, intentar copiar al portapapeles
+        copyToClipboard(eventUrl)
+            .then(() => {
+                showAlert('El enlace del evento se ha copiado al portapapeles.', 'info', 3000);
+            })
+            .catch((error) => {
+                console.error('Error al copiar el enlace:', error);
+                showAlert('No se pudo copiar el enlace del evento.', 'danger', 3000);
+            });
     }
 }
 
 // Función para copiar texto al portapapeles
 function copyToClipboard(text) {
-    const tempInput = document.createElement('input');
-    tempInput.style.position = 'fixed';
-    tempInput.style.opacity = '0';
-    tempInput.value = text;
-    document.body.appendChild(tempInput);
-    tempInput.select();
-    document.execCommand('copy');
-    document.body.removeChild(tempInput);
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+        return navigator.clipboard.writeText(text);
+    }
+
+    // Método de respaldo para navegadores más antiguos
+    return new Promise((resolve, reject) => {
+        try {
+            const tempInput = document.createElement('input');
+            tempInput.style.position = 'fixed';
+            tempInput.style.opacity = '0';
+            tempInput.value = text;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            const successful = document.execCommand('copy');
+            document.body.removeChild(tempInput);
+
+            successful ? resolve() : reject(new Error('Fallback copy failed'));
+        } catch (err) {
+            reject(err);
+        }
+    });
 }
 
 function loadCalendarScript(callback) {
