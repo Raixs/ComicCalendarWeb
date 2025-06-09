@@ -28,7 +28,7 @@ defaults:
       path: '_pages'
     values:
       permalink: /:basename:output_ext
-    - scope:
+  - scope:
       path: ""
       type: "posts"
     values:
