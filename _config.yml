@@ -43,6 +43,25 @@ include:
   - _sass
   - blog
 
+# Excluir explícitamente todo lo que no sea parte del blog
+exclude:
+  - index.html
+  - styles.css
+  - provincias.js
+  - script.js
+  - readme.md
+  - images/
+  - js/
+
+# Procesar solo los archivos dentro de la carpeta blog
+keep_files:
+  - index.html
+  - styles.css
+  - provincias.js
+  - script.js
+  - images
+  - js
+
 # Etiquetas (para jekyll/tagging)
 tag_page_dir:         blog/tag
 tag_page_layout:      tag_page
