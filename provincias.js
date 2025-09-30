@@ -3,6 +3,7 @@
 
 // Definir provincias y comunidades autónomas
 const provincesData = [
+    { name: "Nacional", community: "Nacional" },
     { name: "Albacete", community: "Castilla-La Mancha" },
     { name: "Alicante", community: "Comunidad Valenciana" },
     { name: "Almería", community: "Andalucía" },
@@ -54,8 +55,7 @@ const provincesData = [
     { name: "Zamora", community: "Castilla y León" },
     { name: "Zaragoza", community: "Aragón" },
     { name: "Ceuta", community: "Ceuta" },
-    { name: "Melilla", community: "Melilla" },
-    { name: "Nacional", community: "Nacional" }
+    { name: "Melilla", community: "Melilla" }
     ];
 
 // Exponer provinces globalmente para que los módulos ES6 puedan acceder
