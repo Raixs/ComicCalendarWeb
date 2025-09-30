@@ -175,11 +175,11 @@
                         <div class="tab-pane fade show active" id="basic" role="tabpanel" aria-labelledby="basic-tab">
                             <form id="search-form-basic" class="row g-3 mt-3">
                                 <div class="col-md-6">
-                                    <label for="event-name" class="form-label">Nombre del evento</label>
+                                    <label for="event-name" class="form-label"><i class="fas fa-theater-masks"></i> Nombre del evento</label>
                                     <input type="text" class="form-control" id="event-name" placeholder="Ej: Salón del Manga">
                                 </div>
                                 <div class="col-md-3">
-                                    <label for="month" class="form-label">Mes</label>
+                                    <label for="month" class="form-label"><i class="fas fa-calendar-alt"></i> Mes</label>
                                     <select class="form-select" id="month">
                                         <option value="">Cualquier mes</option>
                                         <option value="1">Enero</option>
@@ -197,7 +197,7 @@
                                     </select>
                                 </div>
                                 <div class="col-md-3">
-                                    <label for="province" class="form-label">Provincia</label>
+                                    <label for="province" class="form-label"><i class="fas fa-map-marker-alt"></i> Provincia</label>
                                     <select class="form-select" id="province">
                                         <option value="">Cualquier provincia</option>
                                         <!-- Las opciones se cargarán dinámicamente desde provincias.js -->
@@ -214,30 +214,30 @@
                         <div class="tab-pane fade" id="advanced" role="tabpanel" aria-labelledby="advanced-tab">
                             <form id="search-form-advanced" class="row g-3 mt-3">
                                 <div class="col-md-4">
-                                    <label for="start-date" class="form-label">Fecha de inicio</label>
+                                    <label for="start-date" class="form-label"><i class="fas fa-calendar-plus"></i> Fecha de inicio</label>
                                     <input type="date" class="form-control" id="start-date">
                                 </div>
                                 <div class="col-md-4">
-                                    <label for="end-date" class="form-label">Fecha de fin</label>
+                                    <label for="end-date" class="form-label"><i class="fas fa-calendar-minus"></i> Fecha de fin</label>
                                     <input type="date" class="form-control" id="end-date">
                                 </div>
                                 <div class="col-md-4">
-                                    <label for="year" class="form-label">Año</label>
+                                    <label for="year" class="form-label"><i class="fas fa-calendar-day"></i> Año</label>
                                     <input type="text" class="form-control" id="year" placeholder="Ej: 2024, 2025, etc.">
                                 </div>
                                 <div class="col-md-4">
-                                    <label for="adv-community" class="form-label">Comunidad Autónoma</label>
+                                    <label for="adv-community" class="form-label"><i class="fas fa-map"></i> Comunidad Autónoma</label>
                                     <input type="text" class="form-control" id="adv-community" list="community-list" placeholder="Seleccione una comunidad">
                                     <datalist id="community-list">
                                         <!-- Se rellenan dinámicamente desde provincias.js -->
                                     </datalist>
                                 </div>
                                 <div class="col-md-4">
-                                    <label for="adv-city" class="form-label">Ciudad</label>
+                                    <label for="adv-city" class="form-label"><i class="fas fa-city"></i> Ciudad</label>
                                     <input type="text" class="form-control" id="adv-city" placeholder="Ej: Madrid">
                                 </div>
                                 <div class="col-md-4">
-                                    <label for="adv-type" class="form-label">Tipo</label>
+                                    <label for="adv-type" class="form-label"><i class="fas fa-tags"></i> Tipo</label>
                                     <input type="text" class="form-control" id="adv-type" placeholder="Ej: Convención, Feria, Firma, etc.">
                                 </div>
                                 <div class="col-12">
