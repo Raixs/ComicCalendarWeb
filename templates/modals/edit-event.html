@@ -1,0 +1,79 @@
+<!-- Modal de Edición de Evento -->
+<div class="modal fade" id="editEventModal" tabindex="-1" aria-labelledby="editEventModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content custom-modal">
+            <div class="modal-header">
+                <h5 class="modal-title">Editar Evento</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+            </div>
+            <div class="modal-body">
+                <form id="edit-event-form">
+                    <div class="mb-3">
+                        <label for="edit-summary" class="form-label">Nombre del evento:</label>
+                        <input type="text" class="form-control" id="edit-summary" required>
+                    </div>
+                    <div class="row">
+                        <div class="mb-3 col-md-6">
+                            <label for="edit-start-date" class="form-label">Fecha de Inicio:</label>
+                            <input type="date" class="form-control" id="edit-start-date" required>
+                        </div>
+                        <div class="mb-3 col-md-6">
+                            <label for="edit-start-time" class="form-label">Hora de Inicio:</label>
+                            <input type="time" class="form-control" id="edit-start-time" required>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="mb-3 col-md-6">
+                            <label for="edit-end-date" class="form-label">Fecha de Fin:</label>
+                            <input type="date" class="form-control" id="edit-end-date" required>
+                        </div>
+                        <div class="mb-3 col-md-6">
+                            <label for="edit-end-time" class="form-label">Hora de Fin:</label>
+                            <input type="time" class="form-control" id="edit-end-time" required>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="mb-3 col-md-6">
+                            <label for="edit-province" class="form-label">Provincia:</label>
+                            <select class="form-control" id="edit-province" required>
+                                <!-- Las opciones serán añadidas dinámicamente desde provincias.js -->
+                            </select>
+                        </div>
+                        <div class="mb-3 col-md-6">
+                            <label for="edit-community" class="form-label">Comunidad Autónoma:</label>
+                            <input type="text" class="form-control" id="edit-community" readonly required>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="mb-3 col-md-6">
+                            <label for="edit-city" class="form-label">Ciudad:</label>
+                            <input type="text" class="form-control" id="edit-city" required>
+                        </div>
+                        <div class="mb-3 col-md-6">
+                            <label for="edit-type" class="form-label">Tipo de Evento:</label>
+                            <select class="form-control" id="edit-type" required>
+                                <option value="">Seleccionar tipo</option>
+                                <option value="Convención">Convención</option>
+                                <option value="Feria">Feria</option>
+                                <option value="Firma">Firma</option>
+                                <option value="Presentación">Presentación</option>
+                                <option value="Taller">Taller</option>
+                                <option value="Exposición">Exposición</option>
+                                <option value="Otro">Otro</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="edit-address" class="form-label">Dirección:</label>
+                        <input type="text" class="form-control" id="edit-address" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="edit-description" class="form-label">Descripción:</label>
+                        <textarea class="form-control" id="edit-description" rows="3" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

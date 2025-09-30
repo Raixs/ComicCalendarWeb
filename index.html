@@ -26,17 +26,8 @@
     <!-- Manifest -->
     <link rel="manifest" href="images/icons/site.webmanifest">
 </head>
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-WX8H3NJBFL"></script>
-<script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-
-    gtag('config', 'G-WX8H3NJBFL');
-</script>
 <body>
-    <!-- Modal -->
+    <!-- Modal de Consentimiento de Cookies -->
     <div class="modal fade" id="cookieconsent3" tabindex="-1" aria-labelledby="cookieconsentLabel3" aria-hidden="true" data-mdb-backdrop="static" data-mdb-keyboard="false">
         <div class="modal-dialog">
             <div class="modal-content d-block text-start">
@@ -52,30 +43,30 @@
                     <div class="form-check">
                         <input class="form-check-input" type="checkbox" value="" id="necessary" checked />
                         <label class="form-check-label" for="necessary">
-                            <p>
-                                <strong>Cookies básicas</strong>
-                                <muted>ayudar con la funcionalidad básica de nuestro sitio web, por ejemplo, recordar si dio su consentimiento para las cookies.</muted>
-                            </p>
+                            <strong>Necesarias</strong><br />
+                            <small class="text-muted">
+                                Estas cookies son esenciales para el funcionamiento del sitio web y no se pueden desactivar.
+                            </small>
                         </label>
                     </div>
                     <!-- Analytical checkbox -->
                     <div class="form-check">
                         <input class="form-check-input" type="checkbox" value="" id="analytical" />
                         <label class="form-check-label" for="analytical">
-                            <p>
-                                <strong>Cookies para analíticas</strong>
-                                <muted>permiten recopilar estadísticas sobre el uso y tráfico en nuestro sitio web, para que podamos mejorarlo.</muted>
-                            </p>
+                            <strong>Analíticas</strong><br />
+                            <small class="text-muted">
+                                Estas cookies nos ayudan a entender cómo interactúas con el sitio web para mejorarlo.
+                            </small>
                         </label>
                     </div>
                     <!-- Marketing checkbox -->
                     <div class="form-check">
                         <input class="form-check-input" type="checkbox" value="" id="marketing" />
                         <label class="form-check-label" for="marketing">
-                            <p>
-                                <strong>Cookies para marketing</strong>
-                                <muted>Permitir mostrarle contenido de redes sociales y anuncios más relevantes en nuestro sitio web y otras plataformas.</muted>
-                            </p>
+                            <strong>Marketing</strong><br />
+                            <small class="text-muted">
+                                Estas cookies se utilizan para mostrarte anuncios relevantes en otros sitios web.
+                            </small>
                         </label>
                     </div>
                 </div>
@@ -91,38 +82,6 @@
         </div>
     </div>
 
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            var cookieModal = new bootstrap.Modal(document.getElementById('cookieconsent3'));
-            // Verificar si ya se aceptaron las cookies
-            if (!localStorage.getItem("cookieConsent")) {
-                cookieModal.show();
-            }
-            // Función para guardar la elección
-            function setCookieConsent(consentType) {
-                localStorage.setItem("cookieConsent", consentType);
-                cookieModal.hide();
-                if (consentType === "all") {
-                    enableAnalytics();
-                }
-            }
-            // Activar cookies analíticas si el usuario acepta
-            function enableAnalytics() {
-                console.log("Cookies analíticas activadas.");
-                gtag('consent', 'update', {
-                    'analytics_storage': 'granted'
-                });
-            }
-            // Eventos para los botones
-            document.querySelector(".btn-accept-necessary").addEventListener("click", function () {
-                setCookieConsent("necessary");
-            });
-            document.querySelector(".btn-accept-all").addEventListener("click", function () {
-                setCookieConsent("all");
-            });
-        });
-    </script>
-
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow">
         <div class="container-fluid">
@@ -136,9 +95,6 @@
                 <a href="https://github.com/malambra/comicCalendar" target="_blank" class="text-white">
                     <i class="fab fa-github fa-lg"></i>
                 </a>
-                <!-- <a href="https://twitter.com/comicplan" target="_blank" class="text-white">
-                    <i class="fab fa-twitter fa-lg"></i>
-                </a> -->
                 <a href="https://www.instagram.com/comicplan" target="_blank" class="text-white">
                     <i class="fab fa-instagram fa-lg"></i>
                 </a>
@@ -162,12 +118,12 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#telegramBotModal">
-                            <i class="fab fa-telegram"></i> Telegram Bot
+                            <i class="fab fa-telegram"></i> Bot Telegram
                         </a>
                     </li>
                     <li class="nav-item d-none d-lg-block">
                         <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#graficasModal">
-                            <i class="fas fa-chart-bar"></i> Estadísticas
+                            <i class="fas fa-chart-line"></i> Gráficas
                         </a>
                     </li>                    
                     <li class="nav-item">
@@ -187,7 +143,7 @@
                     </li>
                     <li class="nav-item d-none" id="upload-item">
                         <button class="btn btn-light" data-bs-toggle="modal" data-bs-target="#uploadEventModal">
-                            <i class="fas fa-upload"></i> Subir Evento
+                            <i class="fas fa-plus"></i> Subir Evento
                         </button>
                     </li>
                 </ul>
@@ -202,99 +158,100 @@
             <p class="lead">Explora y descubre eventos cercanos a ti</p>
         </div>
 
-    <!-- Formulario de búsqueda mejorado -->
-    <div class="container mb-5">
-        <div class="card shadow search-card">
-            <div class="card-body text-start">
-                <ul class="nav nav-tabs" id="searchTab" role="tablist">
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link active" id="basic-tab" data-bs-toggle="tab" data-bs-target="#basic" type="button" role="tab" aria-controls="basic" aria-selected="true">Búsqueda Básica</button>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="advanced-tab" data-bs-toggle="tab" data-bs-target="#advanced" type="button" role="tab" aria-controls="advanced" aria-selected="false">Opciones avanzadas</button>
-                    </li>
-                </ul>
-                <div class="tab-content" id="searchTabContent">
-                    <!-- Búsqueda Básica -->
-                    <div class="tab-pane fade show active" id="basic" role="tabpanel" aria-labelledby="basic-tab">
-                        <form id="search-form-basic" class="row g-3 mt-3" onsubmit="searchEvents(event)">
-                            <div class="col-md-4">
-                                <label for="month" class="form-label"><i class="fas fa-calendar-alt"></i> Mes:</label>
-                                <select class="form-select" id="month">
-                                    <option value="">Todos los meses</option>
-                                    <option value="01">Enero</option>
-                                    <option value="02">Febrero</option>
-                                    <option value="03">Marzo</option>
-                                    <option value="04">Abril</option>
-                                    <option value="05">Mayo</option>
-                                    <option value="06">Junio</option>
-                                    <option value="07">Julio</option>
-                                    <option value="08">Agosto</option>
-                                    <option value="09">Septiembre</option>
-                                    <option value="10">Octubre</option>
-                                    <option value="11">Noviembre</option>
-                                    <option value="12">Diciembre</option>
-                                </select>
-                            </div>
-                            <div class="col-md-4">
-                                <label for="province" class="form-label"><i class="fas fa-map-marker-alt"></i> Provincia:</label>
-                                <input type="text" class="form-control" id="province" list="province-list" placeholder="Seleccione una provincia">
-                                <datalist id="province-list">
-                                    <!-- Opciones de provincias -->
-                                    <!-- ... -->
-                                </datalist>
-                            </div>
-                            <div class="col-md-4">
-                                <label for="event-name" class="form-label"><i class="fas fa-heading"></i> Nombre del evento:</label>
-                                <input type="text" class="form-control" id="event-name" placeholder="Ingrese el nombre del evento">
-                            </div>
-                            <div class="col-12 text-center">
-                                <button type="submit" class="btn btn-primary mt-3"><i class="fas fa-search"></i> Buscar</button>
-                            </div>
-                        </form>
-                    </div>
-                    <!-- Búsqueda Avanzada -->
-                    <div class="tab-pane fade" id="advanced" role="tabpanel" aria-labelledby="advanced-tab">
-                        <form id="search-form-advanced" class="row g-3 mt-3" onsubmit="searchEvents(event)">
-                            <div class="col-md-4">
-                                <label for="year" class="form-label"><i class="fas fa-calendar"></i> Año:</label>
-                                <input type="text" class="form-control" id="year" placeholder="Ej: 2024" pattern="\d{4}">
-                            </div>
-                            <div class="col-md-4">
-                                <label for="start-date" class="form-label"><i class="fas fa-calendar-day"></i> Fecha de Inicio:</label>
-                                <input type="date" class="form-control" id="start-date">
-                            </div>
-                            <div class="col-md-4">
-                                <label for="end-date" class="form-label"><i class="fas fa-calendar-day"></i> Fecha de Fin:</label>
-                                <input type="date" class="form-control" id="end-date">
-                            </div>
-                            <div class="col-md-4">
-                                <label for="community" class="form-label"><i class="fas fa-map"></i> Comunidad Autónoma:</label>
-                                <input type="text" class="form-control" id="community" list="community-list" placeholder="Seleccione una comunidad">
-                                <datalist id="community-list">
-                                    <!-- Opciones de comunidades -->
-                                    <!-- ... -->
-                                </datalist>
-                            </div>
-                            <div class="col-md-4">
-                                <label for="city" class="form-label"><i class="fas fa-city"></i> Ciudad:</label>
-                                <input type="text" class="form-control" id="city" placeholder="Ingrese una ciudad">
-                            </div>
-                            <div class="col-md-4">
-                                <label for="type" class="form-label"><i class="fas fa-tags"></i> Tipo:</label>
-                                <input type="text" class="form-control" id="type" placeholder="Ingrese un tipo de evento">
-                            </div>
-                            <div class="col-12 text-center">
-                                <button type="submit" class="btn btn-primary mt-3"><i class="fas fa-search"></i> Buscar</button>
-                            </div>
-                        </form>
+        <!-- Formulario de búsqueda mejorado -->
+        <div class="container mb-5">
+            <div class="card shadow search-card">
+                <div class="card-body text-start">
+                    <ul class="nav nav-tabs" id="searchTab" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link active" id="basic-tab" data-bs-toggle="tab" data-bs-target="#basic" type="button" role="tab" aria-controls="basic" aria-selected="true">Búsqueda Básica</button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="advanced-tab" data-bs-toggle="tab" data-bs-target="#advanced" type="button" role="tab" aria-controls="advanced" aria-selected="false">Opciones avanzadas</button>
+                        </li>
+                    </ul>
+                    <div class="tab-content" id="searchTabContent">
+                        <!-- Búsqueda Básica -->
+                        <div class="tab-pane fade show active" id="basic" role="tabpanel" aria-labelledby="basic-tab">
+                            <form id="search-form-basic" class="row g-3 mt-3">
+                                <div class="col-md-6">
+                                    <label for="event-name" class="form-label">Nombre del evento</label>
+                                    <input type="text" class="form-control" id="event-name" placeholder="Ej: Salón del Manga">
+                                </div>
+                                <div class="col-md-3">
+                                    <label for="month" class="form-label">Mes</label>
+                                    <select class="form-select" id="month">
+                                        <option value="">Cualquier mes</option>
+                                        <option value="1">Enero</option>
+                                        <option value="2">Febrero</option>
+                                        <option value="3">Marzo</option>
+                                        <option value="4">Abril</option>
+                                        <option value="5">Mayo</option>
+                                        <option value="6">Junio</option>
+                                        <option value="7">Julio</option>
+                                        <option value="8">Agosto</option>
+                                        <option value="9">Septiembre</option>
+                                        <option value="10">Octubre</option>
+                                        <option value="11">Noviembre</option>
+                                        <option value="12">Diciembre</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-3">
+                                    <label for="province" class="form-label">Provincia</label>
+                                    <select class="form-select" id="province">
+                                        <option value="">Cualquier provincia</option>
+                                        <!-- Las opciones se cargarán dinámicamente desde provincias.js -->
+                                    </select>
+                                </div>
+                                <div class="col-12">
+                                    <button type="submit" class="btn btn-primary">
+                                        <i class="fas fa-search"></i> Buscar eventos
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                        <!-- Búsqueda Avanzada -->
+                        <div class="tab-pane fade" id="advanced" role="tabpanel" aria-labelledby="advanced-tab">
+                            <form id="search-form-advanced" class="row g-3 mt-3">
+                                <div class="col-md-4">
+                                    <label for="start-date" class="form-label">Fecha de inicio</label>
+                                    <input type="date" class="form-control" id="start-date">
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="end-date" class="form-label">Fecha de fin</label>
+                                    <input type="date" class="form-control" id="end-date">
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="year" class="form-label">Año</label>
+                                    <input type="text" class="form-control" id="year" placeholder="Ej: 2024, 2025, etc.">
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="adv-community" class="form-label">Comunidad Autónoma</label>
+                                    <input type="text" class="form-control" id="adv-community" list="community-list" placeholder="Seleccione una comunidad">
+                                    <datalist id="community-list">
+                                        <!-- Se rellenan dinámicamente desde provincias.js -->
+                                    </datalist>
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="adv-city" class="form-label">Ciudad</label>
+                                    <input type="text" class="form-control" id="adv-city" placeholder="Ej: Madrid">
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="adv-type" class="form-label">Tipo</label>
+                                    <input type="text" class="form-control" id="adv-type" placeholder="Ej: Convención, Feria, Firma, etc.">
+                                </div>
+                                <div class="col-12">
+                                    <button type="submit" class="btn btn-primary">
+                                        <i class="fas fa-search"></i> Buscar eventos
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-</header> 
-
+    </header> 
 
     <!-- Contenido principal -->
     <div class="container">
@@ -307,7 +264,7 @@
         <div id="events" class="row row-cols-1 row-cols-md-3 g-4"></div>
         <div id="pagination-info" class="text-center mt-2"></div>
         <div id="load-more-container" class="d-flex justify-content-center mt-4">
-            <button id="load-more" class="btn btn-lg btn-success" onclick="loadMoreEvents()" style="display: none;">Mostrar más</button>
+            <button id="load-more" class="btn btn-lg btn-success" style="display: none;">Mostrar más</button>
         </div>
     </div>
 
@@ -320,453 +277,19 @@
         </div>
     </footer>
 
-    <!-- Modales -->
+    <!-- Contenedor para modales cargados dinámicamente -->
+    <div id="modal-container"></div>
 
-    <!-- Modal de Telegram Bot -->
-    <div class="modal fade" id="telegramBotModal" tabindex="-1" aria-labelledby="telegramBotModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content custom-modal">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="telegramBotModalLabel">Telegram Bot</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
-                </div>
-                <div class="modal-body">
-                    <p class="lead">
-                        Nuestro bot de Telegram te mantiene informado sobre los eventos en las provincias que selecciones y con los filtros que elijas.
-                    </p>
-                    <ul>
-                        <li>Recibe notificaciones de nuevos eventos en las provincias que tu elijas</li>
-                        <li>Accede a la información de los eventos directamente desde Telegram</li>
-                        <li>Estarás siempre actualizado</li>
-                    </ul>
-                    <p>
-                        Para empezar a usar el bot, haz clic en el siguiente enlace:
-                    </p>
-                    <p class="text-center text-primary fw-bold">
-                        <a href="https://t.me/eventoscomic_bot" target="_blank">Ir al Bot de Telegram</a>
-                    </p>
-                    <p class="text-muted text-center">
-                        ¡Mantente al día con los mejores eventos de cómic en España!
-                    </p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal de Inicio de Sesión -->
-    <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content custom-modal">
-                <div class="modal-header">
-                    <h5 class="modal-title">Iniciar Sesión</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
-                </div>
-                <div class="modal-body">
-                    <form id="login-form" onsubmit="login(event)">
-                        <div class="mb-3">
-                            <label for="username" class="form-label">Usuario:</label>
-                            <input type="text" class="form-control" id="username" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="password" class="form-label">Contraseña:</label>
-                            <input type="password" class="form-control" id="password" required>
-                        </div>
-                        <button type="submit" class="btn btn-primary">Iniciar Sesión</button>
-                    </form>
-                    <p class="text-muted mt-3" style="font-size: 0.9em;">
-                        Este panel de control está destinado exclusivamente a nuestros colaboradores para la gestión de eventos en el sitio web. Actualmente, no aceptamos registros de nuevos usuarios. Si considera que puede contribuir, por favor <a href="#" data-bs-toggle="modal" data-bs-target="#contactModal">contáctenos</a>.
-                    </p>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal de Edición de Evento -->
-    <div class="modal fade" id="editEventModal" tabindex="-1" aria-labelledby="editEventModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content custom-modal">
-                <div class="modal-header">
-                    <h5 class="modal-title">Editar Evento</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
-                </div>
-                <div class="modal-body">
-                    <form id="edit-event-form" onsubmit="updateEvent(event)">
-                        <div class="mb-3">
-                            <label for="edit-summary" class="form-label">Nombre del evento:</label>
-                            <input type="text" class="form-control" id="edit-summary" required>
-                        </div>
-                        <div class="row">
-                            <div class="mb-3 col-md-6">
-                                <label for="edit-start-date" class="form-label">Fecha de Inicio:</label>
-                                <input type="date" class="form-control" id="edit-start-date" required>
-                            </div>
-                            <div class="mb-3 col-md-6">
-                                <label for="edit-start-time" class="form-label">Hora de Inicio:</label>
-                                <input type="time" class="form-control" id="edit-start-time" required>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="mb-3 col-md-6">
-                                <label for="edit-end-date" class="form-label">Fecha de Fin:</label>
-                                <input type="date" class="form-control" id="edit-end-date" required>
-                            </div>
-                            <div class="mb-3 col-md-6">
-                                <label for="edit-end-time" class="form-label">Hora de Fin:</label>
-                                <input type="time" class="form-control" id="edit-end-time" required>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="mb-3 col-md-6">
-                                <label for="edit-province" class="form-label">Provincia:</label>
-                                <select class="form-control" id="edit-province" required>
-                                    <!-- Las opciones serán añadidas dinámicamente desde provincias.js -->
-                                </select>
-                            </div>
-                            <div class="mb-3 col-md-6">
-                                <label for="edit-community" class="form-label">Comunidad Autónoma:</label>
-                                <input type="text" class="form-control" id="edit-community" readonly required>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="mb-3 col-md-6">
-                                <label for="edit-city" class="form-label">Ciudad:</label>
-                                <input type="text" class="form-control" id="edit-city" required>
-                            </div>
-                            <div class="mb-3 col-md-6">
-                                <label for="edit-type" class="form-label">Tipo de Evento:</label>
-                                <input type="text" class="form-control" id="edit-type" required>
-                            </div>
-                        </div>
-                        <div class="mb-3">
-                            <label for="edit-address" class="form-label">Dirección:</label>
-                            <input type="text" class="form-control" id="edit-address" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="edit-description" class="form-label">Descripción:</label>
-                            <textarea class="form-control" id="edit-description" rows="3" required></textarea>
-                        </div>
-                        <button type="submit" class="btn btn-primary">Guardar Cambios</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal de Confirmación de Eliminación -->
-    <div class="modal fade" id="deleteEventModal" tabindex="-1" aria-labelledby="deleteEventModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content custom-modal">
-                <div class="modal-header">
-                    <h5 class="modal-title">Confirmar Eliminación</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
-                </div>
-                <div class="modal-body">
-                    ¿Estás seguro de que deseas eliminar este evento? Esta acción no se puede deshacer.
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                    <button type="button" class="btn btn-danger" onclick="deleteEvent()">Eliminar</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal de Subida de Evento -->
-    <div class="modal fade" id="uploadEventModal" tabindex="-1" aria-labelledby="uploadEventModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content custom-modal">
-                <div class="modal-header">
-                    <h5 class="modal-title">Subir Evento</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
-                </div>
-                <div class="modal-body">
-                    <form id="upload-event-form" onsubmit="uploadEvent(event)">
-                        <div class="mb-3">
-                            <label for="upload-summary" class="form-label">Nombre del evento:</label>
-                            <input type="text" class="form-control" id="upload-summary" required>
-                        </div>
-                        <div class="row">
-                            <div class="mb-3 col-md-6">
-                                <label for="upload-start-date" class="form-label">Fecha de Inicio:</label>
-                                <input type="date" class="form-control" id="upload-start-date" required>
-                            </div>
-                            <div class="mb-3 col-md-6">
-                                <label for="upload-start-time" class="form-label">Hora de Inicio:</label>
-                                <input type="time" class="form-control" id="upload-start-time" required value="00:00">
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="mb-3 col-md-6">
-                                <label for="upload-end-date" class="form-label">Fecha de Fin:</label>
-                                <input type="date" class="form-control" id="upload-end-date" required>
-                            </div>
-                            <div class="mb-3 col-md-6">
-                                <label for="upload-end-time" class="form-label">Hora de Fin:</label>
-                                <input type="time" class="form-control" id="upload-end-time" required value="23:59">
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="mb-3 col-md-6">
-                                <label for="upload-province" class="form-label">Provincia:</label>
-                                <select class="form-control" id="upload-province" required>
-                                    <!-- Las opciones serán añadidas dinámicamente desde provincias.js -->
-                                </select>
-                            </div>
-                            <div class="mb-3 col-md-6">
-                                <label for="upload-community" class="form-label">Comunidad Autónoma:</label>
-                                <input type="text" class="form-control" id="upload-community" placeholder="Selecciona provincia" readonly required>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="mb-3 col-md-6">
-                                <label for="upload-city" class="form-label">Ciudad:</label>
-                                <input type="text" class="form-control" id="upload-city" required>
-                            </div>
-                            <div class="mb-3 col-md-6">
-                                <label for="upload-type" class="form-label">Tipo de Evento:</label>
-                                <input type="text" class="form-control" id="upload-type" required>
-                            </div>
-                        </div>
-                        <div class="mb-3">
-                            <label for="upload-address" class="form-label">Dirección:</label>
-                            <input type="text" class="form-control" id="upload-address" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="upload-description" class="form-label">Descripción:</label>
-                            <textarea class="form-control" id="upload-description" rows="3" required><a href="PONER LINK AL EVENTO">Detalles</a></textarea>
-                        </div>
-                        <button type="submit" class="btn btn-primary">Subir Evento</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal de Detalles del Evento -->
-    <div class="modal fade" id="eventDetailsModal" tabindex="-1" aria-labelledby="eventDetailsModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg modal-dialog-centered">
-            <div class="modal-content custom-modal event-modal">
-                <div class="modal-header">
-                    <h4 class="modal-title" id="eventDetailsModalLabel"></h4>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="container-fluid">
-                        <div class="row">
-                            <!-- Columna de información principal -->
-                            <div class="col-md-8">
-                                <p><i class="fas fa-calendar-alt"></i> <strong>Fecha:</strong> <span id="modalEventDate"></span></p>
-                                <p><i class="fas fa-clock"></i> <strong>Horario:</strong> <span id="modalEventTime"></span></p>
-                                <p><i class="fas fa-map-marker-alt"></i> <strong>Ciudad:</strong> <span id="modalEventCity"></span></p>
-                                <p><i class="fas fa-map-marker-alt"></i> <strong>Provincia:</strong> <span id="modalEventProvince"></span></p>
-                                <p><i class="fas fa-map-pin"></i> <strong>Dirección:</strong> <span id="modalEventAddress"></span></p>
-                                <p><i class="fas fa-tag"></i> <strong>Tipo:</strong> <span id="modalEventType"></span></p>
-                                <hr>
-                                <p id="modalEventUpdateDate" class="update-date-field" style="display: none;">
-                                    <i class="fas fa-sync-alt"></i> <strong>Última actualización:</strong> <span id="modalEventUpdateDateValue"></span>
-                                </p>
-                                <p><i class="fas fa-info-circle"></i> <strong>Descripción:</strong></p>
-                                <div id="modalEventDescription"></div>
-                            </div>
-                            <!-- Columna de funcionalidades adicionales -->
-                            <div class="col-md-4">
-                                <!-- Mapa o imagen del evento -->
-                                <div id="modalEventMap" class="mb-3">
-                                    <!-- Aquí puedes añadir un mapa interactivo o una imagen -->
-                                </div>
-                                <!-- Botones de acción -->
-                                <div class="d-grid gap-2">
-                                    <button class="btn btn-success" id="addToCalendarBtn">
-                                        <i class="fas fa-calendar-plus"></i> Añadir al calendario
-                                    </button>
-                                    <button class="btn btn-primary" id="getDirectionsBtn"><i class="fas fa-directions"></i> Cómo llegar</button>
-                                    <button class="btn btn-secondary" id="shareEventBtn"><i class="fas fa-share-alt"></i> Compartir</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- Pie del modal -->
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                    <!-- Botones de administrador -->
-                    <div id="adminButtons" class="d-none">
-                        <button class="btn btn-warning" id="editEventModalBtn"><i class="fas fa-edit"></i> Editar</button>
-                        <button class="btn btn-danger" id="deleteEventModalBtn"><i class="fas fa-trash-alt"></i> Eliminar</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-<!-- Modal de Gráficas -->
-<div class="modal fade" id="graficasModal" tabindex="-1" aria-labelledby="graficasModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-xl"> <!-- modal-xl para ancho extra grande -->
-        <div class="modal-content custom-modal">
-            <div class="modal-header">
-                <h5 class="modal-title" id="graficasModalLabel">Evolución de eventos...</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
-            </div>
-            <div class="modal-body">
-                <!-- Contenido de graficas.html -->
-                <div class="container mt-3">
-                    <h1>Evolución de eventos por año...</h1>
-                    <div class="form-group"> 
-                        <label for="year-select">Selecciona un año:</label>
-                        <input type="number" class="form-control" id="year-select" min="2000" max="2100" placeholder="Introduce un año" onchange="loadGraph('year')">
-                    </div>
-                    <div class="mt-4">
-                        <h1>Evolución de eventos totales...</h1>
-                        <ul>
-                            <li><a href="#" onclick="loadGraph('comunidad_eventos'); return false;">Evolución de eventos por comunidad</a></li>
-                            <li><a href="#" onclick="loadGraph('provincia_eventos'); return false;">Evolución de eventos por provincia</a></li>
-                            <li><a href="#" onclick="loadGraph('comunidad_totales'); return false;">Evolución total por comunidad</a></li>
-                            <li><a href="#" onclick="loadGraph('provincia_totales'); return false;">Evolución total por provincia</a></li>
-                            <li><a href="#" onclick="loadGraph('comunidad_firmas'); return false;">Evolución de firmas por comunidad</a></li>
-                            <li><a href="#" onclick="loadGraph('provincia_firmas'); return false;">Evolución de firmas por provincia</a></li>
-                        </ul>
-                    </div>
-                    <div id="error-message" class="alert alert-danger" style="display:none;"></div>
-                    <iframe id="graph-frame" src="" width="100%" height="600px" style="border:none; display:none;"></iframe>
-                </div>
-                <!-- Fin del contenido de graficas.html -->
-            </div>
-        </div>
-    </div>
-</div>
-<!-- Modal de politica de cookies -->
-<div class="modal fade" id="cookieModal" tabindex="-1" aria-labelledby="cookieModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content custom-modal">
-            <div class="modal-header">
-                <h5 class="modal-title" id="cookieModalLabel">Política de Cookies</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <div class="container mt-3">
-                    <!-- Aquí se cargará el contenido de politica-cookies.html -->
-                    <h1>Política de Cookies</h1>
-                    <p>Este sitio web utiliza cookies de terceros con el fin de analizar el tráfico y mejorar la experiencia del usuario. En particular, utilizamos Google Analytics, un servicio de análisis web proporcionado por Google, Inc.</p>
-                    <h2>¿Qué son las cookies?</h2>
-                    <p>Las cookies son pequeños archivos de texto que se almacenan en su dispositivo cuando visita un sitio web. Estas cookies permiten que el sitio recuerde información sobre su visita, como el idioma preferido y otras configuraciones, lo que puede facilitar su próxima visita y hacer que el sitio le resulte más útil.</p>
-                    <h2>¿Qué cookies utilizamos?</h2>
-                    <p>Utilizamos exclusivamente cookies de Google Analytics para recopilar información anónima sobre el uso del sitio web, como las páginas visitadas, el tiempo de permanencia y el origen del tráfico. Esto nos ayuda a mejorar el contenido y la experiencia del usuario.</p>
-                    <ul>
-                        <li><strong>_ga:</strong> Se usa para distinguir a los usuarios (caduca en 2 años).</li>
-                        <li><strong>_gid:</strong> Se usa para distinguir a los usuarios (caduca en 24 horas).</li>
-                        <li><strong>_gat:</strong> Se usa para limitar la tasa de solicitudes (caduca en 1 minuto).</li>
-                    </ul>
-                    <h2>¿Cómo gestionar las cookies?</h2>
-                    <p>Puede aceptar o rechazar el uso de cookies a través de la configuración de su navegador. También puede instalar el 
-                        <a href="https://tools.google.com/dlpage/gaoptout?hl=es" target="_blank">complemento de inhabilitación para navegadores de Google Analytics</a> 
-                        si desea evitar que Google Analytics recopile y utilice sus datos.</p>
-                    <p>Para más información sobre cómo Google trata sus datos, puede consultar su 
-                        <a href="https://policies.google.com/privacy?hl=es" target="_blank">Política de Privacidad</a>.</p>
-                    <p>Si continúas navegando en nuestro sitio web, entenderemos que aceptas el uso de estas cookies.</p>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- Modal de Contacto -->
-<div class="modal fade" id="contactModal" tabindex="-1" aria-labelledby="contactModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content custom-modal">
-            <div class="modal-header">
-                <h5 class="modal-title" id="contactModalLabel">Contacto</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
-            </div>
-            <div class="modal-body">
-                <p class="lead">
-                    Si deseas contactarnos para:
-                </p>
-                <ul>
-                    <li>Informar cambios en un evento existente.</li>
-                    <li>Añadir un nuevo evento a nuestra base de datos.</li>
-                    <li>Proponer mejoras o reportar problemas en la web.</li>
-                </ul>
-                <p>
-                    Por favor, envíanos un correo a:
-                </p>
-                <p class="text-center text-primary fw-bold">
-                    <a href="mailto:contacto@comicplan.com">contacto@comicplan.com</a>
-                </p>
-                <p class="text-muted text-center">
-                    ¡Gracias por ayudarnos a mejorar ComicPlan!
-                </p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-<script>
-    function loadGraph(type) {
-        const frame = document.getElementById('graph-frame');
-        const errorMessage = document.getElementById('error-message');
-        let url = '';
-
-        if (type === 'year') {
-            const year = document.getElementById('year-select').value;
-            if (year) {
-                url = `https://api.comicplan.com/static/graphs/graficas_eventos_${year}.html`;
-            }
-        } else if (type === 'comunidad_eventos') {
-            url = 'https://api.comicplan.com/static/graphs/evolucion_eventos_comunidad.html';
-        } else if (type === 'provincia_eventos') {
-            url = 'https://api.comicplan.com/static/graphs/evolucion_eventos_provincia.html';
-        } else if (type === 'comunidad_totales') {
-            url = 'https://api.comicplan.com/static/graphs/evolucion_eventos_totales_comunidad.html';
-        } else if (type === 'provincia_totales') {
-            url = 'https://api.comicplan.com/static/graphs/evolucion_eventos_totales_provincia.html';
-        } else if (type === 'comunidad_firmas') {
-            url = 'https://api.comicplan.com/static/graphs/evolucion_firmas_comunidad.html';
-        } else if (type === 'provincia_firmas') {
-            url = 'https://api.comicplan.com/static/graphs/evolucion_firmas_provincia.html';
-        }
-
-        if (url) {
-            fetch(url, { method: 'HEAD' })
-                .then(response => {
-                    if (response.ok) {
-                        frame.src = url;
-                        frame.style.display = 'block';
-                        errorMessage.style.display = 'none';
-                    } else {
-                        frame.src = '';
-                        frame.style.display = 'none';
-                        errorMessage.textContent = 'Lo sentimos, aún no hay disponibles gráficas para el año seleccionado.';
-                        errorMessage.style.display = 'block';
-                    }
-                })
-                .catch(() => {
-                    frame.src = '';
-                    frame.style.display = 'none';
-                    errorMessage.textContent = 'Lo sentimos, aún no hay disponibles gráficas para el año seleccionado.';
-                    errorMessage.style.display = 'block';
-                });
-        } else {
-            frame.src = '';
-            frame.style.display = 'none';
-            errorMessage.textContent = 'Lo sentimos, aún no hay disponibles gráficas para el año seleccionado.';
-            errorMessage.style.display = 'block';
-        }
-    }
-</script>
-    <!-- Scripts de Bootstrap 5 y tus scripts personalizados -->
-    <!-- Bootstrap Bundle con Popper.js incluido -->
+    <!-- Scripts de Bootstrap 5 y aplicación modularizada -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- Tu script.js -->
-    <script src="script.js"></script>
+    
+    <!-- Archivo de provincias.js -->
+    <script src="provincias.js"></script>
+    
     <!-- Add to Calendar Button library -->
     <script src="https://cdn.jsdelivr.net/npm/add-to-calendar-button@2" async defer></script>
-    <!-- Archivo de provincias.js si es necesario -->
-    <script src="provincias.js"></script>
+    
+    <!-- Aplicación modularizada -->
+    <script type="module" src="js/app.js"></script>
 </body>
 </html>

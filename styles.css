@@ -43,10 +43,71 @@ header h1, header p {
 
 .search-card .form-control, .search-card .form-select {
     border-radius: 0.5rem;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
 
 .search-card .btn {
     border-radius: 0.5rem;
+    transition: all 0.15s ease-in-out;
+}
+
+/* Estilos para búsqueda avanzada */
+.advanced-search-section {
+    background-color: #f8f9fa;
+    border-radius: 0.5rem;
+    padding: 1rem;
+    margin-top: 1rem;
+    border: 1px solid #dee2e6;
+}
+
+.advanced-search-toggle {
+    cursor: pointer;
+    user-select: none;
+}
+
+.advanced-search-toggle:hover {
+    color: #0d6efd;
+}
+
+/* Estilos para el formulario de datos */
+.form-floating {
+    margin-bottom: 1rem;
+}
+
+.form-floating .form-control,
+.form-floating .form-select {
+    border-radius: 0.5rem;
+}
+
+.form-floating label {
+    padding-left: 0.75rem;
+}
+
+/* Estilos para listas de provincias/comunidades */
+.province-list,
+.community-list {
+    max-height: 200px;
+    overflow-y: auto;
+    border: 1px solid #dee2e6;
+    border-radius: 0.5rem;
+    background-color: white;
+}
+
+.province-item,
+.community-item {
+    padding: 0.5rem 0.75rem;
+    cursor: pointer;
+    border-bottom: 1px solid #f8f9fa;
+}
+
+.province-item:hover,
+.community-item:hover {
+    background-color: #f8f9fa;
+}
+
+.province-item:last-child,
+.community-item:last-child {
+    border-bottom: none;
 }
 
 #searchTab .nav-link {
@@ -222,4 +283,103 @@ footer a {
     border-radius: 0.5rem;
     margin-top: 1rem;
     color: #333;
+}
+
+/* Estilos para estados de carga y transiciones */
+.loading-spinner {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 3px solid rgba(13, 110, 253, 0.3);
+    border-radius: 50%;
+    border-top-color: #0d6efd;
+    animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* Mejoras para el estado de carga de búsquedas */
+.search-loading {
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+/* Estilos para mensajes de error en gráficas */
+#error-message {
+    border-radius: 0.5rem;
+}
+
+/* Estilos para el iframe de gráficas */
+#graph-frame {
+    border-radius: 0.5rem;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Mejoras para el modal backdrop - prevenir problemas de overlay */
+.modal-backdrop {
+    transition: opacity 0.15s linear;
+}
+
+.modal-backdrop.show {
+    opacity: 0.5;
+}
+
+/* Prevenir scroll del body cuando modal está abierto */
+body.modal-open {
+    overflow: hidden;
+    padding-right: 0 !important;
+}
+
+/* Estilos mejorados para alertas de estado */
+.alert {
+    border-radius: 0.5rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    animation: slideInDown 0.3s ease-out;
+}
+
+@keyframes slideInDown {
+    from {
+        transform: translateY(-100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+/* Estilos para mejor accesibilidad en focus */
+.btn:focus,
+.form-control:focus,
+.form-select:focus {
+    box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
+    outline: none;
+}
+
+/* Mejoras para dispositivos móviles */
+@media (max-width: 576px) {
+    .modal-dialog {
+        margin: 0.5rem;
+    }
+    
+    .modal-xl {
+        max-width: calc(100vw - 1rem);
+    }
+    
+    .search-card {
+        margin-bottom: 1rem;
+    }
+}
+
+/* Estilos para prevenir problemas con provincias duplicadas */
+.province-loading {
+    background-color: #f8f9fa;
+    opacity: 0.7;
+}
+
+/* Animación suave para cambios de estado de autenticación */
+.navbar-nav .nav-item {
+    transition: opacity 0.2s ease-in-out;
 }
