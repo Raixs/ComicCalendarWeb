@@ -176,7 +176,7 @@
                             <form id="search-form-basic" class="row g-3 mt-3">
                                 <div class="col-md-6">
                                     <label for="event-name" class="form-label"><i class="fas fa-theater-masks"></i> Nombre del evento</label>
-                                    <input type="text" class="form-control" id="event-name" placeholder="Ej: Salón del Manga">
+                                                                        <input type="text" class="form-control" id="event-name" placeholder="Ej: Salón del Manga de Barcelona, Comic Con Madrid">
                                 </div>
                                 <div class="col-md-3">
                                     <label for="month" class="form-label"><i class="fas fa-calendar-alt"></i> Mes</label>
@@ -203,9 +203,12 @@
                                         <!-- Las opciones se cargarán dinámicamente desde provincias.js -->
                                     </select>
                                 </div>
-                                <div class="col-12">
-                                    <button type="submit" class="btn btn-primary">
+                                <div class="col-12 d-flex gap-2">
+                                    <button type="submit" class="btn btn-primary flex-grow-1">
                                         <i class="fas fa-search"></i> Buscar eventos
+                                    </button>
+                                    <button type="button" class="btn btn-outline-secondary" onclick="document.getElementById('search-form-basic').reset(); location.reload();" title="Limpiar filtros y mostrar todos los eventos">
+                                        <i class="fas fa-undo"></i> Limpiar
                                     </button>
                                 </div>
                             </form>
@@ -223,26 +226,29 @@
                                 </div>
                                 <div class="col-md-4">
                                     <label for="year" class="form-label"><i class="fas fa-calendar-day"></i> Año</label>
-                                    <input type="text" class="form-control" id="year" placeholder="Ej: 2024, 2025, etc.">
+                                    <input type="text" class="form-control" id="year" placeholder="Ej: 2024, 2025">
                                 </div>
                                 <div class="col-md-4">
                                     <label for="adv-community" class="form-label"><i class="fas fa-map"></i> Comunidad Autónoma</label>
-                                    <input type="text" class="form-control" id="adv-community" list="community-list" placeholder="Seleccione una comunidad">
+                                                                        <input type="text" class="form-control" id="adv-community" list="community-list" placeholder="Ej: Madrid, Cataluña, Andalucía">
                                     <datalist id="community-list">
                                         <!-- Se rellenan dinámicamente desde provincias.js -->
                                     </datalist>
                                 </div>
                                 <div class="col-md-4">
                                     <label for="adv-city" class="form-label"><i class="fas fa-city"></i> Ciudad</label>
-                                    <input type="text" class="form-control" id="adv-city" placeholder="Ej: Madrid">
+                                    <input type="text" class="form-control" id="adv-city" placeholder="Ej: Madrid, Barcelona, Valencia">
                                 </div>
                                 <div class="col-md-4">
                                     <label for="adv-type" class="form-label"><i class="fas fa-tags"></i> Tipo</label>
-                                    <input type="text" class="form-control" id="adv-type" placeholder="Ej: Convención, Feria, Firma, etc.">
+                                    <input type="text" class="form-control" id="adv-type" placeholder="Ej: Convención, Feria, Firma, Taller">
                                 </div>
-                                <div class="col-12">
-                                    <button type="submit" class="btn btn-primary">
+                                <div class="col-12 d-flex gap-2">
+                                    <button type="submit" class="btn btn-primary flex-grow-1">
                                         <i class="fas fa-search"></i> Buscar eventos
+                                    </button>
+                                    <button type="button" class="btn btn-outline-secondary" onclick="document.getElementById('search-form-advanced').reset(); location.reload();" title="Limpiar filtros y mostrar todos los eventos">
+                                        <i class="fas fa-undo"></i> Limpiar
                                     </button>
                                 </div>
                             </form>
