@@ -87,38 +87,112 @@ export class ModalManager {
  */
 export class ModalEventHandlers {
 
+    /**
+     * Helper para transiciones seguras entre modales
+     */
+    static openModalWithDelay(modalId, delay = 150) {
+        setTimeout(() => {
+            try {
+                ModalManager.show(modalId);
+            } catch (error) {
+                console.error(`Error abriendo modal ${modalId}:`, error);
+            }
+        }, delay);
+    }
+
+    /**
+     * Helper para cerrar un modal y abrir otro después
+     */
+    static transitionBetweenModals(fromModalId, toModalId, callback = null) {
+        const fromModal = document.getElementById(fromModalId);
+        const modalInstance = bootstrap.Modal.getInstance(fromModal);
+        
+        if (modalInstance) {
+            fromModal.addEventListener('hidden.bs.modal', () => {
+                if (callback) callback();
+                this.openModalWithDelay(toModalId);
+            }, { once: true });
+
+            modalInstance.hide();
+        } else {
+            if (callback) callback();
+            this.openModalWithDelay(toModalId);
+        }
+    }
+
     static async handleEditEvent(eventId) {
         APP_STATE.currentEventId = eventId;
 
-        // Ocultar modal de detalles si está abierto
-        ModalManager.hide(CONFIG.MODAL_IDS.EVENT_DETAILS);
+        // Cerrar modal de detalles y esperar a que se cierre completamente
+        const detailsModal = document.getElementById(CONFIG.MODAL_IDS.EVENT_DETAILS);
+        const modalInstance = bootstrap.Modal.getInstance(detailsModal);
+        
+        if (modalInstance) {
+            // Escuchar cuando el modal se haya cerrado completamente
+            detailsModal.addEventListener('hidden.bs.modal', async () => {
+                try {
+                    const response = await fetch(`${CONFIG.API_URL}/events/${eventId}`);
+                    
+                    if (!response.ok) {
+                        throw new Error('Error al cargar evento');
+                    }
 
-        try {
-            const response = await fetch(`${CONFIG.API_URL}/events/${eventId}`);
-            
-            if (!response.ok) {
-                throw new Error('Error al cargar evento');
+                    const event = await response.json();
+
+                    // Rellenar formulario
+                    document.getElementById('edit-summary').value = event.summary;
+                    document.getElementById('edit-start-date').value = event.start_date.split(' ')[0];
+                    document.getElementById('edit-start-time').value = event.start_date.split(' ')[1].slice(0, 5);
+                    document.getElementById('edit-end-date').value = event.end_date.split(' ')[0];
+                    document.getElementById('edit-end-time').value = event.end_date.split(' ')[1].slice(0, 5);
+                    document.getElementById('edit-province').value = event.province;
+                    document.getElementById('edit-community').value = event.community;
+                    document.getElementById('edit-city').value = event.city;
+                    document.getElementById('edit-type').value = event.type;
+                    document.getElementById('edit-address').value = event.address;
+                    document.getElementById('edit-description').value = event.description;
+
+                    // Pequeño delay para asegurar que Bootstrap termine sus operaciones
+                    setTimeout(() => {
+                        ModalManager.show(CONFIG.MODAL_IDS.EDIT_EVENT);
+                    }, 150);
+                } catch (error) {
+                    console.error('Error al cargar los detalles del evento:', error);
+                    AlertManager.error('Error al cargar los detalles del evento');
+                }
+            }, { once: true });
+
+            // Cerrar el modal de detalles
+            modalInstance.hide();
+        } else {
+            // Si no hay modal de detalles abierto, abrir directamente
+            try {
+                const response = await fetch(`${CONFIG.API_URL}/events/${eventId}`);
+                
+                if (!response.ok) {
+                    throw new Error('Error al cargar evento');
+                }
+
+                const event = await response.json();
+
+                // Rellenar formulario
+                document.getElementById('edit-summary').value = event.summary;
+                document.getElementById('edit-start-date').value = event.start_date.split(' ')[0];
+                document.getElementById('edit-start-time').value = event.start_date.split(' ')[1].slice(0, 5);
+                document.getElementById('edit-end-date').value = event.end_date.split(' ')[0];
+                document.getElementById('edit-end-time').value = event.end_date.split(' ')[1].slice(0, 5);
+                document.getElementById('edit-province').value = event.province;
+                document.getElementById('edit-community').value = event.community;
+                document.getElementById('edit-city').value = event.city;
+                document.getElementById('edit-type').value = event.type;
+                document.getElementById('edit-address').value = event.address;
+                document.getElementById('edit-description').value = event.description;
+
+                ModalManager.show(CONFIG.MODAL_IDS.EDIT_EVENT);
+            } catch (error) {
+                console.error('Error al cargar los detalles del evento:', error);
+                AlertManager.error('Error al cargar los detalles del evento');
             }
-
-            const event = await response.json();
-
-            // Rellenar formulario
-            document.getElementById('edit-summary').value = event.summary;
-            document.getElementById('edit-start-date').value = event.start_date.split(' ')[0];
-            document.getElementById('edit-start-time').value = event.start_date.split(' ')[1].slice(0, 5);
-            document.getElementById('edit-end-date').value = event.end_date.split(' ')[0];
-            document.getElementById('edit-end-time').value = event.end_date.split(' ')[1].slice(0, 5);
-            document.getElementById('edit-province').value = event.province;
-            document.getElementById('edit-community').value = event.community;
-            document.getElementById('edit-city').value = event.city;
-            document.getElementById('edit-type').value = event.type;
-            document.getElementById('edit-address').value = event.address;
-            document.getElementById('edit-description').value = event.description;
-
-            ModalManager.show(CONFIG.MODAL_IDS.EDIT_EVENT);
-        } catch (error) {
-            console.error('Error al cargar los detalles del evento:', error);
-            AlertManager.error('Error al cargar los detalles del evento');
         }
     }
 
@@ -181,10 +255,25 @@ export class ModalEventHandlers {
     static handleConfirmDeleteEvent(eventId) {
         APP_STATE.eventIdToDelete = eventId;
 
-        // Ocultar modal de detalles si está abierto
-        ModalManager.hide(CONFIG.MODAL_IDS.EVENT_DETAILS);
+        // Cerrar modal de detalles y esperar a que se cierre completamente
+        const detailsModal = document.getElementById(CONFIG.MODAL_IDS.EVENT_DETAILS);
+        const modalInstance = bootstrap.Modal.getInstance(detailsModal);
         
-        ModalManager.show(CONFIG.MODAL_IDS.DELETE_EVENT);
+        if (modalInstance) {
+            // Escuchar cuando el modal se haya cerrado completamente
+            detailsModal.addEventListener('hidden.bs.modal', () => {
+                // Pequeño delay para asegurar que Bootstrap termine sus operaciones
+                setTimeout(() => {
+                    ModalManager.show(CONFIG.MODAL_IDS.DELETE_EVENT);
+                }, 150);
+            }, { once: true });
+
+            // Cerrar el modal de detalles
+            modalInstance.hide();
+        } else {
+            // Si no hay modal de detalles abierto, abrir directamente
+            ModalManager.show(CONFIG.MODAL_IDS.DELETE_EVENT);
+        }
     }
 
     static async handleDeleteEvent() {
@@ -255,6 +344,10 @@ export class ModalEventHandlers {
         window.uploadEvent = this.handleUploadEvent;
         window.confirmDeleteEvent = this.handleConfirmDeleteEvent;
         window.deleteEvent = this.handleDeleteEvent;
+        
+        // Exponer helpers de transición de modales
+        window.openModalWithDelay = this.openModalWithDelay;
+        window.transitionBetweenModals = this.transitionBetweenModals;
         
         APP_STATE.modules.modalEventHandlers = true;
     }
