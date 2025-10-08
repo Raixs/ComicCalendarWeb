@@ -237,6 +237,7 @@ export class ModalEventHandlers {
                 document.getElementById('upload-end-date').value, 
                 document.getElementById('upload-end-time').value
             ),
+            create_date: DateUtils.getCurrentCreateDate(),
             province: document.getElementById('upload-province').value,
             community: document.getElementById('upload-community').value,
             city: document.getElementById('upload-city').value,
