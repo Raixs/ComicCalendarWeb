@@ -1,5 +1,5 @@
 // Módulo de Google Analytics y gestión de cookies
-import { APP_STATE } from '../config.js';
+import { CONFIG, APP_STATE } from '../config.js';
 
 export class AnalyticsManager {
     static TRACKING_ID = 'G-WX8H3NJBFL';
@@ -68,7 +68,7 @@ export class AnalyticsManager {
 
     static trackPageView(pagePath) {
         if (typeof gtag !== 'undefined') {
-            gtag('config', CONFIG.GA_TRACKING_ID, {
+            gtag('config', this.TRACKING_ID, {
                 page_path: pagePath
             });
         }
@@ -92,8 +92,23 @@ export class CookieConsentManager {
     }
 
     static showConsentModal() {
-        const cookieModal = new bootstrap.Modal(document.getElementById(CONFIG.MODAL_IDS.COOKIE_CONSENT));
-        cookieModal.show();
+        try {
+            if (!CONFIG || !CONFIG.MODAL_IDS || !CONFIG.MODAL_IDS.COOKIE_CONSENT) {
+                console.error('CONFIG no está disponible para modal de cookies');
+                return;
+            }
+            
+            const modalElement = document.getElementById(CONFIG.MODAL_IDS.COOKIE_CONSENT);
+            if (!modalElement) {
+                console.error(`Modal de cookies no encontrado: ${CONFIG.MODAL_IDS.COOKIE_CONSENT}`);
+                return;
+            }
+            
+            const cookieModal = new bootstrap.Modal(modalElement);
+            cookieModal.show();
+        } catch (error) {
+            console.error('Error mostrando modal de consentimiento:', error);
+        }
     }
 
     static setCookieConsent(consentType) {
@@ -106,9 +121,24 @@ export class CookieConsentManager {
     }
 
     static hideConsentModal() {
-        const cookieModal = bootstrap.Modal.getInstance(document.getElementById(CONFIG.MODAL_IDS.COOKIE_CONSENT));
-        if (cookieModal) {
-            cookieModal.hide();
+        try {
+            if (!CONFIG || !CONFIG.MODAL_IDS || !CONFIG.MODAL_IDS.COOKIE_CONSENT) {
+                console.error('CONFIG no está disponible para ocultar modal de cookies');
+                return;
+            }
+            
+            const modalElement = document.getElementById(CONFIG.MODAL_IDS.COOKIE_CONSENT);
+            if (!modalElement) {
+                console.error(`Modal de cookies no encontrado: ${CONFIG.MODAL_IDS.COOKIE_CONSENT}`);
+                return;
+            }
+            
+            const cookieModal = bootstrap.Modal.getInstance(modalElement);
+            if (cookieModal) {
+                cookieModal.hide();
+            }
+        } catch (error) {
+            console.error('Error al ocultar modal de consentimiento de cookies:', error);
         }
     }
 
