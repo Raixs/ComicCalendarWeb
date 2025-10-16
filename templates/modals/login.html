@@ -1,0 +1,27 @@
+<!-- Modal de Inicio de Sesión -->
+<div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content custom-modal">
+            <div class="modal-header">
+                <h5 class="modal-title">Iniciar Sesión</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+            </div>
+            <div class="modal-body">
+                <form id="login-form">
+                    <div class="mb-3">
+                        <label for="username" class="form-label">Usuario</label>
+                        <input type="text" class="form-control" id="username" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Contraseña</label>
+                        <input type="password" class="form-control" id="password" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Iniciar Sesión</button>
+                </form>
+                <p class="text-muted mt-3" style="font-size: 0.9em;">
+                    Este panel de control está destinado exclusivamente a nuestros colaboradores para la gestión de eventos en el sitio web. Actualmente, no aceptamos registros de nuevos usuarios. Si considera que puede contribuir, por favor <a href="#" data-bs-toggle="modal" data-bs-target="#contactModal">contáctenos</a>.
+                </p>
+            </div>
+        </div>
+    </div>
+</div>

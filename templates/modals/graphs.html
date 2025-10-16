@@ -1,0 +1,63 @@
+<!-- Modal de Gráficas -->
+<div class="modal fade" id="graficasModal" tabindex="-1" aria-labelledby="graficasModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl">
+        <div class="modal-content custom-modal">
+            <div class="modal-header">
+                <h5 class="modal-title" id="graficasModalLabel">
+                    <i class="fas fa-chart-line"></i> Evolución de eventos
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+            </div>
+            <div class="modal-body">
+                <div class="container mt-3">
+                    <h1>Evolución de eventos por año</h1>
+                    <div class="form-group mb-4"> 
+                        <label for="year-select" class="form-label">Selecciona un año:</label>
+                        <input type="number" class="form-control" id="year-select" min="2000" max="2100" placeholder="Introduce un año" onchange="loadGraph('year')">
+                    </div>
+                    
+                    <div class="mt-4">
+                        <h2>Gráficas de evolución total</h2>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="list-group">
+                                    <a href="#" class="list-group-item list-group-item-action" onclick="loadGraph('comunidad_eventos'); return false;">
+                                        <i class="fas fa-chart-area text-primary"></i> Evolución de eventos por comunidad
+                                    </a>
+                                    <a href="#" class="list-group-item list-group-item-action" onclick="loadGraph('provincia_eventos'); return false;">
+                                        <i class="fas fa-chart-bar text-success"></i> Evolución de eventos por provincia
+                                    </a>
+                                    <a href="#" class="list-group-item list-group-item-action" onclick="loadGraph('comunidad_totales'); return false;">
+                                        <i class="fas fa-chart-pie text-info"></i> Evolución total por comunidad
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="list-group">
+                                    <a href="#" class="list-group-item list-group-item-action" onclick="loadGraph('provincia_totales'); return false;">
+                                        <i class="fas fa-chart-line text-warning"></i> Evolución total por provincia
+                                    </a>
+                                    <a href="#" class="list-group-item list-group-item-action" onclick="loadGraph('comunidad_firmas'); return false;">
+                                        <i class="fas fa-signature text-danger"></i> Evolución de firmas por comunidad
+                                    </a>
+                                    <a href="#" class="list-group-item list-group-item-action" onclick="loadGraph('provincia_firmas'); return false;">
+                                        <i class="fas fa-pen-fancy text-secondary"></i> Evolución de firmas por provincia
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div id="error-message" class="alert alert-danger mt-4" style="display:none;">
+                        <i class="fas fa-exclamation-triangle"></i> <span></span>
+                    </div>
+                    
+                    <iframe id="graph-frame" src="" width="100%" height="600px" style="border:none; display:none;" class="mt-4"></iframe>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>

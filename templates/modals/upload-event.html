@@ -1,0 +1,79 @@
+<!-- Modal de Subida de Evento -->
+<div class="modal fade" id="uploadEventModal" tabindex="-1" aria-labelledby="uploadEventModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content custom-modal">
+            <div class="modal-header">
+                <h5 class="modal-title">Subir Evento</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+            </div>
+            <div class="modal-body">
+                <form id="upload-event-form">
+                    <div class="mb-3">
+                        <label for="upload-summary" class="form-label">Nombre del evento:</label>
+                        <input type="text" class="form-control" id="upload-summary" required>
+                    </div>
+                    <div class="row">
+                        <div class="mb-3 col-md-6">
+                            <label for="upload-start-date" class="form-label">Fecha de Inicio:</label>
+                            <input type="date" class="form-control" id="upload-start-date" required>
+                        </div>
+                        <div class="mb-3 col-md-6">
+                            <label for="upload-start-time" class="form-label">Hora de Inicio:</label>
+                            <input type="time" class="form-control" id="upload-start-time" required value="00:00">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="mb-3 col-md-6">
+                            <label for="upload-end-date" class="form-label">Fecha de Fin:</label>
+                            <input type="date" class="form-control" id="upload-end-date" required>
+                        </div>
+                        <div class="mb-3 col-md-6">
+                            <label for="upload-end-time" class="form-label">Hora de Fin:</label>
+                            <input type="time" class="form-control" id="upload-end-time" required value="23:59">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="mb-3 col-md-6">
+                            <label for="upload-province" class="form-label">Provincia:</label>
+                            <select class="form-control" id="upload-province" required>
+                                <!-- Las opciones serán añadidas dinámicamente desde provincias.js -->
+                            </select>
+                        </div>
+                        <div class="mb-3 col-md-6">
+                            <label for="upload-community" class="form-label">Comunidad Autónoma:</label>
+                            <input type="text" class="form-control" id="upload-community" placeholder="Selecciona provincia" readonly required>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="mb-3 col-md-6">
+                            <label for="upload-city" class="form-label">Ciudad:</label>
+                            <input type="text" class="form-control" id="upload-city" required>
+                        </div>
+                        <div class="mb-3 col-md-6">
+                            <label for="upload-type" class="form-label">Tipo de Evento:</label>
+                            <select class="form-control" id="upload-type" required>
+                                <option value="">Seleccionar tipo</option>
+                                <option value="Convención">Convención</option>
+                                <option value="Feria">Feria</option>
+                                <option value="Firma">Firma</option>
+                                <option value="Presentación">Presentación</option>
+                                <option value="Taller">Taller</option>
+                                <option value="Exposición">Exposición</option>
+                                <option value="Otro">Otro</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="upload-address" class="form-label">Dirección:</label>
+                        <input type="text" class="form-control" id="upload-address" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="upload-description" class="form-label">Descripción:</label>
+                        <textarea class="form-control" id="upload-description" rows="3" required placeholder="Descripción del evento..."><a href="PONER LINK AL EVENTO">Detalles</a></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Subir Evento</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

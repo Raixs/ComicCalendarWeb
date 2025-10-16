@@ -1,0 +1,72 @@
+<!-- Modal de Detalles del Evento -->
+<div class="modal fade" id="eventDetailsModal" tabindex="-1" aria-labelledby="eventDetailsModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content custom-modal event-modal">
+            <div class="modal-header">
+                <h4 class="modal-title" id="eventDetailsModalLabel"></h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p><i class="fas fa-calendar-alt text-primary"></i> <strong>Fecha:</strong> <span id="modalEventDate"></span></p>
+                            <p><i class="fas fa-clock text-primary"></i> <strong>Hora:</strong> <span id="modalEventTime"></span></p>
+                            <p><i class="fas fa-map-marker-alt text-primary"></i> <strong>Ciudad:</strong> <span id="modalEventCity"></span></p>
+                        </div>
+                        <div class="col-md-6">
+                            <p><i class="fas fa-map text-primary"></i> <strong>Provincia:</strong> <span id="modalEventProvince"></span></p>
+                            <p><i class="fas fa-location-arrow text-primary"></i> <strong>Dirección:</strong> <span id="modalEventAddress"></span></p>
+                            <p><i class="fas fa-tag text-primary"></i> <strong>Tipo:</strong> <span id="modalEventType"></span></p>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-12">
+                            <p><i class="fas fa-info-circle text-primary"></i> <strong>Información:</strong></p>
+                            <div id="modalEventDescription" class="event-description-modal"></div>
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-12">
+                            <p id="modalEventUpdateDate" class="text-muted small" style="display: none;">
+                                <i class="fas fa-edit"></i> <strong>Última actualización:</strong> <span id="modalEventUpdateDateText"></span>
+                            </p>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-md-4 mb-2">
+                            <button id="addToCalendarBtn" class="btn btn-success w-100">
+                                <i class="fas fa-calendar-plus"></i> Añadir al calendario
+                            </button>
+                        </div>
+                        <div class="col-md-4 mb-2">
+                            <button id="getDirectionsBtn" class="btn btn-info w-100">
+                                <i class="fas fa-directions"></i> Cómo llegar
+                            </button>
+                        </div>
+                        <div class="col-md-4 mb-2">
+                            <button id="shareEventBtn" class="btn btn-secondary w-100">
+                                <i class="fas fa-share-alt"></i> Compartir evento
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Pie del modal -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                <!-- Botones de administrador -->
+                <div id="adminButtons" class="d-none">
+                    <button type="button" class="btn btn-warning me-2" id="editEventBtn">
+                        <i class="fas fa-edit"></i> Editar
+                    </button>
+                    <button type="button" class="btn btn-danger" id="deleteEventBtn">
+                        <i class="fas fa-trash-alt"></i> Eliminar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
