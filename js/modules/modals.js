@@ -371,18 +371,12 @@ export class GraphsManager {
             if (year) {
                 url = `${CONFIG.GRAPHS_BASE_URL}/static/graphs/graficas_eventos_${year}.html`;
             }
-        } else if (type === 'comunidad_eventos') {
-            url = `${CONFIG.GRAPHS_BASE_URL}/static/graphs/evolucion_eventos_comunidad.html`;
-        } else if (type === 'provincia_eventos') {
-            url = `${CONFIG.GRAPHS_BASE_URL}/static/graphs/evolucion_eventos_provincia.html`;
         } else if (type === 'comunidad_totales') {
             url = `${CONFIG.GRAPHS_BASE_URL}/static/graphs/evolucion_eventos_totales_comunidad.html`;
         } else if (type === 'provincia_totales') {
             url = `${CONFIG.GRAPHS_BASE_URL}/static/graphs/evolucion_eventos_totales_provincia.html`;
-        } else if (type === 'comunidad_firmas') {
-            url = `${CONFIG.GRAPHS_BASE_URL}/static/graphs/evolucion_firmas_comunidad.html`;
-        } else if (type === 'provincia_firmas') {
-            url = `${CONFIG.GRAPHS_BASE_URL}/static/graphs/evolucion_firmas_provincia.html`;
+        } else if (type === 'comunidad_tipos') {
+            url = `${CONFIG.GRAPHS_BASE_URL}/static/graphs/evolucion_tipos_eventos_comunidad.html`;
         }
 
         console.log(`🔗 URL de gráfica generada: ${url}`);
