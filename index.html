@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <!-- Metadatos y enlaces a estilos -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Eventos de Cómic en España</title>
-    <meta name="description" content="Encuentra y busca eventos de cómics en España. Descubre los eventos más recientes y sus detalles, incluyendo fecha, provincia, dirección y descripción.">
+    <meta name="description"
+        content="Encuentra y busca eventos de cómics en España. Descubre los eventos más recientes y sus detalles, incluyendo fecha, provincia, dirección y descripción.">
     <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Google Fonts -->
@@ -26,15 +28,18 @@
     <!-- Manifest -->
     <link rel="manifest" href="images/icons/site.webmanifest">
 </head>
+
 <body>
     <!-- Modal de Consentimiento de Cookies -->
-    <div class="modal fade" id="cookieconsent3" tabindex="-1" aria-labelledby="cookieconsentLabel3" aria-hidden="true" data-mdb-backdrop="static" data-mdb-keyboard="false">
+    <div class="modal fade" id="cookieconsent3" tabindex="-1" aria-labelledby="cookieconsentLabel3" aria-hidden="true"
+        data-mdb-backdrop="static" data-mdb-keyboard="false">
         <div class="modal-dialog">
             <div class="modal-content d-block text-start">
                 <div class="modal-header d-block ">
                     <h5 class="modal-title" id="cookieconsentLabel3">Cookies y Privacidad</h5>
                     <p>
-                        Este sitio web utiliza cookies para garantizar que obtenga la mejor experiencia en nuestro sitio web.
+                        Este sitio web utiliza cookies para garantizar que obtenga la mejor experiencia en nuestro sitio
+                        web.
                     </p>
                     <p><a href="#" data-bs-toggle="modal" data-bs-target="#cookieModal"> Política de Cookies</a></p>
                 </div>
@@ -45,7 +50,8 @@
                         <label class="form-check-label" for="necessary">
                             <strong>Necesarias</strong><br />
                             <small class="text-muted">
-                                Estas cookies son esenciales para el funcionamiento del sitio web y no se pueden desactivar.
+                                Estas cookies son esenciales para el funcionamiento del sitio web y no se pueden
+                                desactivar.
                             </small>
                         </label>
                     </div>
@@ -86,8 +92,9 @@
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow">
         <div class="container-fluid">
             <!-- Logo -->
-            <a class="navbar-brand" href="index.html" onclick="window.location.reload()">
-                <img src="images/icons/logo1.png" alt="comicplan Logo" style="height: 40px; margin-top: -10px; margin-bottom: -10px;">
+            <a class="navbar-brand" href="index.html" id="navbar-logo">
+                <img src="images/icons/logo1.png" alt="comicplan Logo"
+                    style="height: 40px; margin-top: -10px; margin-bottom: -10px;">
             </a>
 
             <!-- Iconos Sociales - SIEMPRE VISIBLES -->
@@ -101,7 +108,9 @@
             </div>
 
             <!-- Botón Hamburguesa -->
-            <button class="navbar-toggler order-lg-2" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler order-lg-2" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false"
+                aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
 
@@ -109,7 +118,7 @@
             <div class="collapse navbar-collapse justify-content-end order-lg-1" id="navbarNav">
                 <ul class="navbar-nav align-items-center">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#" onclick="window.location.reload()">Inicio</a>
+                        <a class="nav-link active" aria-current="page" href="#" id="nav-home">Inicio</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="https://blog.comicplan.com/" target="_blank">
@@ -125,7 +134,7 @@
                         <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#graficasModal">
                             <i class="fas fa-chart-line"></i> Gráficas
                         </a>
-                    </li>                    
+                    </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#contactModal">
                             <i class="fas fa-envelope"></i> Contacto
@@ -137,7 +146,7 @@
                         </a>
                     </li>
                     <li class="nav-item d-none" id="logout-item">
-                        <a class="nav-link" href="#" onclick="logout()">
+                        <a class="nav-link" href="#" id="logout-link">
                             <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
                         </a>
                     </li>
@@ -164,10 +173,14 @@
                 <div class="card-body text-start">
                     <ul class="nav nav-tabs" id="searchTab" role="tablist">
                         <li class="nav-item" role="presentation">
-                            <button class="nav-link active" id="basic-tab" data-bs-toggle="tab" data-bs-target="#basic" type="button" role="tab" aria-controls="basic" aria-selected="true">Búsqueda Básica</button>
+                            <button class="nav-link active" id="basic-tab" data-bs-toggle="tab" data-bs-target="#basic"
+                                type="button" role="tab" aria-controls="basic" aria-selected="true">Búsqueda
+                                Básica</button>
                         </li>
                         <li class="nav-item" role="presentation">
-                            <button class="nav-link" id="advanced-tab" data-bs-toggle="tab" data-bs-target="#advanced" type="button" role="tab" aria-controls="advanced" aria-selected="false">Opciones avanzadas</button>
+                            <button class="nav-link" id="advanced-tab" data-bs-toggle="tab" data-bs-target="#advanced"
+                                type="button" role="tab" aria-controls="advanced" aria-selected="false">Opciones
+                                avanzadas</button>
                         </li>
                     </ul>
                     <div class="tab-content" id="searchTabContent">
@@ -175,11 +188,14 @@
                         <div class="tab-pane fade show active" id="basic" role="tabpanel" aria-labelledby="basic-tab">
                             <form id="search-form-basic" class="row g-3 mt-3">
                                 <div class="col-md-6">
-                                    <label for="event-name" class="form-label"><i class="fas fa-theater-masks"></i> Nombre del evento</label>
-                                                                        <input type="text" class="form-control" id="event-name" placeholder="Ej: Salón del Manga de Barcelona, Comic Con Madrid">
+                                    <label for="event-name" class="form-label"><i class="fas fa-theater-masks"></i>
+                                        Nombre del evento</label>
+                                    <input type="text" class="form-control" id="event-name"
+                                        placeholder="Ej: Salón del Manga de Barcelona, Comic Con Madrid">
                                 </div>
                                 <div class="col-md-3">
-                                    <label for="month" class="form-label"><i class="fas fa-calendar-alt"></i> Mes</label>
+                                    <label for="month" class="form-label"><i class="fas fa-calendar-alt"></i>
+                                        Mes</label>
                                     <select class="form-select" id="month">
                                         <option value="">Cualquier mes</option>
                                         <option value="1">Enero</option>
@@ -197,7 +213,8 @@
                                     </select>
                                 </div>
                                 <div class="col-md-3">
-                                    <label for="province" class="form-label"><i class="fas fa-map-marker-alt"></i> Provincia</label>
+                                    <label for="province" class="form-label"><i class="fas fa-map-marker-alt"></i>
+                                        Provincia</label>
                                     <select class="form-select" id="province">
                                         <option value="">Cualquier provincia</option>
                                         <!-- Las opciones se cargarán dinámicamente desde provincias.js -->
@@ -207,7 +224,8 @@
                                     <button type="submit" class="btn btn-primary flex-grow-1">
                                         <i class="fas fa-search"></i> Buscar eventos
                                     </button>
-                                    <button type="button" class="btn btn-outline-secondary" onclick="document.getElementById('search-form-basic').reset(); location.reload();" title="Limpiar filtros y mostrar todos los eventos">
+                                    <button type="button" class="btn btn-outline-secondary"
+                                        title="Limpiar filtros y mostrar todos los eventos">
                                         <i class="fas fa-undo"></i> Limpiar
                                     </button>
                                 </div>
@@ -217,11 +235,13 @@
                         <div class="tab-pane fade" id="advanced" role="tabpanel" aria-labelledby="advanced-tab">
                             <form id="search-form-advanced" class="row g-3 mt-3">
                                 <div class="col-md-4">
-                                    <label for="start-date" class="form-label"><i class="fas fa-calendar-plus"></i> Fecha de inicio</label>
+                                    <label for="start-date" class="form-label"><i class="fas fa-calendar-plus"></i>
+                                        Fecha de inicio</label>
                                     <input type="date" class="form-control" id="start-date">
                                 </div>
                                 <div class="col-md-4">
-                                    <label for="end-date" class="form-label"><i class="fas fa-calendar-minus"></i> Fecha de fin</label>
+                                    <label for="end-date" class="form-label"><i class="fas fa-calendar-minus"></i> Fecha
+                                        de fin</label>
                                     <input type="date" class="form-control" id="end-date">
                                 </div>
                                 <div class="col-md-4">
@@ -229,25 +249,30 @@
                                     <input type="text" class="form-control" id="year" placeholder="Ej: 2024, 2025">
                                 </div>
                                 <div class="col-md-4">
-                                    <label for="adv-community" class="form-label"><i class="fas fa-map"></i> Comunidad Autónoma</label>
-                                                                        <input type="text" class="form-control" id="adv-community" list="community-list" placeholder="Ej: Madrid, Cataluña, Andalucía">
+                                    <label for="adv-community" class="form-label"><i class="fas fa-map"></i> Comunidad
+                                        Autónoma</label>
+                                    <input type="text" class="form-control" id="adv-community" list="community-list"
+                                        placeholder="Ej: Madrid, Cataluña, Andalucía">
                                     <datalist id="community-list">
                                         <!-- Se rellenan dinámicamente desde provincias.js -->
                                     </datalist>
                                 </div>
                                 <div class="col-md-4">
                                     <label for="adv-city" class="form-label"><i class="fas fa-city"></i> Ciudad</label>
-                                    <input type="text" class="form-control" id="adv-city" placeholder="Ej: Madrid, Barcelona, Valencia">
+                                    <input type="text" class="form-control" id="adv-city"
+                                        placeholder="Ej: Madrid, Barcelona, Valencia">
                                 </div>
                                 <div class="col-md-4">
                                     <label for="adv-type" class="form-label"><i class="fas fa-tags"></i> Tipo</label>
-                                    <input type="text" class="form-control" id="adv-type" placeholder="Ej: Convención, Feria, Firma, Taller">
+                                    <input type="text" class="form-control" id="adv-type"
+                                        placeholder="Ej: Convención, Feria, Firma, Taller">
                                 </div>
                                 <div class="col-12 d-flex gap-2">
                                     <button type="submit" class="btn btn-primary flex-grow-1">
                                         <i class="fas fa-search"></i> Buscar eventos
                                     </button>
-                                    <button type="button" class="btn btn-outline-secondary" onclick="document.getElementById('search-form-advanced').reset(); location.reload();" title="Limpiar filtros y mostrar todos los eventos">
+                                    <button type="button" class="btn btn-outline-secondary"
+                                        title="Limpiar filtros y mostrar todos los eventos">
                                         <i class="fas fa-undo"></i> Limpiar
                                     </button>
                                 </div>
@@ -257,7 +282,7 @@
                 </div>
             </div>
         </div>
-    </header> 
+    </header>
 
     <!-- Contenido principal -->
     <div class="container">
@@ -278,7 +303,9 @@
     <footer class="bg-primary text-white text-center py-4 mt-5">
         <div class="container">
             <p>Última actualización: <span id="last-updated">Cargando...</span></p>
-            <p>Nos encontramos en desarrollo <br>Colabora con nosotros en <a href="https://github.com/Raixs/ComicCalendarWeb" target="_blank" class="text-white"><i class="fab fa-github"></i> GitHub</a></p>
+            <p>Nos encontramos en desarrollo <br>Colabora con nosotros en <a
+                    href="https://github.com/Raixs/ComicCalendarWeb" target="_blank" class="text-white"><i
+                        class="fab fa-github"></i> GitHub</a></p>
             <p><a href="#" data-bs-toggle="modal" data-bs-target="#cookieModal"> Política de Cookies</a></p>
         </div>
     </footer>
@@ -288,14 +315,15 @@
 
     <!-- Scripts de Bootstrap 5 y aplicación modularizada -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    
+
     <!-- Archivo de provincias.js -->
-    <script src="provincias.js"></script>
-    
+    <!-- Archivo de provincias.js eliminado, ahora es un módulo -->
+
     <!-- Add to Calendar Button library -->
     <script src="https://cdn.jsdelivr.net/npm/add-to-calendar-button@2" async defer></script>
-    
+
     <!-- Aplicación modularizada -->
     <script type="module" src="js/app.js"></script>
 </body>
+
 </html>

@@ -1,8 +1,7 @@
 // Archivo de provincias y comunidades autónomas de España
-// Se carga al inicio para poblar selectores y datalists
+// Módulo ES6
 
-// Definir provincias y comunidades autónomas
-const provincesData = [
+export const provincesData = [
     { name: "Nacional", community: "Nacional" },
     { name: "Albacete", community: "Castilla-La Mancha" },
     { name: "Alicante", community: "Comunidad Valenciana" },
@@ -56,31 +55,4 @@ const provincesData = [
     { name: "Zaragoza", community: "Aragón" },
     { name: "Ceuta", community: "Ceuta" },
     { name: "Melilla", community: "Melilla" }
-    ];
-
-// Exponer provinces globalmente para que los módulos ES6 puedan acceder
-window.provinces = provincesData;
-
-// Crear el diccionario para compatibilidad con código existente
-const provincesAndCommunities = {};
-provincesData.forEach(province => {
-    provincesAndCommunities[province.name] = province.community;
-});
-window.provincesAndCommunities = provincesAndCommunities;
-
-// Inicializar cuando el DOM esté listo
-document.addEventListener('DOMContentLoaded', () => {
-    console.log('Provincias cargadas:', provincesData.length);
-    
-    // Intentar inicializar el ProvinceManager si ya está disponible
-    if (window.ComicCalendarApp && window.ComicCalendarApp.ProvinceManager) {
-        window.ComicCalendarApp.ProvinceManager.initialize();
-    }
-    
-    // También intentar de nuevo después de un breve delay para asegurar que los módulos ES6 se hayan cargado
-    setTimeout(() => {
-        if (window.ComicCalendarApp && window.ComicCalendarApp.ProvinceManager) {
-            window.ComicCalendarApp.ProvinceManager.initialize();
-        }
-    }, 500);
-});
+];

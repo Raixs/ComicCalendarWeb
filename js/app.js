@@ -58,7 +58,7 @@ class ComicCalendarApp {
      */
     async loadEssentialModals() {
         const { ModalManager } = await import('./modules/modals.js');
-        
+
         // Lista de todos los modales que se cargan al inicio
         const modalsToLoad = [
             'login',
@@ -101,8 +101,37 @@ class ComicCalendarApp {
         // Gráficas
         GraphsManager.setupGraphsListeners();
 
-        // Funciones globales para compatibilidad con HTML inline
+        // Navegación y UI general
+        this.setupNavigationListeners();
+
+        // Funciones globales para compatibilidad con HTML inline (solo las necesarias para contenido dinámico)
         this.exposeGlobalFunctions();
+    }
+
+    /**
+     * Configurar listeners de navegación
+     */
+    setupNavigationListeners() {
+        // Logo y enlace de inicio
+        const reloadElements = ['navbar-logo', 'nav-home'];
+        reloadElements.forEach(id => {
+            const element = document.getElementById(id);
+            if (element) {
+                element.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    window.location.reload();
+                });
+            }
+        });
+
+        // Enlace de logout
+        const logoutLink = document.getElementById('logout-link');
+        if (logoutLink) {
+            logoutLink.addEventListener('click', (e) => {
+                e.preventDefault();
+                AuthEventHandlers.handleLogout();
+            });
+        }
     }
 
     /**
@@ -125,29 +154,27 @@ class ComicCalendarApp {
 
     /**
      * Exponer funciones globalmente para compatibilidad con HTML inline
+     * NOTA: Se mantienen solo las necesarias para contenido generado dinámicamente (modales, tarjetas)
      */
     exposeGlobalFunctions() {
-        // Funciones principales
+        // Funciones principales (usadas por search.js o para debugging)
         window.loadEvents = () => EventsManager.loadEvents();
-        window.loadMoreEvents = () => EventsManager.loadMoreEvents();
-        window.searchEvents = (event) => SearchEventHandlers.handleSearchEvents(event);
-        
-        // Funciones de eventos
+
+        // Funciones de eventos (usadas en botones de tarjetas generadas dinámicamente)
         window.editEvent = (eventId) => ModalEventHandlers.handleEditEvent(eventId);
         window.updateEvent = (event) => ModalEventHandlers.handleUpdateEvent(event);
         window.uploadEvent = (event) => ModalEventHandlers.handleUploadEvent(event);
         window.confirmDeleteEvent = (eventId) => ModalEventHandlers.handleConfirmDeleteEvent(eventId);
         window.deleteEvent = () => ModalEventHandlers.handleDeleteEvent();
-        
+
         // Funciones de autenticación
         window.login = (event) => AuthEventHandlers.handleLogin(event);
-        window.logout = () => AuthEventHandlers.handleLogout();
-        
-        // Funciones de utilidad
+        // window.logout eliminado, ahora se maneja con event listener
+
+        // Funciones de utilidad (usadas en tarjetas)
         window.shareEvent = (event) => ShareUtils.shareEvent(event);
         window.getDirections = (event) => ShareUtils.getDirections(event);
-        window.toggleAdvancedSearch = () => SearchEventHandlers.handleToggleAdvancedSearch();
-        
+
         // Funciones de gráficas
         window.loadGraph = (type) => GraphsManager.loadGraph(type);
 
@@ -160,8 +187,8 @@ class ComicCalendarApp {
         // Estado de la aplicación accesible globalmente para debugging
         window.APP_STATE = APP_STATE;
         window.CONFIG = CONFIG;
-        
-        // Exponer gestores para provincias.js y auth.js
+
+        // Exponer gestores para auth.js y otros módulos que puedan necesitarlos
         if (!window.ComicCalendarApp) window.ComicCalendarApp = {};
         window.ComicCalendarApp.ProvinceManager = ProvinceManager;
         window.ComicCalendarApp.EventsManager = EventsManager;
@@ -197,12 +224,12 @@ function initializeApp() {
         console.log('⚠️ App ya inicializada, saltando inicialización duplicada');
         return;
     }
-    
+
     const app = new ComicCalendarApp();
-    
+
     // Exponer instancia de la app globalmente para debugging
     window.ComicCalendarApp = app;
-    
+
     // Inicializar cuando el DOM esté listo
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', () => app.initialize());

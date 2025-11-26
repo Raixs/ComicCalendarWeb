@@ -10,9 +10,20 @@ import { DateUtils, URLUtils } from './utils.js';
 export class EventsAPI {
     static async fetchEvents(query = '') {
         const url = query ? `${CONFIG.API_URL}/events/search/${query}` : `${CONFIG.API_URL}/events/?limit=${CONFIG.EVENTS_LIMIT}&offset=${APP_STATE.offset}`;
-        
+
         try {
             const response = await fetch(url);
+
+            // Si es 404, intentamos devolver el cuerpo de la respuesta porque puede contener "No events found"
+            if (response.status === 404) {
+                try {
+                    return await response.json();
+                } catch (e) {
+                    // Si no se puede parsear JSON, lanzamos el error estándar
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+            }
+
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
@@ -102,31 +113,31 @@ export class EventsAPI {
 export class EventsManager {
     static async loadEvents() {
         console.log('📅 Cargando eventos...');
-        
+
         // Prevenir múltiples cargas concurrentes
         if (APP_STATE.isEventsLoading) {
             console.log('⚠️ Ya se están cargando eventos, saltando llamada duplicada');
             return;
         }
-        
+
         APP_STATE.isEventsLoading = true;
-        
+
         try {
             LoadingManager.show();
-            
+
             const data = await EventsAPI.fetchEvents();
             const events = data.events;
             APP_STATE.totalEvents = data.total;
 
             LastUpdatedManager.update(data.last_updated);
-            
+
             EventsRenderer.displayEvents(events);
             LoadingManager.hide();
-            
+
             // Ocultar paginación en carga inicial
             document.querySelector(CONFIG.SELECTORS.PAGINATION_INFO).style.display = 'none';
             document.querySelector(CONFIG.SELECTORS.LOAD_MORE_BUTTON).style.display = 'none';
-            
+
         } catch (error) {
             LoadingManager.hide();
             AlertManager.error('Error al cargar eventos: ' + error.message);
@@ -148,22 +159,22 @@ export class EventsManager {
 
     static async loadMoreEvents() {
         APP_STATE.offset += CONFIG.EVENTS_LIMIT;
-        
+
         try {
             LoadingManager.show();
-            
+
             // Importación dinámica para evitar dependencias circulares
             const { SearchManager } = await import('./search.js');
             const { query } = SearchManager.buildQueryParams();
             const data = await EventsAPI.fetchEvents(query);
             const events = data.events;
-            
+
             EventsRenderer.displayEvents(events, true);
             LoadingManager.hide();
-            
+
             EventsRenderer.updatePaginationInfo();
             EventsRenderer.toggleLoadMoreButton();
-            
+
         } catch (error) {
             LoadingManager.hide();
             AlertManager.error('Error al cargar más eventos: ' + error.message);
@@ -173,17 +184,17 @@ export class EventsManager {
     static async uploadEvent(eventData) {
         try {
             const result = await EventsAPI.createEvent(eventData);
-            
+
             // Cerrar modal
             const uploadModal = bootstrap.Modal.getInstance(document.getElementById(CONFIG.MODAL_IDS.UPLOAD_EVENT));
             if (uploadModal) uploadModal.hide();
-            
+
             AlertManager.success('Evento creado exitosamente');
-            
+
             // Recargar eventos
             APP_STATE.offset = 0;
             this.loadEvents();
-            
+
             return result;
         } catch (error) {
             AlertManager.error(error.message);
@@ -194,16 +205,16 @@ export class EventsManager {
     static async updateEvent(eventId, eventData) {
         try {
             const result = await EventsAPI.updateEvent(eventId, eventData);
-            
+
             // Cerrar modal
             const editModal = bootstrap.Modal.getInstance(document.getElementById(CONFIG.MODAL_IDS.EDIT_EVENT));
             if (editModal) editModal.hide();
-            
+
             AlertManager.success('Evento actualizado exitosamente');
-            
+
             // Recargar eventos
             this.loadEvents();
-            
+
             return result;
         } catch (error) {
             AlertManager.error(error.message);
@@ -214,16 +225,16 @@ export class EventsManager {
     static async deleteEvent(eventId) {
         try {
             await EventsAPI.deleteEvent(eventId);
-            
+
             // Cerrar modal
             const deleteModal = bootstrap.Modal.getInstance(document.getElementById(CONFIG.MODAL_IDS.DELETE_EVENT));
             if (deleteModal) deleteModal.hide();
-            
+
             AlertManager.success('Evento eliminado exitosamente');
-            
+
             // Recargar eventos
             this.loadEvents();
-            
+
         } catch (error) {
             AlertManager.error(error.message);
             throw error;
@@ -403,21 +414,21 @@ export class EventsRenderer {
 
         // Mostrar modal
         const modalElement = document.getElementById(CONFIG.MODAL_IDS.EVENT_DETAILS);
-        
+
         // Verificar si ya existe una instancia del modal y dispose si es necesario
         const existingModal = bootstrap.Modal.getInstance(modalElement);
         if (existingModal) {
             console.log('🔄 Eliminando instancia existente del modal');
             existingModal.dispose();
         }
-        
+
         // Crear nueva instancia del modal
         const eventDetailsModal = new bootstrap.Modal(modalElement, {
             backdrop: true,
             keyboard: true,
             focus: true
         });
-        
+
         console.log('🎯 Mostrando modal de detalles del evento');
         eventDetailsModal.show();
     }
@@ -464,11 +475,11 @@ export class EventsRenderer {
         if (AuthManager.isAuthenticated()) {
             const editEventBtn = document.getElementById('editEventBtn');
             const deleteEventBtn = document.getElementById('deleteEventBtn');
-            
+
             if (editEventBtn) {
                 editEventBtn.onclick = () => window.editEvent(event.id);
             }
-            
+
             if (deleteEventBtn) {
                 deleteEventBtn.onclick = () => window.confirmDeleteEvent(event.id);
             }
@@ -478,7 +489,7 @@ export class EventsRenderer {
     static showInvalidEventMessage() {
         const eventsContainer = document.querySelector(CONFIG.SELECTORS.EVENTS_CONTAINER);
         if (!eventsContainer) return;
-        
+
         eventsContainer.innerHTML = `
             <div class="alert alert-danger text-center" role="alert">
                 El evento que buscas no existe o ha sido eliminado.
@@ -488,7 +499,7 @@ export class EventsRenderer {
     static displayNoResults(message) {
         const eventsContainer = document.querySelector(CONFIG.SELECTORS.EVENTS_CONTAINER);
         if (!eventsContainer) return;
-        
+
         eventsContainer.innerHTML = `<div class="col-12"><p class="text-center text-muted">${message}</p></div>`;
     }
 
